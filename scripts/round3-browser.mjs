@@ -8,7 +8,7 @@ const errors=[],cases=[];p.on('pageerror',e=>errors.push(e.message));
 const round=process.argv[2]??'round3';if(!/^round\d+$/.test(round))throw new Error('Expected roundN');
 const pkg=JSON.parse(await readFile('package.json','utf8'));
 const click=name=>p.getByRole('button',{name,exact:true}).click();
-const st=()=>p.evaluate(()=>JSON.parse(localStorage.getItem('food-assistant:1.0.0:'+document.querySelector('#user-picker').value+':task')));
+const st=async()=>{await p.locator('#user-picker').waitFor();return p.evaluate(()=>JSON.parse(localStorage.getItem('food-assistant:1.0.0:'+document.querySelector('#user-picker').value+':task')));};
 const reset=async()=>{await click('恢复示例');await p.locator('#action-dialog').getByRole('button',{name:'恢复示例',exact:true}).click();await click('进入今天吃什么');};
 const edit=async(scope,fn)=>{await click('编辑要求');if(scope!=='current')await p.locator('#preferences-dialog').getByRole('button',{name:scope==='long_term'?'长期要求':'历史倾向',exact:true}).click();await fn(p.locator('#preferences-dialog'));await p.locator('#preferences-dialog').getByRole('button',{name:scope==='long_term'?'保存长期要求':scope==='historical'?'保存历史要求':'保存本餐要求',exact:true}).click();};
 const confirm=async()=>{if(await p.locator('#action-dialog').isVisible())await p.locator('#action-dialog').getByRole('button',{name:'确认变更',exact:true}).click();};

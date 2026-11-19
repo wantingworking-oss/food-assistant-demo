@@ -1,0 +1,56 @@
+{
+  "version": "0.6.0",
+  "source_sha256": "f8a95d100a591d2ca69a5bc286784a3b489ad9c8db43cede651720a128baee5e",
+  "checked_at": "2026-11-19T19:37:38.879Z",
+  "cases": [
+    {
+      "id": "F03",
+      "status": "passed"
+    },
+    {
+      "id": "F04",
+      "status": "passed"
+    },
+    {
+      "id": "F05",
+      "status": "passed"
+    },
+    {
+      "id": "F06",
+      "status": "passed"
+    },
+    {
+      "id": "F07",
+      "status": "passed"
+    },
+    {
+      "id": "F08",
+      "status": "passed"
+    },
+    {
+      "id": "F09",
+      "status": "passed"
+    },
+    {
+      "id": "F13",
+      "status": "passed"
+    },
+    {
+      "id": "user-isolation-refresh",
+      "status": "passed"
+    },
+    {
+      "id": "F14",
+      "status": "passed"
+    },
+    {
+      "id": "quantity-cancel-spec",
+      "status": "passed"
+    },
+    {
+      "id": "mobile-layout",
+      "status": "passed"
+    }
+  ],
+  "errors": []
+}

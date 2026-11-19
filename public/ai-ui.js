@@ -7,7 +7,7 @@ export function createAI({data,store,escape:e,render,perform,toast}){
  const sync=()=>{const s=store.state;if(s.user_id!==owner||s.task.task_id!==task){controller?.abort();busy=false;draft='';last=null;clarification=null;owner=s.user_id;task=s.task.task_id;}if(clarification&&clarification.version!==s.versions.requirements)clarification=null;};
  function markup(){
   sync();const cache=store.historyCache(),current=store.state;
-  const availability=health?.ai?.available?'真实AI已连接':health?.ai?.configured?'模型已配置，等待实际调用验证':'AI尚未配置 / 当前为手动模式';
+  const availability=health?.ai?.status==='unavailable'?'AI服务当前不可用':health?.ai?.available?'真实AI已连接':health?.ai?.configured?'模型已配置，等待实际调用验证':'AI尚未配置 / 当前为手动模式';
   return `<section class="ai-panel panel" aria-labelledby="ai-title"><h2 id="ai-title">说说这餐有什么变化</h2><p class="muted">${availability}。也可以直接编辑要求，选餐不依赖AI。</p><form id="ai-input-form"><label for="ai-text">本餐要求（最多500字）</label><textarea id="ai-text" maxlength="500" rows="2" placeholder="例如：今天想吃面，不要鸡肉">${e(draft)}</textarea><div class="toolbar"><button class="primary" type="submit" ${busy?'disabled':''}>${busy?'正在理解…':'理解并应用'}</button><button class="secondary" type="button" data-action="preferences">手动编辑</button><button class="text-button" type="button" data-ai="history" ${busy?'disabled':''}>整理历史备注</button><button class="text-button" type="button" data-ai="history-refresh" ${busy?'disabled':''}>重新整理</button></div></form><p class="muted">AI只理解饮食要求，不直接改规格、算费用或下单。</p>
   ${remoteAPI||health?.ai?.auth_required?`<details><summary>AI服务访问码</summary><p class="muted">向提供本体验的人获取访问码，仅保存在当前标签页。</p><label>体验访问码<input id="ai-access-code" type="password" autocomplete="off" maxlength="200"></label><div class="toolbar"><button type="button" class="secondary" data-ai="save-code">保存访问码</button><button type="button" class="text-button" data-ai="clear-code">清除访问码</button></div></details>`:''}
   <div id="ai-result" role="status">${last?`<p>${e(last.message)}</p>${(last.applied??[]).map(op=>`<p>已应用：${e(describe(op))}</p>`).join('')}${(last.deferred??[]).map(op=>`<p>待确认：${e(describe(op))}</p>`).join('')}${[...(last.skipped??[]),...(last.unsupported_parts??[])].map(x=>`<p>未应用「${e(x.evidence)}」：${e(x.reason)}</p>`).join('')}`:''}</div>
@@ -35,7 +35,7 @@ export function createAI({data,store,escape:e,render,perform,toast}){
    clarification=result.clarifications?.length?{original:text,items:result.clarifications,version:store.state.versions.requirements}:null;
    if(result.needs_confirmation)perform(result);
    health={ai:{configured:true,available:true}};
-  }catch(error){const s=store.state;if(controller===activeController&&s.user_id===boundUser&&s.task.task_id===req.task_id){last={message:error.name==='AbortError'?'请求超时或已取消，原条件保留。请重试或手动编辑。':error.message};store.dispatch({type:'AI_END',request_id:req.request_id});}}
+  }catch(error){const s=store.state;if(controller===activeController&&s.user_id===boundUser&&s.task.task_id===req.task_id){if(health?.ai?.configured)health={ai:{...health.ai,available:false,status:'unavailable'}};last={message:error.name==='AbortError'?'请求超时或已取消，原条件保留。请重试或手动编辑。':error.message};store.dispatch({type:'AI_END',request_id:req.request_id});}}
   finally{clearTimeout(timer);if(controller===activeController){busy=false;controller=null;}render();}
  }
  document.addEventListener('input',event=>{if(event.target.id==='ai-text')draft=event.target.value;});

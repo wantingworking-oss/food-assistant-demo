@@ -1,4 +1,5 @@
 import { sanitizeRequest, interpret } from './src/ai/adapter.js';
+import {aiConfiguration} from './src/ai/providers.js';
 import { unavailable } from './src/domain/ai-contract.js';
 import http from 'node:http';
 import {timingSafeEqual} from 'node:crypto';
@@ -13,9 +14,9 @@ const MIME = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; cha
   '.css': 'text/css; charset=utf-8', '.json': 'application/json; charset=utf-8' };
 
 export function health(env = process.env) {
-  const configured = Boolean(env.OPENAI_API_KEY?.trim() && env.FOOD_ASSISTANT_MODEL?.trim());
-  return { status: 'ok', version: '0.5.0', phase: 'release-candidate',
-    ai: { mode: env.AI_MODE === 'real' ? 'real' : 'disabled', configured,
+  const {configured,provider} = aiConfiguration(env);
+  return { status: 'ok', version: '0.6.0', phase: 'provider-configuration',
+    ai: { provider, mode: env.AI_MODE === 'real' ? 'real' : 'disabled', configured,
       available: false, auth_required:Boolean(env.AI_ACCESS_TOKEN), status: configured ? 'configured_unverified' : 'not_configured',
       reason: configured ? 'NOT_VERIFIED' : 'AI_NOT_CONFIGURED' } };
 }
@@ -24,7 +25,7 @@ export function createServer({ env = process.env, fetchImpl = fetch } = {}) {
   const allowedOrigins=(env.ALLOWED_ORIGINS??'').split(',').map(x=>x.trim()).filter(Boolean);
   if(allowedOrigins.some(x=>{try{return new URL(x).origin!==x||!['https:','http:'].includes(new URL(x).protocol);}catch{return true;}}))throw new Error('ALLOWED_ORIGINS must contain exact HTTP(S) origins');
   if(env.AI_MODE==='real'&&(allowedOrigins.length||(env.HOST&&!['127.0.0.1','localhost','::1'].includes(env.HOST)))&&!env.AI_ACCESS_TOKEN?.trim())throw new Error('Public real AI requires AI_ACCESS_TOKEN');
-  let lastSuccess = null, activeCalls = 0;
+  let lastSuccess = null, lastFailure = null, activeCalls = 0;
   const dataPromise = readFile(resolve(ROOT,'fixtures/mock-data.json'),'utf8').then(JSON.parse);
   return http.createServer(async (request, response) => {
     response.setHeader('X-Content-Type-Options', 'nosniff');
@@ -49,7 +50,7 @@ export function createServer({ env = process.env, fetchImpl = fetch } = {}) {
         response.setHeader('Access-Control-Allow-Methods','GET, POST, OPTIONS');response.setHeader('Access-Control-Allow-Headers','Content-Type, Authorization');response.writeHead(204);response.end();return;
       }
     }
-    if (pathname === '/api/health' && ['GET', 'HEAD'].includes(request.method)) { const h=health(env); if(lastSuccess && env.AI_MODE==='real') { h.ai.available=true; h.ai.status='verified'; h.ai.reason=null; h.ai.last_success=lastSuccess; } send(200,h); return; }
+    if (pathname === '/api/health' && ['GET', 'HEAD'].includes(request.method)) { const h=health(env); if(lastSuccess && env.AI_MODE==='real') { h.ai.available=true; h.ai.status='verified'; h.ai.reason=null; h.ai.last_success=lastSuccess; } if(lastFailure){h.ai.available=false;h.ai.status='unavailable';h.ai.reason=lastFailure;} send(200,h); return; }
     if (pathname === '/api/interpret' && request.method === 'POST') {
       let raw={}, body;
       const fail=(status,code,message)=>send(status,unavailable(body??raw,code,message));
@@ -68,12 +69,13 @@ export function createServer({ env = process.env, fetchImpl = fetch } = {}) {
         activeCalls++;
         try {
           const {result,metrics}=await interpret(body,data,{env,fetchImpl});
-          lastSuccess={...metrics,at:new Date().toISOString()};
+          lastSuccess={...metrics,at:new Date().toISOString()};lastFailure=null;
           send(200,result);
         } finally {activeCalls--;}
       } catch(error) {
-        const messages={AI_NOT_CONFIGURED:'AI尚未配置，可直接编辑要求。',AI_TIMEOUT:'AI响应超时，请重试或手动编辑。',AI_AUTH_ERROR:'模型凭证或权限不可用。',AI_RATE_LIMIT:'模型服务限流，请稍后重试。',AI_REFUSED:'模型未能处理本次表达，请改写或手动编辑。',AI_INCOMPLETE:'模型响应不完整，请重试。',INVALID_REQUEST:'请求无效，单次输入最多500字。'};
+        const messages={AI_NOT_CONFIGURED:'AI尚未配置，可直接编辑要求。',AI_TIMEOUT:'AI响应超时，请重试或手动编辑。',AI_AUTH_ERROR:'模型凭证或权限不可用。',AI_RATE_LIMIT:'模型服务限流，请稍后重试。',AI_QUOTA_EXCEEDED:'AI服务额度已用完，请联系体验提供者或手动编辑要求。',AI_CONNECTION_FAILED:'暂时无法连接AI服务，请稍后重试或手动编辑。',AI_REFUSED:'模型未能处理本次表达，请改写或手动编辑。',AI_INCOMPLETE:'模型响应不完整，请重试。',INVALID_REQUEST:'请求无效，单次输入最多500字。'};
         const code=messages[error.message]?error.message:['OUTPUT_FORMAT','INVALID_EVIDENCE','HISTORY_SCOPE','CURRENT_SCOPE','UNKNOWN_INGREDIENT','INVALID_VALUES','AMBIGUOUS_OPERATIONS','INVALID_CLARIFICATION','INVALID_COMMAND','INVALID_REPEAT','UNKNOWN_DIMENSION','INVALID_SCOPE'].includes(error.message)?'AI_VALIDATION_FAILED':'AI_UPSTREAM_ERROR';
+        if(code!=='INVALID_REQUEST')lastFailure=code;
         fail(code==='INVALID_REQUEST'?400:code==='AI_TIMEOUT'?504:503,code,messages[code]??'AI结果未通过校验或服务不可用，原要求已保留。');
       }
       return;

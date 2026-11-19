@@ -1,6 +1,6 @@
 # 今天吃什么 · 个人外卖决策助手
 
-当前版本0.5.0。第五轮已补齐异常场景、费用变更重新核对、远程AI连接配置和GitHub Pages发布工作流。手动选餐、编辑、加菜、刷新恢复及模拟提交可独立体验。真实AI验收仍缺少模型凭证；不能将整个产品标为完整AI交付。
+当前版本0.6.0。已按用户选择接入DeepSeek适配器，增加本机隐藏输入配置入口、配置诊断和线上后端验收。手动选餐、编辑、加菜、刷新恢复及模拟提交可独立体验。真实DeepSeek尚待本机密钥及账号额度验证，不宣称AI完整交付。
 
 在线体验：[打开今天吃什么](https://wantingworking-oss.github.io/food-assistant-demo/)（GitHub Pages手动体验版，AI尚未配置）。
 
@@ -18,15 +18,19 @@ npm start
 
 进入助手后，番茄炒蛋饭可直接确认21元模拟订单；时蔬豆腐餐需要补选主食，面食规格总价28元。支持三组示例用户、要求与历史编辑、撤销、临时例外确认、同店加菜、换店整车确认及刷新恢复。“恢复示例”可重新体验。模拟提交不会自动记为已经吃过，不产生真实订单或付款。
 
-## 启用真实AI
+## 接入DeepSeek
 
-复制`.env.example`为本机`.env`，设置`AI_MODE=real`、有效的`OPENAI_API_KEY`和账户可用的`FOOD_ASSISTANT_MODEL`，再重启`npm start`。模板中的`gpt-5.4-mini`是候选型号，本项目尚未实际验证其账户权限、响应质量、延迟或费用。请仅在本机/托管后端配置凭证。
+在资源管理器中双击`configure-deepseek.cmd`，输入DeepSeek控制台新生成的API Key，输入过程隐藏。脚本仅将`DEEPSEEK_API_KEY`、`AI_PROVIDER=deepseek`、`FOOD_ASSISTANT_MODEL=deepseek-flash`等设置写入本机被忽略的`.env`。请勿将真实Key写入仓库或聊天。
 
-接口调用OpenAI Responses API和严格JSON Schema，程序继续校验词表、来源和操作范围。只发送必要的饮食上下文；`store:false`。没有固定成功响应，也不会自动重试。默认20秒超时，原条件和输入保留，用户可重试或手动编辑。
+DeepSeek官方API按量计费，有赠送余额时优先扣赠送余额；不能保证注册即送额度或永久免费。仅完成API适配不等于已经免费调用或完成语义验收。[官方价格](https://api-docs.deepseek.com/quick_start/pricing/)
 
-当前表达默认本餐，明确持续性才建议长期。取消食材排除、调整已有硬约束、放宽避重或提出临时例外，沿用统一确认流程。模糊部分追问，独立明确部分可先应用。历史备注始终先作为待确认建议；历史的“今天”仅属于历史那餐，不自动变成本餐或长期要求。切用户、开始新餐或修改要求/上下文后，过期结果不能覆盖新条件。
+配置后重启`npm start`，运行`npm run doctor`查看配置是否齐全。诊断不发送模型请求，不显示密钥；`ready`只代表配置齐全。运行`npm run test:ai`才会执行真实24条验收，可能消耗账号余额。
 
-健康接口首次实际调用成功前始终标为未验证；测试注入只用于测试进程。完整配置与接口说明见[AI接入说明](docs/AI_SETUP.md)。
+DeepSeek使用官方Chat Completions接口、JSON模式，输出继续接受本项目Schema、词表、证据和作用范围校验。JSON模式只保证格式，实际语义仍需逐条验收。无自动重试，截断、空JSON、拒绝、余额不足、限流和网络故障均可恢复到手动模式。取消明确排除、放宽约束和历史建议继续走原确认流程。
+
+OpenAI兼容保留为显式选项`AI_PROVIDER=openai`，使用独立的`OPENAI_API_KEY`；可通过OpenAI Developers安全配置流程管理。不会把一家的密钥发送给另一家，也不会自动切到付费供应商。
+
+详见[DeepSeek接入说明](docs/DEEPSEEK_SETUP.md)。
 
 ## 验证
 
@@ -35,24 +39,25 @@ npm test
 npm run test:report
 npm run check:inputs
 npm run build
+npm run doctor
 npm run test:ai
 ```
 
-- 应用测试101项通过，含40项原始推荐/购物车预期、18项AI接口/状态测试及6项发布边界测试。`test:report`写入`docs/validation/round5.json`、`round5.tap`及源码指纹。
-- F10、F11及确认/取消/撤销、历史缓存确认、澄清追问已通过Chrome受控响应测试，证据在`round5-browser.json`。这验证交互与恢复，不代表真实模型理解通过。另有实际本地未配置接口检查。
-- 本版核心回归记录为`round5-regression.json`，编辑与加菜回归为`round5-editing.json`。包括360/390/768/1440宽度，以及`/food-demo/`仓库子路径的静态选餐提交。
+- 应用测试114项通过，含原40项推荐/购物车预期，另有8项DeepSeek及5项配置/线上验收客户端测试。`test:report`写入`docs/validation/round6.json`、`round6.tap`及源码指纹。
+- F10、F11及确认/取消/撤销、历史缓存确认、澄清追问已通过Chrome受控响应测试，证据在`round6-browser.json`。这验证交互与恢复，不代表真实模型理解通过。另有实际本地未配置接口检查。
+- 本版核心回归记录为`round6-regression.json`，编辑与加菜回归为`round6-editing.json`。包括360/390/768/1440宽度，以及`/food-demo/`仓库子路径的静态选餐提交。
 - `check:inputs`核对10份原始材料SHA-256；`build`生成公开资源白名单内的`dist/`，不包含服务器适配器、凭证或测试答案。
-- `test:ai`在配置齐全时实际调用模型24次，记录请求、响应、模型、耗时、用量及程序应用前后状态。未配置时24项均为`not_run`，报告`blocked`并以非零状态退出；有调用成本。当前真实模型用例0通过、0失败、24未执行。
+- `test:ai`在配置齐全时逐条实际调用模型（最多24次），记录请求、响应、模型、耗时、用量及程序应用前后状态。支持使用`AI_TEST_BASE_URL`验收实际托管后端；认证、额度或连接故障后停止后续调用。未配置时24项均为`not_run`，报告`blocked`并以非零状态退出；有调用成本。当前真实模型用例0通过、0失败、24未执行。
 
 浏览器测试需要本机Chrome和单独安装的`playwright-core`，运行产品不需要它。设置`PLAYWRIGHT_MODULE`为其包目录，保持服务运行，执行：
 
 ```sh
 node scripts/browser-check.mjs
-node scripts/round3-browser.mjs round5
-node scripts/round4-browser.mjs round5
+node scripts/round3-browser.mjs round6
+node scripts/round4-browser.mjs round6
 ```
 
-`APP_URL`可设置核心/AI脚本的服务地址，默认`http://localhost:3000`。编辑回归脚本使用默认3000端口。受控响应截图上标注测试性质；`round5-manual-*.png`为实际未配置模式截图。
+`APP_URL`可设置核心/AI脚本的服务地址，默认`http://localhost:3000`。编辑回归脚本使用默认3000端口。受控响应截图上标注测试性质；`round6-manual-*.png`为实际未配置模式截图。
 
 原始Python参考核对脚本只验证数据和参考计算，不代替应用验收。使用`python -X utf8 fixtures/verify_fixtures.py`可单独执行。
 
@@ -74,4 +79,4 @@ node scripts/round4-browser.mjs round5
 
 页面底部“体验异常场景（模拟）”可模拟售罄、恢复可售和配送费调整。变动只影响当前用户本餐，保留商品与备注；重新核对当前明细后才允许提交。开始新餐或恢复示例会清除模拟供给变更。
 
-F01—F15已在本版执行，F10/F11涉及AI的返回采用受控测试响应，不计真实AI语义通过。异常和跨来源接口记录见`docs/validation/round5-release.json`。A01—A24仍为24未执行，完整AI版需后端配置、实际模型验收与线上验证。详见[开发进度](docs/PROGRESS.md)。
+F01—F15已在本版执行，F10/F11涉及AI的返回采用受控测试响应，不计真实AI语义通过。异常和跨来源接口记录见`docs/validation/round6-release.json`。A01—A24仍为24未执行，完整AI版需后端配置、实际模型验收与线上验证。详见[开发进度](docs/PROGRESS.md)。

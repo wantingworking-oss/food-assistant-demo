@@ -1,0 +1,53 @@
+{
+  "checked_at": "2026-11-19T19:16:26.782Z",
+  "request": {
+    "request_id": "88c0c9c1-8aa5-46ae-b8de-4e74486c4298",
+    "task_id": "6aad3e94-4989-44ca-9915-2f5a9872b516",
+    "requirements_version": 0,
+    "mode": "user_input",
+    "text": "今天想吃面",
+    "context": {
+      "user_id": "U_A",
+      "meal": "lunch",
+      "long_term": {
+        "excluded_ingredients": [
+          "peanut"
+        ],
+        "soft_preferences": {
+          "spiciness": [
+            "none"
+          ],
+          "oil": [
+            "low"
+          ],
+          "fried": [
+            false
+          ],
+          "staple": [
+            "any"
+          ]
+        },
+        "hard_attributes": {},
+        "repeat_rule": "yesterday_same_meal"
+      },
+      "current": {
+        "excluded_ingredients": [],
+        "soft_preferences": {},
+        "hard_attributes": {}
+      },
+      "undo_available": false,
+      "clarification": null,
+      "exceptions": {
+        "ingredients": [],
+        "hard_attributes": {}
+      }
+    },
+    "history_notes": []
+  },
+  "model": "gpt-5.4-mini",
+  "http_status": null,
+  "upstream_error_code": null,
+  "status": "failed",
+  "error": "CONNECTION_OR_API_ERROR",
+  "network_code": "UND_ERR_CONNECT_TIMEOUT"
+}

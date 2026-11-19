@@ -1,5 +1,24 @@
 # 开发进度
 
+## 当前状态：第六轮DeepSeek适配完成，真实验收待配置（0.6.0）
+
+更新：2026-11-20，Asia/Shanghai。按用户最新选择切换到DeepSeek方向；Gemini未接入，不再以OpenAI充值为前置条件。
+
+- DeepSeek官方Chat Completions与JSON输出适配，使用独立DEEPSEEK_API_KEY；指定模型deepseek-flash。程序继续校验Schema、证据、词表、范围与确认，不自动回退到其他供应商。
+- 本机隐藏输入脚本configure-deepseek.cmd；配置诊断npm run doctor；A01—A24可直连供应商或通过AI_TEST_BASE_URL检验已部署后端。全局认证、额度、连接错误时停止后续用例。
+- 将余额不足、普通限流与连接失败分开；曾成功后再次失败不继续显示AI可用。模型截断、空白JSON及错误输出仍不能写入条件。
+- 114项自动测试通过，含8项DeepSeek和5项诊断/线上客户端测试。本轮浏览器记录以round6各报告为准。
+- DeepSeek真实语义0通过、0失败、24未执行；待本机配置新密钥并确认账号额度。DeepSeek官方按量计费，赠送余额优先扣除，但未承诺人人免费。
+- OpenAI此前实际验证收到429 credit_balance_exhausted，无成功解析；Node路径另有连接超时，Windows HTTP路径收到供应商响应。当前没有可领取的OpenAI赠送额度。该结果不计DeepSeek验收。
+
+验证记录：validation/round6.json、round6.tap、round6-regression.json、round6-editing.json、round6-browser.json、round6-release.json、round6-ai.json。当前公开体验仍为静态手动模式，后端托管与真实AI在线验证未完成。
+
+聊天中出现过的DeepSeek密钥应撤销换新；只通过本机隐藏输入或后端密钥管理设置新密钥。所有源码和交付包均排除.env。
+
+---
+
+## 第五轮历史记录（以下为当时状态）
+
 ## 当前状态：第五轮集成与发布候选版（0.5.0）
 
 更新：2026-11-20，Asia/Shanghai。已完成批次5的手动模式集成验收及GitHub Pages发布，源码位于wantingworking-oss/food-assistant-demo，实际线上验收通过；发布证据在DEPLOYMENT.md。批次4仍因无模型凭证而阻塞，不宣称完整AI产品交付。

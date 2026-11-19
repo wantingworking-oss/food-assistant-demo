@@ -4,7 +4,7 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const round = process.argv[2] ?? 'round5';
+const round = process.argv[2] ?? 'round6';
 if (!/^round\d+$/.test(round)) throw new Error('Expected roundN report name');
 const pkg = JSON.parse(await readFile(resolve(root, 'package.json'), 'utf8'));
 const files = (await readdir(resolve(root, 'tests'))).filter(name => name.endsWith('.test.js')).sort().map(name => `tests/${name}`);
@@ -22,7 +22,7 @@ async function collect(path) {
   }
 }
 for (const folder of ['src', 'public', 'tests', 'scripts', '.github']) await collect(folder);
-sourceFiles.push('server.js', 'package.json', 'Dockerfile', '.dockerignore', '.env.example');
+sourceFiles.push('server.js', 'package.json', 'Dockerfile', '.dockerignore', '.env.example', 'configure-deepseek.cmd', 'start-local.cmd');
 for (const name of sourceFiles.sort()) sourceHash.update(name).update('\0').update(await readFile(resolve(root, name))).update('\0');
 const report = {
   generated_at: new Date().toISOString(), version: pkg.version, node: process.version,

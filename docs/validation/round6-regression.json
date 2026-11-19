@@ -1,0 +1,72 @@
+{
+  "version": "0.6.0",
+  "checked_at": "2026-11-19T19:37:27.768Z",
+  "browser": "157.0.8103.79",
+  "cases": [
+    {
+      "id": "F01",
+      "status": "passed",
+      "total_fen": 2100,
+      "consumed_confirmed": false
+    },
+    {
+      "id": "F12",
+      "status": "passed",
+      "duplicate_clicks": 2,
+      "refreshed": true,
+      "retry_reused": true,
+      "order_count": 1
+    },
+    {
+      "id": "F02",
+      "status": "passed",
+      "initial_selected_specs": 0,
+      "submit_blocked_until_selected": true,
+      "configuration": "noodle",
+      "total_fen": 2800,
+      "explanation_updated": true
+    },
+    {
+      "id": "viewport-360",
+      "status": "passed",
+      "path": "P01 to submission",
+      "horizontal_overflow": false
+    },
+    {
+      "id": "viewport-390",
+      "status": "passed",
+      "path": "P01 to submission",
+      "horizontal_overflow": false
+    },
+    {
+      "id": "viewport-768",
+      "status": "passed",
+      "path": "P01 to submission",
+      "horizontal_overflow": false
+    },
+    {
+      "id": "viewport-1440",
+      "status": "passed",
+      "path": "P01 to submission",
+      "horizontal_overflow": false
+    },
+    {
+      "id": "github-pages-subpath",
+      "status": "passed",
+      "backend": false,
+      "online_deployment": false
+    }
+  ],
+  "screenshots": [
+    "round6-core-home.png",
+    "round6-core-assistant.png",
+    "round6-core-confirm.png",
+    "round6-core-submitted.png",
+    "round6-core-spec-required.png",
+    "round6-core-noodle-confirm.png",
+    "round6-core-mobile.png"
+  ],
+  "errors": [],
+  "source_sha256": "f8a95d100a591d2ca69a5bc286784a3b489ad9c8db43cede651720a128baee5e",
+  "status": "passed"
+}

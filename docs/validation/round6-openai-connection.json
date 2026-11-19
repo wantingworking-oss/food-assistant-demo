@@ -1,0 +1,11 @@
+{
+  "checked_at": "2026-11-19T19:19:02.0107092Z",
+  "transport": "windows_http",
+  "status": "failed",
+  "http_status": 429,
+  "upstream_error_code": "credit_balance_exhausted",
+  "network_error": null,
+  "provider": "openai",
+  "model": "gpt-5.4-mini",
+  "semantic_case_passed": false
+}
