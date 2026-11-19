@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-11-19T19:36:14.697Z",
-  "version": "0.6.0",
+  "generated_at": "2026-11-19T20:17:27.769Z",
+  "version": "0.6.1",
   "node": "v24.15.0",
   "command": "node --test --test-reporter=tap tests/*.test.js",
-  "source_sha256": "f8a95d100a591d2ca69a5bc286784a3b489ad9c8db43cede651720a128baee5e",
+  "source_sha256": "d80370cbc3b14c2734c6898bdbf32694a502cf7c19e8e93287ecf18e82cf1506",
   "source_files": [
     ".dockerignore",
     ".env.example",
@@ -24,6 +24,7 @@
     "scripts/check-inputs.mjs",
     "scripts/configure-deepseek.ps1",
     "scripts/doctor.mjs",
+    "scripts/live-ai-browser.mjs",
     "scripts/release-browser.mjs",
     "scripts/round3-browser.mjs",
     "scripts/round4-browser.mjs",
@@ -31,6 +32,7 @@
     "scripts/verify-ai.mjs",
     "server.js",
     "src/ai/adapter.js",
+    "src/ai/model-evidence.js",
     "src/ai/providers.js",
     "src/ai/validation-client.js",
     "src/domain/ai-contract.js",
@@ -49,14 +51,15 @@
     "tests/domain-edges.test.js",
     "tests/fixture-adapter.js",
     "tests/fixtures.test.js",
+    "tests/model-evidence.test.js",
     "tests/release.test.js",
     "tests/round3.test.js",
     "tests/server.test.js",
     "tests/store.test.js",
     "tests/validation-client.test.js"
   ],
-  "tests": 114,
-  "passed": 114,
+  "tests": 116,
+  "passed": 116,
   "failed": 0,
   "exit_code": 0,
   "status": "passed",
@@ -67,9 +70,5 @@
     "release_qa": "round6-release.json",
     "real_ai": "round6-ai.json"
   },
-  "pending": {
-    "remaining_interaction_cases": 0,
-    "real_ai_cases": 24,
-    "github_deployment": "not_run"
-  }
+  "scope": "Program tests only; inspect separate evidence for browser, real AI and deployment results."
 }

@@ -1,19 +1,20 @@
 # 开发进度
 
-## 当前状态：第六轮DeepSeek适配完成，真实验收待配置（0.6.0）
+## 当前状态：DeepSeek本地真实验收通过（0.6.1）
 
-更新：2026-11-20，Asia/Shanghai。按用户最新选择切换到DeepSeek方向；Gemini未接入，不再以OpenAI充值为前置条件。
+更新：2026-11-20，Asia/Shanghai。用户已配置本机DeepSeek密钥，并明确允许使用当前充值余额完成本轮测试。
 
-- DeepSeek官方Chat Completions与JSON输出适配，使用独立DEEPSEEK_API_KEY；指定模型deepseek-flash。程序继续校验Schema、证据、词表、范围与确认，不自动回退到其他供应商。
-- 本机隐藏输入脚本configure-deepseek.cmd；配置诊断npm run doctor；A01—A24可直连供应商或通过AI_TEST_BASE_URL检验已部署后端。全局认证、额度、连接错误时停止后续用例。
-- 将余额不足、普通限流与连接失败分开；曾成功后再次失败不继续显示AI可用。模型截断、空白JSON及错误输出仍不能写入条件。
-- 114项自动测试通过，含8项DeepSeek和5项诊断/线上客户端测试。本轮浏览器记录以round6各报告为准。
-- DeepSeek真实语义0通过、0失败、24未执行；待本机配置新密钥并确认账号额度。DeepSeek官方按量计费，赠送余额优先扣除，但未承诺人人免费。
-- OpenAI此前实际验证收到429 credit_balance_exhausted，无成功解析；Node路径另有连接超时，Windows HTTP路径收到供应商响应。当前没有可领取的OpenAI赠送额度。该结果不计DeepSeek验收。
+- A01—A24真实调用全部通过，0失败、0未执行。首次18通过、6失败；修复通用字段/操作值说明、当前与长期范围、历史候选提取规则，降低生成随机性，随后完整重跑通过。没有改动原始预期或按用例输入写固定成功响应。
+- Chrome真实端到端检查通过：新表述生成“面食+排除鸡肉”要求，完成21元模拟订单；“本次花生可以、长期不改”先确认再生效，长期排除保留。桌面及390px截图已保存。
+- 应用测试116项通过，原10份材料指纹不变；JSON Schema继续严格拒绝错误字段和值。模型成功响应的原文及用量纳入管理员验收记录，不记录认证头或密钥。
+- 历史解析版本升为1.1.0，避免复用旧提示规则生成的缓存。已保留首次失败及诊断记录，说明见REAL_AI_ACCEPTANCE.md。
+- 本地服务保持运行，可从http://localhost:3000体验真实AI；每次理解会消耗DeepSeek账号余额。npm test、构建和GitHub发布不调用付费模型。
 
-验证记录：validation/round6.json、round6.tap、round6-regression.json、round6-editing.json、round6-browser.json、round6-release.json、round6-ai.json。当前公开体验仍为静态手动模式，后端托管与真实AI在线验证未完成。
+验证证据：validation/round6.json、round6.tap、round6-ai.json、round6-live-browser.json，以及本版浏览器回归报告。真实语义通过只代表这一版在本轮样例上的实测结果，不保证未来每次生成一致。
 
-聊天中出现过的DeepSeek密钥应撤销换新；只通过本机隐藏输入或后端密钥管理设置新密钥。所有源码和交付包均排除.env。
+当前GitHub Pages继续提供手动体验。Render已连接，已发现用户工作区，待确认目标工作区后部署现有Node服务、配置运行时密钥和体验访问码，再设置PUBLIC_API_BASE并执行线上真实验收；此部分尚未完成。
+
+所有源码、静态构建及交付包排除.env；DeepSeek/OpenAI密钥分开使用，不自动切换供应商。
 
 ---
 

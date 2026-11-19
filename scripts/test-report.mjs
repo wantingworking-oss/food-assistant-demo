@@ -33,7 +33,7 @@ const report = {
   failed: Number(result.stdout.match(/^# fail (\d+)/m)?.[1] ?? 0),
   exit_code: result.status, status: result.status === 0 ? 'passed' : 'failed',
   separate_evidence: { browser_qa: `${round}-browser.json`, core_regression: `${round}-regression.json`, editing_regression: `${round}-editing.json`, release_qa: `${round}-release.json`, real_ai: `${round}-ai.json` },
-  pending: { remaining_interaction_cases: 0, real_ai_cases: 24, github_deployment: 'not_run' },
+  scope: 'Program tests only; inspect separate evidence for browser, real AI and deployment results.',
 };
 await writeFile(resolve(reportDirectory, `${round}.json`), JSON.stringify(report, null, 2) + '\n');
 console.log(JSON.stringify(report, null, 2));

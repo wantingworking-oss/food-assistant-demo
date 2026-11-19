@@ -1,11 +1,12 @@
-export const PARSER_VERSION = '1.0.0';
+import {DIMENSIONS} from './requirements.js';
+export const PARSER_VERSION = '1.1.0';
 export const OPS = ['set_soft','remove_soft','add_excluded','remove_excluded','set_hard','remove_hard','set_repeat','propose_exception','undo_last','clear_current'];
 const object = properties => ({type:'object',properties,required:Object.keys(properties),additionalProperties:false});
 const string = {type:'string'}, nullable = {type:['string','null']};
 const array = items => ({type:'array',items});
 export const RESPONSE_SCHEMA = object({
  status:{type:'string',enum:['parsed','needs_clarification','unsupported','unavailable']},
- operations:array(object({op:{type:'string',enum:OPS},scope:{type:'string',enum:['current','long_term','historical_meal','unresolved']},field:nullable,values:array({type:['string','boolean']}),evidence:string,source_record_id:nullable})),
+ operations:array(object({op:{type:'string',enum:OPS},scope:{type:'string',enum:['current','long_term','historical_meal','unresolved']},field:{...nullable,enum:[...DIMENSIONS,'ingredients','repeat_rule',null]},values:array({type:['string','boolean']}),evidence:string,source_record_id:nullable})),
  clarifications:array(object({id:string,question:string,evidence:string,options:array(object({id:string,label:string}))})),
  unsupported_parts:array(object({evidence:string,reason:string})),
  record_annotations:array(object({source_record_id:string,belongs_to_user:{type:['boolean','null']},fulfillment_note:nullable,evidence:string})),

@@ -7,7 +7,10 @@ export const PROMPT = `你是饮食要求解析器，只输出规定JSON。用�
 模糊表达（清淡、清爽、别太重口）须追问或给至多3个含义选项；不得静默转成不辣或硬约束。只对含糊维度暂缓，独立明确部分可输出operations；clarification.evidence不能与已执行条件重叠。澄清回复只处理尚未解决部分，不重复已应用操作。
 移除本餐软偏好用remove_soft，回退由程序处理。新增食材排除add_excluded，不替换已有集合。允许吃长期排除食材用propose_exception/current，须确认；明确长期取消用remove_excluded/long_term。不得替用户决定不需确认。undo_last和clear_current互不等价，仅各自单独输出。
 重复规则仅allow、previous_meal、yesterday_same_meal，不支持其他周期。
+操作与字段必须精确对应：set_soft/set_hard使用六维字段及该维度受控值；remove_soft/remove_hard使用六维字段且values必须为[]，不能放入要移除的旧值。add_excluded/remove_excluded及食材propose_exception的field固定为ingredients（复数），values为具体食材ID数组。set_repeat的field固定repeat_rule、values单个规则。undo_last/clear_current的field为null、values为[]。
+只输出增量修改。“保留、其他不变、既有要求继续”不是新操作，不能重放已有条件，也不能从保留要求推导删除操作。允许已在本餐排除集合内的食材时，用remove_excluded/current；若该食材只在长期排除中且原文明确是当前餐的允许，用propose_exception/current。原文已明确本餐范围时，不再追问是否改长期；程序会另外要求用户确认例外或解除排除，这与语义澄清不同。
 mode=history_notes时只返回建议，scope只能historical_meal或unresolved，必须带source_record_id。历史的今天指历史那一餐，不是当前要求。明确临时表达用historical_meal，不清楚持续性用unresolved。取消订单饮食备注仍可作待确认线索，不自动生效。代点/给同事的记录只提归属线索，不能生成本人饮食偏好；纯履约备注只用record_annotations。不能从没有购买推断忌口。
+历史模式是在提取原文的建议，不是直接应用当前资料：即使历史条件已被当前或长期设置覆盖，仍须保留识别结果。历史能识别饮食含义但持续范围不清时，输出unresolved范围的操作，由建议面板逐项选择范围；不要改成clarifications，也不要漏掉操作。historical_meal只记载历史那餐的含义，不自动提升范围。
 没有可处理内容则说明unsupported_parts；status=parsed仅说明解析完成。error正常为null。所有集合必填，无内容为[]。`;
 export function sanitizeRequest(raw,data){
  const bad=()=>{throw new Error('INVALID_REQUEST');};
@@ -34,7 +37,7 @@ export async function interpret(request,data,{env=process.env,fetchImpl=fetch}={
  const start=Date.now(),controller=new AbortController(),timer=setTimeout(()=>controller.abort(),timeout);
  try{
   const instructions=PROMPT+'\n受控词表：'+JSON.stringify(data.dictionaries);
-  const payload=config.provider==='deepseek'?{model:config.model,messages:[{role:'system',content:instructions+'\n严格遵循此JSON Schema：'+JSON.stringify(RESPONSE_SCHEMA)+'\nJSON字段结构示例（按实际原文填写，不能照抄空操作）：'+JSON.stringify({status:'parsed',operations:[],clarifications:[],unsupported_parts:[],record_annotations:[],error:null})},{role:'user',content:JSON.stringify(request)}],response_format:{type:'json_object'},thinking:{type:'disabled'},max_tokens:3500,stream:false}:{model:config.model,store:false,instructions,input:JSON.stringify(request),max_output_tokens:3500,text:{format:{type:'json_schema',name:'food_requirements',strict:true,schema:RESPONSE_SCHEMA}}};
+  const payload=config.provider==='deepseek'?{model:config.model,messages:[{role:'system',content:instructions+'\n严格遵循此JSON Schema：'+JSON.stringify(RESPONSE_SCHEMA)+'\nJSON字段结构示例（按实际原文填写，不能照抄空操作）：'+JSON.stringify({status:'parsed',operations:[],clarifications:[],unsupported_parts:[],record_annotations:[],error:null})},{role:'user',content:JSON.stringify(request)}],response_format:{type:'json_object'},thinking:{type:'disabled'},temperature:0,max_tokens:3500,stream:false}:{model:config.model,store:false,instructions,input:JSON.stringify(request),max_output_tokens:3500,text:{format:{type:'json_schema',name:'food_requirements',strict:true,schema:RESPONSE_SCHEMA}}};
   const response=await fetchImpl(config.provider==='deepseek'?'https://api.deepseek.com/chat/completions':'https://api.openai.com/v1/responses',{method:'POST',redirect:'error',signal:controller.signal,headers:{Authorization:`Bearer ${config.key}`,'Content-Type':'application/json'},body:JSON.stringify(payload)});
   if(!response.ok)throw new Error(await providerError(response));
   const body=await response.json();

@@ -5,11 +5,13 @@ import assert from 'node:assert/strict';
 import {sanitizeRequest} from '../src/ai/adapter.js';
 import {createValidationClient} from '../src/ai/validation-client.js';
 import {createStore} from '../src/state/store.js';
+import {modelEvidence} from '../src/ai/model-evidence.js';
 const data=JSON.parse(await readFile(new URL('../fixtures/mock-data.json',import.meta.url),'utf8'));
 const fixture=JSON.parse(await readFile(new URL('../fixtures/ai-semantic-cases.json',import.meta.url),'utf8'));
 const pkg=JSON.parse(await readFile(new URL('../package.json',import.meta.url),'utf8'));
 const round=process.argv[2]??'round6';if(!/^round\d+$/.test(round))throw new Error('Expected roundN');
-const client=createValidationClient(),diagnostics=await client.readiness(),configured=diagnostics.ready;
+let currentRow=null;
+const client=createValidationClient({fetchImpl:async(url,options)=>{const response=await fetch(url,options);if(currentRow&&response.ok&&!process.env.AI_TEST_BASE_URL){const body=await response.clone().json().catch(()=>null);if(body)Object.assign(currentRow,modelEvidence(body));}return response;}}),diagnostics=await client.readiness(),configured=diagnostics.ready;
 const report={version:pkg.version,dataset_version:data.dataset_version,checked_at:new Date().toISOString(),model:diagnostics.model??null,transport:client.transport,diagnostics,status:configured?'running':'blocked',reason:diagnostics.reason,cases:[]};
 let blockedAfterFailure=null;
 const snapshot=store=>({current:store.state.current,long_term:store.state.profile.long_term,exceptions:store.state.confirmed_exceptions});
@@ -56,7 +58,7 @@ for(const c of fixture.cases){
   const started=store.dispatch({type:'AI_BEGIN',mode:c.context.source_record?'history_notes':'user_input',text:c.context.source_record?'':c.input});
   if(c.context.source_record)started.request.history_notes=started.request.history_notes.filter(n=>n.id===c.context.source_record);
   const request=sanitizeRequest(started.request,data);row.request=request;row.before=snapshot(store);
-  const actual=await client.run(request,data);row.response=actual.result;row.metrics=actual.metrics;
+  currentRow=row;const actual=await client.run(request,data);row.response=actual.result;row.metrics=actual.metrics;
   const result=store.dispatch({type:'AI_RESULT',response:actual.result});assert.ok(result.ok);row.state_result=result;row.after_unconfirmed=snapshot(store);
   // Destructive changes are confirmed by this test driver, as in the UI.
   if(result.needs_confirmation&&!c.expected_semantics.requires_confirmation)apply({type:'CONFIRM_CHANGE',token:result.token});
@@ -64,7 +66,7 @@ for(const c of fixture.cases){
   check(c,actual.result,row.before,row.after,result);
   if(c.expected_semantics.action==='propose_temporary_exception'){apply({type:'CONFIRM_CHANGE',token:result.token});row.after_confirmation=snapshot(store);assert.ok(row.after_confirmation.exceptions.ingredients.includes(c.expected_semantics.value));same(row.after_confirmation.long_term,row.before.long_term);}
   row.status='passed';
- }catch(error){if(['AI_NOT_CONFIGURED','AI_AUTH_ERROR','AI_QUOTA_EXCEEDED','AI_RATE_LIMIT','AI_CONNECTION_FAILED','AI_TIMEOUT','BACKEND_UNREACHABLE','ACCESS_CODE_REQUIRED'].includes(error.message))blockedAfterFailure=error.message;row.status='failed';row.reason=error.code==='ERR_ASSERTION'?error.message:'Model/validation failure: '+(['AI_NOT_CONFIGURED','AI_TIMEOUT','AI_AUTH_ERROR','AI_RATE_LIMIT','AI_QUOTA_EXCEEDED','AI_CONNECTION_FAILED','AI_REFUSED','AI_INCOMPLETE','OUTPUT_FORMAT','INVALID_REQUEST'].includes(error.message)?error.message:'AI_CALL_OR_CONTRACT_ERROR');}
+ }catch(error){if(['AI_NOT_CONFIGURED','AI_AUTH_ERROR','AI_QUOTA_EXCEEDED','AI_RATE_LIMIT','AI_CONNECTION_FAILED','AI_TIMEOUT','BACKEND_UNREACHABLE','ACCESS_CODE_REQUIRED'].includes(error.message))blockedAfterFailure=error.message;row.status='failed';row.reason=error.code==='ERR_ASSERTION'?error.message:'Model/validation failure: '+(['AI_NOT_CONFIGURED','AI_TIMEOUT','AI_AUTH_ERROR','AI_RATE_LIMIT','AI_QUOTA_EXCEEDED','AI_CONNECTION_FAILED','AI_REFUSED','AI_INCOMPLETE','OUTPUT_FORMAT','INVALID_REQUEST'].includes(error.message)?error.message:(/^[A-Z][A-Z0-9_]{1,60}$/.test(error.message)?error.message:'AI_CALL_OR_CONTRACT_ERROR'));}
  // Persist partial actual evidence if interrupted; no API key or HTTP headers.
  await writeFile(new URL(`../docs/validation/${round}-ai.json`,import.meta.url),JSON.stringify(report,null,2)+'\n');
  console.log(`${row.id}: ${row.status}`);

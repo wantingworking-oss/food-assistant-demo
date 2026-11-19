@@ -1,0 +1,13 @@
+{
+  "version": "0.6.1",
+  "checked_on": "2026-11-20 Asia/Shanghai",
+  "provider": "deepseek",
+  "model": "deepseek-flash",
+  "transport": "real_provider",
+  "semantic": {"passed": 24, "failed": 0, "not_run": 0},
+  "first_attempt": {"passed": 18, "failed": 6, "not_run": 0},
+  "browser": {"passed": 3, "failed": 0, "real_requests": 2},
+  "source_inputs": "Original synthetic acceptance fixtures and developer-authored browser checks",
+  "details": "Raw model text, dietary contexts and request identifiers remain in local evidence only.",
+  "online_backend_verified": false
+}

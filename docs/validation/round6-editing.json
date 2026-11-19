@@ -1,7 +1,7 @@
 {
-  "version": "0.6.0",
-  "source_sha256": "f8a95d100a591d2ca69a5bc286784a3b489ad9c8db43cede651720a128baee5e",
-  "checked_at": "2026-11-19T19:37:38.879Z",
+  "version": "0.6.1",
+  "source_sha256": "d80370cbc3b14c2734c6898bdbf32694a502cf7c19e8e93287ecf18e82cf1506",
+  "checked_at": "2026-11-19T20:19:11.314Z",
   "cases": [
     {
       "id": "F03",

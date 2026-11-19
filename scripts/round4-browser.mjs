@@ -1,6 +1,7 @@
 import {createRequire} from 'node:module';
 import {readFile,writeFile} from 'node:fs/promises';
 import assert from 'node:assert/strict';
+import {createServer} from '../server.js';
 const require=createRequire(import.meta.url),{chromium}=require(process.env.PLAYWRIGHT_MODULE??'playwright-core');
 const round=process.argv[2]??'round5';if(!/^round\d+$/.test(round))throw new Error('Expected roundN');
 const pkg=JSON.parse(await readFile('package.json','utf8'));
@@ -15,6 +16,7 @@ const operation=(field='staple',values=['noodle'],extra={})=>({op:'set_soft',fie
 const answer=(req,operations,extra={})=>({request_id:req.request_id,task_id:req.task_id,requirements_version:req.requirements_version,mode:req.mode,status:'parsed',operations,clarifications:[],unsupported_parts:[],record_annotations:[],error:null,...extra});
 const reply=(route,body,status=200)=>route.fulfill({status,contentType:'application/json',body:JSON.stringify(body)});
 const passed=id=>cases.push({id,status:'passed',transport:'browser_response_fixture_not_real_model'});
+let unconfiguredServer;
 try{
  await p.goto(process.env.APP_URL??'http://localhost:3000');await click('进入今天吃什么');
  // Hold the network response until a new requirement has been saved.
@@ -42,10 +44,13 @@ try{
  await p.locator('#ai-text').fill('清淡一点');await click('理解并应用');await p.getByRole('button',{name:'少油',exact:true}).waitFor();assert.deepEqual((await state()).current.soft_preferences,{});await p.getByRole('button',{name:'少油',exact:true}).click();await p.locator('#ai-result').getByText('明确部分已应用，请查看更新后的要求。',{exact:true}).waitFor();assert.deepEqual((await state()).current.soft_preferences.oil,['low']);passed('clarification-followup');
  await p.evaluate(()=>{const label=document.createElement('p');label.textContent='浏览器受控响应测试 · 非真实模型调用';document.body.prepend(label);});
  await p.screenshot({path:`docs/validation/${round}-ai-desktop.png`,fullPage:true});await p.setViewportSize({width:390,height:844});await p.screenshot({path:`docs/validation/${round}-ai-mobile.png`,fullPage:true});assert.ok(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));passed('ai-mobile');
- await p.unroute('**/api/interpret');await p.reload();await reset();
+ await p.unroute('**/api/interpret');
+ // Exercise a genuinely unconfigured server without touching the user's real credentials.
+ unconfiguredServer=createServer({env:{}});await new Promise(r=>unconfiguredServer.listen(0,'127.0.0.1',r));
+ await p.goto(`http://127.0.0.1:${unconfiguredServer.address().port}`);await click('进入今天吃什么');
  await p.locator('#ai-text').fill('今天想吃面');await click('理解并应用');await p.locator('#ai-result').getByText('AI尚未配置，可直接编辑要求。',{exact:true}).waitFor();assert.deepEqual((await state()).current.soft_preferences,{});assert.equal(await p.locator('#ai-text').inputValue(),'今天想吃面');
  cases.push({id:'unconfigured-real-local-endpoint',status:'passed',transport:'actual_local_http_no_model_call'});
  await p.screenshot({path:`docs/validation/${round}-manual-mobile.png`,fullPage:true});await p.setViewportSize({width:1440,height:1000});await p.screenshot({path:`docs/validation/${round}-manual-desktop.png`,fullPage:true});
  assert.deepEqual(errors,[]);
 }catch(e){cases.push({id:'failure',status:'failed',error:e.stack});console.error(e);process.exitCode=1;}
-finally{await browser.close();await writeFile(`docs/validation/${round}-browser.json`,JSON.stringify({version:pkg.version,checked_at:new Date().toISOString(),source_sha256:JSON.parse(await readFile(`docs/validation/${round}.json`,'utf8')).source_sha256,real_ai_verified:false,cases,errors},null,2)+'\n');console.log(JSON.stringify(cases));}
+finally{await browser.close();if(unconfiguredServer){unconfiguredServer.closeAllConnections();await new Promise(r=>unconfiguredServer.close(r));}await writeFile(`docs/validation/${round}-browser.json`,JSON.stringify({version:pkg.version,checked_at:new Date().toISOString(),source_sha256:JSON.parse(await readFile(`docs/validation/${round}.json`,'utf8')).source_sha256,real_ai_verified:false,cases,errors},null,2)+'\n');console.log(JSON.stringify(cases));}
