@@ -1,0 +1,10 @@
+{
+  "checked_at": "2026-11-19T20:35:40.3323555Z",
+  "backend": "https://food-assistant-deepseek.onrender.com",
+  "provider_calls": 0,
+  "allowed_origin": "https://wantingworking-oss.github.io",
+  "unauthorized_status": 401,
+  "status": "passed",
+  "preflight_status": 204,
+  "denied_origin_status": 403
+}

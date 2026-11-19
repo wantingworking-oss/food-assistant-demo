@@ -1,6 +1,6 @@
 # 开发进度
 
-## 当前状态：DeepSeek本地真实验收通过（0.6.1）
+## 当前状态：DeepSeek真实验收及线上体验通过（0.6.1）
 
 更新：2026-11-20，Asia/Shanghai。用户已配置本机DeepSeek密钥，并明确允许使用当前充值余额完成本轮测试。
 
@@ -12,7 +12,11 @@
 
 验证证据：validation/round6.json、round6.tap、round6-ai.json、round6-live-browser.json，以及本版浏览器回归报告。真实语义通过只代表这一版在本轮样例上的实测结果，不保证未来每次生成一致。
 
-当前GitHub Pages继续提供手动体验。Render已连接，已发现用户工作区，待确认目标工作区后部署现有Node服务、配置运行时密钥和体验访问码，再设置PUBLIC_API_BASE并执行线上真实验收；此部分尚未完成。
+GitHub Pages已连接Render免费实例（用户确认的wanting's workspace、新加坡区域），后端密钥仅在运行环境保存，访问码通过本机私有文件提供。实际公开页面完成两次真实DeepSeek请求、21元模拟下单及本次例外确认；无访问码401、非允许来源403和预检204均通过。线上证据为round6-online.json、round6-online-live-browser.json及round6-hosted-guards.json。免费实例休眠后首次访问需要等待启动。
+
+截图检查发现确认后面板仍显示待确认，已修复确认/取消文案和Esc取消待确认状态，并补充浏览器验证。原24条真实语义所使用的后端适配器与契约未因该界面修复改变，无须重复付费语义批次。
+
+GitHub仅公开round6-ai-public.json汇总；模型原文、饮食上下文及请求标识保留在本地详细记录，不上传公开仓库。
 
 所有源码、静态构建及交付包排除.env；DeepSeek/OpenAI密钥分开使用，不自动切换供应商。
 

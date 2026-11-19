@@ -5,6 +5,12 @@ export function createAI({data,store,escape:e,render,perform,toast}){
  const labels={set_soft:'偏好',remove_soft:'移除偏好',add_excluded:'排除食材',remove_excluded:'取消排除',set_hard:'硬约束',remove_hard:'移除硬约束',set_repeat:'重复规则',propose_exception:'临时例外',undo_last:'撤销',clear_current:'清除本餐'};
  const describe=op=>`${op.scope==='long_term'?'长期':op.scope==='current'?'本餐':'历史建议'} · ${labels[op.op]}：${op.values.map(v=>data.dictionaries.ingredient_labels[v]??({noodle:'面食',rice:'米饭',low:'少油',none:'无 / 不辣',false:'非油炸',true:'油炸',allow:'允许重复',previous_meal:'上一餐',yesterday_same_meal:'昨天同餐'})[v]??v).join('、')}（来源：${op.evidence}）`;
  const sync=()=>{const s=store.state;if(s.user_id!==owner||s.task.task_id!==task){controller?.abort();busy=false;draft='';last=null;clarification=null;owner=s.user_id;task=s.task.task_id;}if(clarification&&clarification.version!==s.versions.requirements)clarification=null;};
+ function resolveConfirmation(token,outcome){
+  if(!token||last?.token!==token)return;
+  last={...last,token:null,needs_confirmation:false,deferred:[],
+   applied:outcome==='confirmed'?[...(last.applied??[]),...(last.deferred??[])]:last.applied,
+   message:outcome==='confirmed'?'已确认变更，请查看更新后的要求。':outcome==='cancelled'?'已取消待确认变更。':'待确认内容已失效，请重新理解。'};
+ }
  function markup(){
   sync();const cache=store.historyCache(),current=store.state;
   const availability=health?.ai?.status==='unavailable'?'AI服务当前不可用':health?.ai?.available?'真实AI已连接':health?.ai?.configured?'模型已配置，等待实际调用验证':'AI尚未配置 / 当前为手动模式';
@@ -50,5 +56,5 @@ export function createAI({data,store,escape:e,render,perform,toast}){
   if(button.dataset.ai==='accept')perform(store.dispatch({type:'HISTORY_AI_ACCEPT',item_id:button.dataset.item,scope:button.dataset.scope}));
  });
  fetch(apiUrl('health')).then(r=>r.ok?r.json():null).then(value=>{health=value;render();}).catch(()=>{});
- return {markup};
+ return {markup,resolveConfirmation};
 }

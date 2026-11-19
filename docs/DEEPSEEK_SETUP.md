@@ -1,6 +1,6 @@
 # DeepSeek接入（0.6.1）
 
-本轮按用户选择接入DeepSeek。本机密钥已配置并通过实际调用。经用户允许使用当前充值余额，本轮A01—A24真实语义验收24项通过；另有两次实际浏览器请求通过。线上托管尚未完成。
+本轮按用户选择接入DeepSeek。本机密钥已配置并通过实际调用。经用户允许使用当前充值余额，本轮A01—A24真实语义验收24项通过；另有两次实际浏览器请求通过。Render后端已部署，公开GitHub页面真实AI流程已验证。
 
 ## 本机配置
 
@@ -31,4 +31,4 @@
 
 Pages继续托管前端，不能运行服务端模型调用。真实AI需要托管Node后端，环境中配置DeepSeek密钥、HOST=0.0.0.0、允许来源ALLOWED_ORIGINS及AI_ACCESS_TOKEN。然后将仓库Actions变量PUBLIC_API_BASE设为后端HTTPS origin，重新发布。
 
-供应商密钥仅保存在后端；前端填写的是体验访问码。当前尚未配置可用的公开DeepSeek后端，因此线上仍明确显示手动模式。
+供应商密钥仅保存在后端；前端填写的是体验访问码。当前后端为https://food-assistant-deepseek.onrender.com；GitHub Pages已连接。访问码从本机私有文件“体验访问码.txt”获取，在页面“AI服务访问码”中填写并保存。此文件不上传GitHub或加入公开资源。Render免费实例空闲15分钟后休眠，首次启动约需一分钟；等待后重试即可。参见[Render免费实例说明](https://render.com/docs/free)。

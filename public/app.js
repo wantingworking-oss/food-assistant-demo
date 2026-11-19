@@ -173,8 +173,10 @@ app.addEventListener('submit',event=>{
 specDialog.addEventListener('change', event => { if (event.target.matches('input[type="radio"]')) { specTarget.options[event.target.name] = event.target.value; updateSpecPreview(); } });
 specDialog.addEventListener('submit', event => { event.preventDefault(); const target = specTarget; closeDialog(specDialog); if(target.mode==='select') select(target.id, target.options); else perform(store.dispatch(target.mode==='add' ? {type:'ADD_ITEM',product_id:target.id,options:target.options} : {type:'EDIT_SPEC',index:target.index,options:target.options})); });
 specDialog.addEventListener('click', event => { if (event.target.closest('[data-spec="cancel"]')) closeDialog(specDialog); });
-actionDialog.addEventListener('click', event => { const button = event.target.closest('[data-dialog]'); if (!button) return; closeDialog(actionDialog); if (button.dataset.dialog === 'confirm') action?.(); else store.dispatch({type:'CANCEL_CHANGE'}); });
-for (const dialog of [actionDialog, specDialog]) dialog.addEventListener('cancel', () => { focusBeforeDialog?.focus?.(); });
+function cancelPendingChange(){const token=store?.state.pending_change?.token;store?.dispatch({type:'CANCEL_CHANGE'});ai?.resolveConfirmation(token,'cancelled');render();}
+actionDialog.addEventListener('click', event => { const button = event.target.closest('[data-dialog]'); if (!button) return; closeDialog(actionDialog); if (button.dataset.dialog === 'confirm') action?.(); else cancelPendingChange(); });
+actionDialog.addEventListener('cancel',()=>{cancelPendingChange();focusBeforeDialog?.focus?.();});
+specDialog.addEventListener('cancel',()=>{focusBeforeDialog?.focus?.();});
 
 try {
   const response = await fetch('./data/mock-data.json');
@@ -188,7 +190,7 @@ try {
 }
 
 function perform(result) {
- if(result.needs_confirmation) actionPrompt('确认要求变更',result.messages.join(' '),'确认变更',()=>perform(store.dispatch({type:'CONFIRM_CHANGE',token:result.token})));
+ if(result.needs_confirmation) actionPrompt('确认要求变更',result.messages.join(' '),'确认变更',()=>{const resolved=store.dispatch({type:'CONFIRM_CHANGE',token:result.token});ai?.resolveConfirmation(result.token,resolved.ok?'confirmed':'invalid');perform(resolved);});
  else if(!result.ok) toast(ERROR_LABELS[result.reason] ?? result.reason);
  render();
 }

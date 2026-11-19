@@ -7,8 +7,10 @@ coverage/
 *.log
 __pycache__/
 # Detailed real-provider evidence stays local; publish aggregate summaries only.
+体验访问码.txt
 docs/validation/round6-ai.json
 docs/validation/round6-ai-first.json
 docs/validation/round6-ai-diagnostics.json
 docs/validation/round6-probe.json
 docs/validation/round6-live-browser.json
+docs/validation/round6-online-live-browser.json

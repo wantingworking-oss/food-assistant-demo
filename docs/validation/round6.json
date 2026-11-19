@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-11-19T20:17:27.769Z",
+  "generated_at": "2026-11-19T20:39:01.572Z",
   "version": "0.6.1",
   "node": "v24.15.0",
   "command": "node --test --test-reporter=tap tests/*.test.js",
-  "source_sha256": "d80370cbc3b14c2734c6898bdbf32694a502cf7c19e8e93287ecf18e82cf1506",
+  "source_sha256": "456e1940583bba59c5d30835bde4dbe2dd75418336797ae535e21cfe84fc06e9",
   "source_files": [
     ".dockerignore",
     ".env.example",

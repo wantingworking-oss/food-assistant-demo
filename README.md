@@ -1,8 +1,8 @@
 # 今天吃什么 · 个人外卖决策助手
 
-当前版本0.6.1。本地DeepSeek真实接入已验证：A01—A24全部通过，浏览器真实请求完成选餐、模拟下单和本次破例确认。手动选餐、编辑、加菜、刷新恢复及模拟提交可独立体验。GitHub Pages目前仍为手动体验；线上AI后端尚待托管。
+当前版本0.6.1。本地DeepSeek真实接入已验证：A01—A24全部通过，浏览器真实请求完成选餐、模拟下单和本次破例确认。手动选餐、编辑、加菜、刷新恢复及模拟提交可独立体验。GitHub Pages已连接Render真实DeepSeek后端，使用AI需填写体验访问码。
 
-在线体验：[打开今天吃什么](https://wantingworking-oss.github.io/food-assistant-demo/)（GitHub Pages手动体验版，AI尚未配置）。
+在线体验：[打开今天吃什么](https://wantingworking-oss.github.io/food-assistant-demo/)（GitHub Pages前端 + Render后端，已实测真实AI）。
 
 ## 本地体验
 
@@ -30,7 +30,7 @@ DeepSeek使用官方Chat Completions接口、JSON模式，输出继续接受本�
 
 OpenAI兼容保留为显式选项`AI_PROVIDER=openai`，使用独立的`OPENAI_API_KEY`；可通过OpenAI Developers安全配置流程管理。不会把一家的密钥发送给另一家，也不会自动切到付费供应商。
 
-详见[DeepSeek接入说明](docs/DEEPSEEK_SETUP.md)。
+详见[DeepSeek接入说明](docs/DEEPSEEK_SETUP.md)及[线上体验步骤](docs/ONLINE_EXPERIENCE.md)。
 
 ## 验证
 
@@ -75,8 +75,10 @@ node scripts/round4-browser.mjs round6
 
 源码仓库：[wantingworking-oss/food-assistant-demo](https://github.com/wantingworking-oss/food-assistant-demo)。`.github/workflows/pages.yml`在main推送时测试、核对原始输入、构建并发布dist；PR只检查构建。仓库Settings → Pages → Source需选择GitHub Actions。实际发布状态见[发布记录](docs/DEPLOYMENT.md)，仅在上线并打开验证后提供体验链接。
 
-默认Pages运行手动模式。若有AI后端，仓库Actions变量`PUBLIC_API_BASE`配置为其HTTPS origin；后端设置`ALLOWED_ORIGINS`及`AI_ACCESS_TOKEN`。访问者在页面填写体验访问码，模型API密钥始终只在后端。Node整站托管和Docker配置也已准备；Docker环境尚未实际运行。[GitHub Pages官方工作流说明](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages)
+当前Pages默认连接`https://food-assistant-deepseek.onrender.com`；工作流允许用仓库Actions变量`PUBLIC_API_BASE`覆盖。普通`npm run build`仍生成独立手动体验包。后端已设置`ALLOWED_ORIGINS`及`AI_ACCESS_TOKEN`。访问者在页面填写体验访问码，模型API密钥始终只在后端。Node整站托管和Docker配置也已准备；Docker环境尚未实际运行。[GitHub Pages官方工作流说明](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages)
 
 页面底部“体验异常场景（模拟）”可模拟售罄、恢复可售和配送费调整。变动只影响当前用户本餐，保留商品与备注；重新核对当前明细后才允许提交。开始新餐或恢复示例会清除模拟供给变更。
 
-F01—F15已在本版执行，F10/F11涉及AI的返回采用受控测试响应，不计真实AI语义通过。异常和跨来源接口记录见`docs/validation/round6-release.json`。A01—A24已在本地真实DeepSeek通过；完整线上AI版还需托管后端和线上真实验证。详见[开发进度](docs/PROGRESS.md)。
+F01—F15已在本版执行，F10/F11涉及AI的返回采用受控测试响应，不计真实AI语义通过。异常和跨来源接口记录见`docs/validation/round6-release.json`。A01—A24已在本地真实DeepSeek通过；公开GitHub页面到Render及DeepSeek的真实选餐、模拟下单和本次例外确认也已验证。详见[开发进度](docs/PROGRESS.md)。
+
+逐条真实模型原文、饮食上下文与请求标识仅保留本地验收文件；GitHub公开汇总见`docs/validation/round6-ai-public.json`。确认、取消及Esc关闭弹窗后，AI面板同步显示结果，避免继续提示等待确认。

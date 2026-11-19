@@ -10,6 +10,8 @@
 
 浏览器还通过两次真实模型请求验证新表述：“这顿主食选面食，鸡肉先避开”生成本餐要求并完成21元模拟订单；“这顿花生可以，长期不改”在确认后才写入本次例外，长期排除仍保留。证据为validation/round6-live-browser.json、round6-live-desktop.png、round6-live-mobile.png。
 
-116项程序测试、受控AI交互回归与真实模型验收各有独立记录。测试、静态构建和GitHub发布不调用付费模型。真实验收报告属于本轮实测，不保证未来模型输出始终相同，也不代表公开后端已部署。
+116项程序测试、受控AI交互回归与真实模型验收各有独立记录。测试、静态构建和GitHub发布不调用付费模型。真实验收报告属于本轮实测，不保证未来模型输出始终相同，公开后端与线上真实流程另有独立证据。
 
-线上剩余事项：托管Node后端、在托管环境安全配置DeepSeek密钥和体验访问码、限制前端来源、设置GitHub PUBLIC_API_BASE，最后验证公开前端到真实托管后端的请求。GitHub Pages当前仍提供手动体验。
+线上已完成：Render免费Node服务托管、后端DeepSeek密钥和体验访问码、精确前端来源，以及GitHub工作流的PUBLIC_API_BASE配置。公开前端实际通过真实要求解析到21元模拟订单，以及本次例外确认；HTTP预检、无访问码及非法来源防护通过。证据为round6-online.json、round6-online-live-browser.json、round6-hosted-guards.json。
+
+界面后续修正确认/取消结果提示及Esc取消状态，适配器和24条语义所使用的契约保持不变。详细响应只保存在本地；GitHub公开round6-ai-public.json汇总。

@@ -1,6 +1,6 @@
 {
-  "checked_at": "2026-11-19T19:44:10.928Z",
-  "version": "0.6.0",
+  "checked_at": "2026-11-19T20:36:14.365Z",
+  "version": "0.6.1",
   "url": "https://wantingworking-oss.github.io/food-assistant-demo/",
   "cases": [
     {
@@ -16,7 +16,7 @@
       "status": "passed"
     },
     {
-      "id": "online-static-ai-unavailable",
+      "id": "online-ai-access-code-required",
       "status": "passed"
     },
     {
