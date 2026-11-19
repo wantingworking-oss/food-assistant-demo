@@ -2,7 +2,7 @@
 
 ## 当前状态：第五轮集成与发布候选版（0.5.0）
 
-更新：2026-11-20，Asia/Shanghai。已完成可独立执行的批次5开发和本地验收；源码准备发布到wantingworking-oss/food-assistant-demo，实际线上状态单独记录在DEPLOYMENT.md。批次4仍因无模型凭证而阻塞，不宣称完整AI产品交付。
+更新：2026-11-20，Asia/Shanghai。已完成批次5的手动模式集成验收及GitHub Pages发布，源码位于wantingworking-oss/food-assistant-demo，实际线上验收通过；发布证据在DEPLOYMENT.md。批次4仍因无模型凭证而阻塞，不宣称完整AI产品交付。
 
 - 新增明确标注的模拟售罄、恢复可售和商家配送费调整；只影响当前用户的本餐示例。草稿/备注保留、售罄不可提交、费用变化须重新核对；刷新不能绕过核对。新餐/恢复示例清除模拟变更。
 - 修复确认页不可提交时的错误原因显示；补齐模拟控件及配送地址的可访问名称。
@@ -18,10 +18,10 @@
 | 远程AI接口 | 本机两个origin实际HTTP/CORS/访问码流程通过；供应商传输为测试注入 | 同上，不计真实AI通过 |
 | 原始输入与构建 | 原10份材料字节不变；公开资源白名单构建通过 | check:inputs、build |
 | 真实模型 | 0通过、0失败、24未执行；缺真实配置 | round5-ai.json |
-| GitHub线上访问 | 独立发布记录，不把本地静态验证当作上线 | DEPLOYMENT.md、validation/round5-deployment.json |
+| GitHub线上访问 | 构建/部署成功，线上选餐提交、补规格、刷新及390px实际通过 | DEPLOYMENT.md、validation/round5-deployment.json |
 | Docker容器 | 文件已准备；此环境没有Docker，未运行容器构建/启动 | DEPLOYMENT.md |
 
-剩余依赖：真实模型凭证及可用型号、实际AI后端托管和线上AI验证。Pages默认可先交付手动体验，仍保留真实AI未配置状态。最终线上访问与Actions状态以实际发布记录为准。
+剩余依赖：真实模型凭证及可用型号、实际AI后端托管和线上AI验证。Pages默认可先交付手动体验，仍保留真实AI未配置状态。在线手动体验已通过验证：https://wantingworking-oss.github.io/food-assistant-demo/。Actions及线上证据见实际发布记录。
 
 ---
 

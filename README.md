@@ -2,6 +2,8 @@
 
 当前版本0.5.0。第五轮已补齐异常场景、费用变更重新核对、远程AI连接配置和GitHub Pages发布工作流。手动选餐、编辑、加菜、刷新恢复及模拟提交可独立体验。真实AI验收仍缺少模型凭证；不能将整个产品标为完整AI交付。
 
+在线体验：[打开今天吃什么](https://wantingworking-oss.github.io/food-assistant-demo/)（GitHub Pages手动体验版，AI尚未配置）。
+
 ## 本地体验
 
 需要Node.js 22或以上；实际验证Windows、Node.js 24.15.0、Chrome 157。零第三方运行依赖，无须安装依赖。

@@ -1,0 +1,33 @@
+{
+  "version": "0.5.0",
+  "checked_at": "2026-11-19T18:57:48.207087+00:00",
+  "repository": "https://github.com/wantingworking-oss/food-assistant-demo",
+  "url": "https://wantingworking-oss.github.io/food-assistant-demo/",
+  "application_commit": "64cb4759eab233888c2bb4a7ef6d6e2ce468d5d1",
+  "source_sha256": "935b7809abf5c3653f56a2934b8d99022581049b80bb8f47bccc4765841cc84c",
+  "workflow": {
+    "run_id": 44592694224,
+    "url": "https://github.com/wantingworking-oss/food-assistant-demo/actions/runs/44592694224",
+    "build": "success",
+    "deploy": "success",
+    "tests_passed": 101,
+    "tests_failed": 0,
+    "original_inputs_unchanged": 10,
+    "node": "24.22.2",
+    "os": "Ubuntu 26.04"
+  },
+  "source_audit": {
+    "files": 83,
+    "result": "local bytes match GitHub tree"
+  },
+  "online_verification": "passed",
+  "online_report": "round5-online.json",
+  "mode": "static_manual",
+  "real_ai": {
+    "status": "blocked_missing_configuration",
+    "passed": 0,
+    "failed": 0,
+    "not_run": 24
+  },
+  "docker_runtime_test": "not_run_no_docker"
+}

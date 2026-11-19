@@ -1,6 +1,11 @@
 # 0.5.0部署与体验
 
-仓库：[wantingworking-oss/food-assistant-demo](https://github.com/wantingworking-oss/food-assistant-demo)。当前正在执行首次源码上传及Pages发布；最终状态以docs/validation/round5-deployment.json为准。未验证前不把预期URL称为已上线。
+已发布：[今天吃什么 · 在线体验](https://wantingworking-oss.github.io/food-assistant-demo/)。仓库：[food-assistant-demo](https://github.com/wantingworking-oss/food-assistant-demo)。
+
+[GitHub Actions构建与部署](https://github.com/wantingworking-oss/food-assistant-demo/actions/runs/44592694224)均成功。云端Node 24.22.2、Ubuntu 26.04下101项测试通过，10份原始输入核对通过。已实际用Chrome打开线上页面，核对发布资源字节，完成21元选餐提交与刷新、28元补规格、静态AI未配置恢复及390px布局。证据见validation/round5-deployment.json、round5-online.json。
+
+当前上线形态为手动体验。商家、价格、历史和订单均为模拟；真实AI仍缺后端凭证与托管配置。首次上传曾遗漏HTML/CSS，已补齐并逐一核对83份源码；后续成功构建已解决该问题。
+
 
 ## GitHub Pages手动体验
 

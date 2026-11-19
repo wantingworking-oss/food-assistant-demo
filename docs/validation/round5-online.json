@@ -1,0 +1,30 @@
+{
+  "checked_at": "2026-11-19T18:55:56.685Z",
+  "version": "0.5.0",
+  "url": "https://wantingworking-oss.github.io/food-assistant-demo/",
+  "cases": [
+    {
+      "id": "online-assets-match-release",
+      "status": "passed"
+    },
+    {
+      "id": "online-P01-submit-refresh",
+      "status": "passed"
+    },
+    {
+      "id": "online-P09-required-spec",
+      "status": "passed"
+    },
+    {
+      "id": "online-static-ai-unavailable",
+      "status": "passed"
+    },
+    {
+      "id": "online-mobile-390",
+      "status": "passed"
+    }
+  ],
+  "errors": [],
+  "status": "passed",
+  "real_ai_verified": false
+}
