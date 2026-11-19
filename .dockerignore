@@ -1,0 +1,9 @@
+*
+!package.json
+!server.js
+!public/
+!public/**
+!src/
+!src/**
+!fixtures/
+!fixtures/mock-data.json

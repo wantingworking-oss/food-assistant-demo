@@ -1,0 +1,48 @@
+{
+  "generated_at": "2026-11-19T16:44:57.717Z",
+  "version": "0.3.0",
+  "node": "v24.15.0",
+  "command": "node --test --test-reporter=tap tests/*.test.js",
+  "source_sha256": "6f1eac325ca33fac16b7f3348e2d464cf81bf94526dd63c36c3d6eaffd90ee72",
+  "source_files": [
+    "package.json",
+    "public/app.js",
+    "public/index.html",
+    "public/panels.js",
+    "public/status.js",
+    "public/styles.css",
+    "scripts/browser-check.mjs",
+    "scripts/build.mjs",
+    "scripts/check-inputs.mjs",
+    "scripts/round3-browser.mjs",
+    "scripts/test-report.mjs",
+    "server.js",
+    "src/domain/cart.js",
+    "src/domain/configurations.js",
+    "src/domain/context.js",
+    "src/domain/history.js",
+    "src/domain/recommend.js",
+    "src/domain/requirements.js",
+    "src/state/requirements.js",
+    "src/state/store.js",
+    "tests/domain-edges.test.js",
+    "tests/fixture-adapter.js",
+    "tests/fixtures.test.js",
+    "tests/round3.test.js",
+    "tests/server.test.js",
+    "tests/store.test.js"
+  ],
+  "tests": 77,
+  "passed": 77,
+  "failed": 0,
+  "exit_code": 0,
+  "status": "passed",
+  "separate_evidence": {
+    "browser_qa": "round3-browser.json"
+  },
+  "pending": {
+    "remaining_interaction_cases": 3,
+    "real_ai_cases": 24,
+    "github_deployment": "not_run"
+  }
+}

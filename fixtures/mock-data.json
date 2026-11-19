@@ -1,0 +1,1284 @@
+{
+  "dataset_version": "1.0.0",
+  "based_on_plan_library_version": 6,
+  "synthetic": true,
+  "metadata": {
+    "all_names_prices_attributes_are_fictional": true,
+    "user_a_original_requirements": [
+      "口味",
+      "食材排除",
+      "连续两天主菜不重复",
+      "少油少炸",
+      "尽量有主食"
+    ],
+    "user_a_added_assumptions": [
+      "不吃花生",
+      "偏好不辣",
+      "昨天午餐为香菇滑鸡",
+      "历史偏好米饭"
+    ],
+    "image_policy": "null表示待补资源，界面须有缺图占位；不得伪造图片URL"
+  },
+  "clock": {
+    "timezone": "Asia/Shanghai",
+    "verification_anchor_date": "2026-11-19",
+    "current_day_offset": 0,
+    "current_meal": "lunch",
+    "meal_order": [
+      "breakfast",
+      "lunch",
+      "dinner"
+    ],
+    "runtime_policy": "每次恢复示例将day_offset映射到本次本地演示日期；单次任务日期固定"
+  },
+  "fixture_contract": {
+    "currency": "CNY",
+    "money_unit": "fen",
+    "discount_fen": 0,
+    "minimum_order_fen": 0,
+    "packaging": "每件商品包装费乘数量",
+    "delivery": "按商家与地址每单收一次，不能跨店",
+    "candidate_kind": "main",
+    "known_ingredients": "配置ingredients已展开；词表及中文名称见dictionaries；本包仅支持这些明确食材，未定义的上位类别或新食材不能默认为已核查",
+    "complete_semantics": "true为本模拟数据内列举完整；false表示有未知成分，不是现实食物安全保证",
+    "oil_low_matching": "low或none满足少油；null不计分",
+    "staple_any_matching": "rice或noodle满足any，none不满足",
+    "preselection": "default_selections是已展示预填；scene.selected_options对单商品完整替换其预填。空对象表示未选；有值固定，不为得分改写",
+    "history": "以去重后的有效个人记录判断；completed推断购买，consumed_confirmed明确用餐，cancelled/failed/他人订单排除；submitted未确认吃过不进入",
+    "repetition_combo": "任一主菜相交则重复；多主菜的备选去重同样按交集",
+    "alternatives": "从稳定排序中取主推，再优先取与已显示主菜不重叠者，最多两项；不足时才按原顺序补齐同主菜商品",
+    "skip_key": "product_id；跳过当前商品不自动跳过跨店同菜",
+    "fees_unknown": "本数据集有效配送与商品价格均为非负整数，缺失是数据错误",
+    "scope": "本契约补齐本数据包计算口径；其他产品规则仍以方案为准；没有扩充AI承诺能力"
+  },
+  "dictionaries": {
+    "dimensions": [
+      "spiciness",
+      "cuisine",
+      "oil",
+      "fried",
+      "staple",
+      "portion"
+    ],
+    "attributes": {
+      "spiciness": [
+        "none",
+        "mild"
+      ],
+      "cuisine": [
+        "home",
+        "sichuan",
+        "noodles",
+        "japanese"
+      ],
+      "oil": [
+        "low",
+        "regular",
+        "none",
+        null
+      ],
+      "fried": [
+        true,
+        false,
+        null
+      ],
+      "staple": [
+        "rice",
+        "noodle",
+        "none"
+      ],
+      "portion": [
+        "regular",
+        "small",
+        "large"
+      ]
+    },
+    "ingredients": [
+      "beef",
+      "cabbage",
+      "chicken",
+      "chili",
+      "cilantro",
+      "cucumber",
+      "egg",
+      "fish",
+      "garlic",
+      "ginger",
+      "kelp",
+      "mushroom",
+      "oil",
+      "orange",
+      "peanut",
+      "pork",
+      "rice",
+      "salt",
+      "tofu",
+      "tomato",
+      "water",
+      "wheat"
+    ],
+    "ingredient_labels": {
+      "tomato": "番茄",
+      "egg": "鸡蛋",
+      "rice": "米饭",
+      "oil": "食用油",
+      "salt": "盐",
+      "chicken": "鸡肉",
+      "mushroom": "香菇",
+      "peanut": "花生",
+      "chili": "辣椒",
+      "wheat": "小麦制品",
+      "tofu": "豆腐",
+      "cabbage": "卷心菜",
+      "beef": "牛肉",
+      "fish": "鱼",
+      "ginger": "姜",
+      "pork": "猪肉",
+      "cucumber": "黄瓜",
+      "garlic": "大蒜",
+      "water": "水",
+      "cilantro": "香菜",
+      "kelp": "海带",
+      "orange": "橙子"
+    }
+  },
+  "addresses": [
+    {
+      "id": "A01",
+      "label": "示例地址一",
+      "context": "办公区"
+    },
+    {
+      "id": "A02",
+      "label": "示例地址二",
+      "context": "居住区"
+    }
+  ],
+  "merchants": [
+    {
+      "id": "M01",
+      "name": "家常灶（模拟）",
+      "open": true,
+      "delivery": {
+        "A01": {
+          "available": true,
+          "fee_fen": 300,
+          "eta_minutes": 25
+        },
+        "A02": {
+          "available": true,
+          "fee_fen": 500,
+          "eta_minutes": 35
+        }
+      }
+    },
+    {
+      "id": "M02",
+      "name": "面食铺（模拟）",
+      "open": true,
+      "delivery": {
+        "A01": {
+          "available": true,
+          "fee_fen": 200,
+          "eta_minutes": 30
+        },
+        "A02": {
+          "available": false,
+          "fee_fen": 0,
+          "eta_minutes": 0
+        }
+      }
+    },
+    {
+      "id": "M03",
+      "name": "清鲜小馆（模拟）",
+      "open": true,
+      "delivery": {
+        "A01": {
+          "available": true,
+          "fee_fen": 400,
+          "eta_minutes": 20
+        },
+        "A02": {
+          "available": true,
+          "fee_fen": 300,
+          "eta_minutes": 25
+        }
+      }
+    },
+    {
+      "id": "M04",
+      "name": "香味食堂（模拟）",
+      "open": true,
+      "delivery": {
+        "A01": {
+          "available": true,
+          "fee_fen": 300,
+          "eta_minutes": 35
+        },
+        "A02": {
+          "available": true,
+          "fee_fen": 200,
+          "eta_minutes": 30
+        }
+      }
+    }
+  ],
+  "products": [
+    {
+      "id": "P01",
+      "merchant_id": "M01",
+      "name": "番茄炒蛋饭",
+      "kind": "main",
+      "canonical_main_dish_ids": [
+        "tomato_egg"
+      ],
+      "available": true,
+      "packaging_fee_fen_per_unit": 200,
+      "spec_groups": [
+        {
+          "id": "portion",
+          "required": true,
+          "option_ids": [
+            "regular",
+            "small"
+          ]
+        }
+      ],
+      "default_selections": {
+        "portion": "regular"
+      },
+      "configurations": [
+        {
+          "id": "fixed",
+          "option_values": {
+            "portion": "regular"
+          },
+          "price_fen": 1600,
+          "ingredients": [
+            "tomato",
+            "egg",
+            "rice",
+            "oil",
+            "salt"
+          ],
+          "ingredient_information_complete": true,
+          "attributes": {
+            "staple": "rice",
+            "spiciness": "none",
+            "oil": "low",
+            "fried": false,
+            "cuisine": "home",
+            "portion": "regular"
+          }
+        },
+        {
+          "id": "small",
+          "option_values": {
+            "portion": "small"
+          },
+          "price_fen": 1400,
+          "ingredients": [
+            "tomato",
+            "egg",
+            "rice",
+            "oil",
+            "salt"
+          ],
+          "ingredient_information_complete": true,
+          "attributes": {
+            "staple": "rice",
+            "spiciness": "none",
+            "oil": "low",
+            "fried": false,
+            "cuisine": "home",
+            "portion": "small"
+          }
+        }
+      ],
+      "image": null
+    },
+    {
+      "id": "P02",
+      "merchant_id": "M01",
+      "name": "香菇滑鸡饭",
+      "kind": "main",
+      "canonical_main_dish_ids": [
+        "mushroom_chicken"
+      ],
+      "available": true,
+      "packaging_fee_fen_per_unit": 200,
+      "spec_groups": [],
+      "default_selections": {},
+      "configurations": [
+        {
+          "id": "fixed",
+          "option_values": {},
+          "price_fen": 1800,
+          "ingredients": [
+            "chicken",
+            "mushroom",
+            "rice",
+            "oil",
+            "salt"
+          ],
+          "ingredient_information_complete": true,
+          "attributes": {
+            "staple": "rice",
+            "spiciness": "none",
+            "oil": "low",
+            "fried": false,
+            "cuisine": "home",
+            "portion": "regular"
+          }
+        }
+      ],
+      "image": null
+    },
+    {
+      "id": "P03",
+      "merchant_id": "M01",
+      "name": "宫保鸡丁饭",
+      "kind": "main",
+      "canonical_main_dish_ids": [
+        "kungpao_chicken"
+      ],
+      "available": true,
+      "packaging_fee_fen_per_unit": 200,
+      "spec_groups": [],
+      "default_selections": {},
+      "configurations": [
+        {
+          "id": "fixed",
+          "option_values": {},
+          "price_fen": 2000,
+          "ingredients": [
+            "chicken",
+            "peanut",
+            "chili",
+            "rice",
+            "oil",
+            "salt"
+          ],
+          "ingredient_information_complete": true,
+          "attributes": {
+            "staple": "rice",
+            "spiciness": "mild",
+            "oil": "regular",
+            "fried": false,
+            "cuisine": "sichuan",
+            "portion": "regular"
+          }
+        }
+      ],
+      "image": null
+    },
+    {
+      "id": "P04",
+      "merchant_id": "M02",
+      "name": "番茄鸡蛋面",
+      "kind": "main",
+      "canonical_main_dish_ids": [
+        "tomato_egg"
+      ],
+      "available": true,
+      "packaging_fee_fen_per_unit": 200,
+      "spec_groups": [],
+      "default_selections": {},
+      "configurations": [
+        {
+          "id": "fixed",
+          "option_values": {},
+          "price_fen": 1700,
+          "ingredients": [
+            "tomato",
+            "egg",
+            "wheat",
+            "oil",
+            "salt"
+          ],
+          "ingredient_information_complete": true,
+          "attributes": {
+            "staple": "noodle",
+            "spiciness": "none",
+            "oil": "low",
+            "fried": false,
+            "cuisine": "noodles",
+            "portion": "regular"
+          }
+        }
+      ],
+      "image": null
+    },
+    {
+      "id": "P05",
+      "merchant_id": "M02",
+      "name": "牛肉汤面",
+      "kind": "main",
+      "canonical_main_dish_ids": [
+        "beef_soup"
+      ],
+      "available": true,
+      "packaging_fee_fen_per_unit": 200,
+      "spec_groups": [
+        {
+          "id": "spiciness",
+          "required": true,
+          "option_ids": [
+            "mild",
+            "none"
+          ]
+        }
+      ],
+      "default_selections": {
+        "spiciness": "mild"
+      },
+      "configurations": [
+        {
+          "id": "mild",
+          "option_values": {
+            "spiciness": "mild"
+          },
+          "price_fen": 2100,
+          "ingredients": [
+            "beef",
+            "wheat",
+            "chili",
+            "oil",
+            "salt"
+          ],
+          "ingredient_information_complete": true,
+          "attributes": {
+            "staple": "noodle",
+            "spiciness": "mild",
+            "oil": "low",
+            "fried": false,
+            "cuisine": "noodles",
+            "portion": "regular"
+          }
+        },
+        {
+          "id": "none",
+          "option_values": {
+            "spiciness": "none"
+          },
+          "price_fen": 2100,
+          "ingredients": [
+            "beef",
+            "wheat",
+            "oil",
+            "salt"
+          ],
+          "ingredient_information_complete": true,
+          "attributes": {
+            "staple": "noodle",
+            "spiciness": "none",
+            "oil": "low",
+            "fried": false,
+            "cuisine": "noodles",
+            "portion": "regular"
+          }
+        }
+      ],
+      "image": null
+    },
+    {
+      "id": "P06",
+      "merchant_id": "M02",
+      "name": "炸鸡拌面",
+      "kind": "main",
+      "canonical_main_dish_ids": [
+        "fried_chicken"
+      ],
+      "available": true,
+      "packaging_fee_fen_per_unit": 200,
+      "spec_groups": [],
+      "default_selections": {},
+      "configurations": [
+        {
+          "id": "fixed",
+          "option_values": {},
+          "price_fen": 1900,
+          "ingredients": [
+            "chicken",
+            "wheat",
+            "chili",
+            "oil",
+            "salt"
+          ],
+          "ingredient_information_complete": true,
+          "attributes": {
+            "staple": "noodle",
+            "spiciness": "mild",
+            "oil": "regular",
+            "fried": true,
+            "cuisine": "noodles",
+            "portion": "regular"
+          }
+        }
+      ],
+      "image": null
+    },
+    {
+      "id": "P07",
+      "merchant_id": "M03",
+      "name": "香菇蒸鸡饭",
+      "kind": "main",
+      "canonical_main_dish_ids": [
+        "mushroom_chicken"
+      ],
+      "available": true,
+      "packaging_fee_fen_per_unit": 200,
+      "spec_groups": [],
+      "default_selections": {},
+      "configurations": [
+        {
+          "id": "fixed",
+          "option_values": {},
+          "price_fen": 2000,
+          "ingredients": [
+            "chicken",
+            "mushroom",
+            "rice",
+            "oil",
+            "salt"
+          ],
+          "ingredient_information_complete": true,
+          "attributes": {
+            "staple": "rice",
+            "spiciness": "none",
+            "oil": "low",
+            "fried": false,
+            "cuisine": "home",
+            "portion": "regular"
+          }
+        }
+      ],
+      "image": null
+    },
+    {
+      "id": "P08",
+      "merchant_id": "M03",
+      "name": "清蒸鱼饭",
+      "kind": "main",
+      "canonical_main_dish_ids": [
+        "steamed_fish"
+      ],
+      "available": true,
+      "packaging_fee_fen_per_unit": 200,
+      "spec_groups": [],
+      "default_selections": {},
+      "configurations": [
+        {
+          "id": "fixed",
+          "option_values": {},
+          "price_fen": 2300,
+          "ingredients": [
+            "fish",
+            "rice",
+            "ginger",
+            "oil",
+            "salt"
+          ],
+          "ingredient_information_complete": true,
+          "attributes": {
+            "staple": "rice",
+            "spiciness": "none",
+            "oil": "low",
+            "fried": false,
+            "cuisine": "home",
+            "portion": "regular"
+          }
+        }
+      ],
+      "image": null
+    },
+    {
+      "id": "P09",
+      "merchant_id": "M03",
+      "name": "时蔬豆腐餐",
+      "kind": "main",
+      "canonical_main_dish_ids": [
+        "tofu_vegetables"
+      ],
+      "available": true,
+      "packaging_fee_fen_per_unit": 200,
+      "spec_groups": [
+        {
+          "id": "staple",
+          "required": true,
+          "option_ids": [
+            "rice",
+            "noodle",
+            "none"
+          ]
+        }
+      ],
+      "default_selections": {},
+      "configurations": [
+        {
+          "id": "rice",
+          "option_values": {
+            "staple": "rice"
+          },
+          "price_fen": 1800,
+          "ingredients": [
+            "tofu",
+            "cabbage",
+            "rice",
+            "oil",
+            "salt"
+          ],
+          "ingredient_information_complete": true,
+          "attributes": {
+            "staple": "rice",
+            "spiciness": "none",
+            "oil": "low",
+            "fried": false,
+            "cuisine": "home",
+            "portion": "regular"
+          }
+        },
+        {
+          "id": "noodle",
+          "option_values": {
+            "staple": "noodle"
+          },
+          "price_fen": 2200,
+          "ingredients": [
+            "tofu",
+            "cabbage",
+            "wheat",
+            "oil",
+            "salt"
+          ],
+          "ingredient_information_complete": true,
+          "attributes": {
+            "staple": "noodle",
+            "spiciness": "none",
+            "oil": "low",
+            "fried": false,
+            "cuisine": "home",
+            "portion": "regular"
+          }
+        },
+        {
+          "id": "none",
+          "option_values": {
+            "staple": "none"
+          },
+          "price_fen": 1600,
+          "ingredients": [
+            "tofu",
+            "cabbage",
+            "oil",
+            "salt"
+          ],
+          "ingredient_information_complete": true,
+          "attributes": {
+            "staple": "none",
+            "spiciness": "none",
+            "oil": "low",
+            "fried": false,
+            "cuisine": "home",
+            "portion": "regular"
+          }
+        }
+      ],
+      "image": null
+    },
+    {
+      "id": "P10",
+      "merchant_id": "M04",
+      "name": "炸猪排饭",
+      "kind": "main",
+      "canonical_main_dish_ids": [
+        "fried_pork"
+      ],
+      "available": true,
+      "packaging_fee_fen_per_unit": 200,
+      "spec_groups": [],
+      "default_selections": {},
+      "configurations": [
+        {
+          "id": "fixed",
+          "option_values": {},
+          "price_fen": 2200,
+          "ingredients": [
+            "pork",
+            "wheat",
+            "rice",
+            "oil",
+            "salt"
+          ],
+          "ingredient_information_complete": true,
+          "attributes": {
+            "staple": "rice",
+            "spiciness": "none",
+            "oil": "regular",
+            "fried": true,
+            "cuisine": "japanese",
+            "portion": "regular"
+          }
+        }
+      ],
+      "image": null
+    },
+    {
+      "id": "P11",
+      "merchant_id": "M04",
+      "name": "滑鸡番茄双拼饭",
+      "kind": "main",
+      "canonical_main_dish_ids": [
+        "mushroom_chicken",
+        "tomato_egg"
+      ],
+      "available": true,
+      "packaging_fee_fen_per_unit": 200,
+      "spec_groups": [],
+      "default_selections": {},
+      "configurations": [
+        {
+          "id": "fixed",
+          "option_values": {},
+          "price_fen": 2100,
+          "ingredients": [
+            "chicken",
+            "mushroom",
+            "tomato",
+            "egg",
+            "rice",
+            "oil",
+            "salt"
+          ],
+          "ingredient_information_complete": true,
+          "attributes": {
+            "staple": "rice",
+            "spiciness": "none",
+            "oil": "low",
+            "fried": false,
+            "cuisine": "home",
+            "portion": "regular"
+          }
+        }
+      ],
+      "image": null
+    },
+    {
+      "id": "P12",
+      "merchant_id": "M04",
+      "name": "秘制鸡肉饭（酱料信息未知）",
+      "kind": "main",
+      "canonical_main_dish_ids": [
+        "secret_chicken"
+      ],
+      "available": true,
+      "packaging_fee_fen_per_unit": 200,
+      "spec_groups": [],
+      "default_selections": {},
+      "configurations": [
+        {
+          "id": "fixed",
+          "option_values": {},
+          "price_fen": 1800,
+          "ingredients": [
+            "chicken",
+            "rice",
+            "salt"
+          ],
+          "ingredient_information_complete": false,
+          "attributes": {
+            "staple": "rice",
+            "spiciness": "none",
+            "oil": null,
+            "fried": false,
+            "cuisine": "home",
+            "portion": "regular"
+          }
+        }
+      ],
+      "image": null
+    },
+    {
+      "id": "S01",
+      "merchant_id": "M01",
+      "name": "拍黄瓜",
+      "kind": "addon",
+      "canonical_main_dish_ids": [],
+      "available": true,
+      "packaging_fee_fen_per_unit": 100,
+      "spec_groups": [],
+      "default_selections": {},
+      "configurations": [
+        {
+          "id": "fixed",
+          "option_values": {},
+          "price_fen": 500,
+          "ingredients": [
+            "cucumber",
+            "garlic",
+            "oil",
+            "salt"
+          ],
+          "ingredient_information_complete": true,
+          "attributes": {
+            "staple": "none",
+            "spiciness": "none",
+            "oil": "low",
+            "fried": false,
+            "cuisine": "home",
+            "portion": "regular"
+          }
+        }
+      ],
+      "image": null
+    },
+    {
+      "id": "S02",
+      "merchant_id": "M01",
+      "name": "花生小菜",
+      "kind": "addon",
+      "canonical_main_dish_ids": [],
+      "available": true,
+      "packaging_fee_fen_per_unit": 100,
+      "spec_groups": [],
+      "default_selections": {},
+      "configurations": [
+        {
+          "id": "fixed",
+          "option_values": {},
+          "price_fen": 400,
+          "ingredients": [
+            "peanut",
+            "oil",
+            "salt"
+          ],
+          "ingredient_information_complete": true,
+          "attributes": {
+            "staple": "none",
+            "spiciness": "none",
+            "oil": "regular",
+            "fried": false,
+            "cuisine": "home",
+            "portion": "regular"
+          }
+        }
+      ],
+      "image": null
+    },
+    {
+      "id": "S03",
+      "merchant_id": "M02",
+      "name": "卤蛋",
+      "kind": "addon",
+      "canonical_main_dish_ids": [],
+      "available": true,
+      "packaging_fee_fen_per_unit": 100,
+      "spec_groups": [],
+      "default_selections": {},
+      "configurations": [
+        {
+          "id": "fixed",
+          "option_values": {},
+          "price_fen": 300,
+          "ingredients": [
+            "egg",
+            "salt"
+          ],
+          "ingredient_information_complete": true,
+          "attributes": {
+            "staple": "none",
+            "spiciness": "none",
+            "oil": "low",
+            "fried": false,
+            "cuisine": "home",
+            "portion": "regular"
+          }
+        }
+      ],
+      "image": null
+    },
+    {
+      "id": "S04",
+      "merchant_id": "M02",
+      "name": "瓶装水",
+      "kind": "addon",
+      "canonical_main_dish_ids": [],
+      "available": true,
+      "packaging_fee_fen_per_unit": 0,
+      "spec_groups": [],
+      "default_selections": {},
+      "configurations": [
+        {
+          "id": "fixed",
+          "option_values": {},
+          "price_fen": 200,
+          "ingredients": [
+            "water"
+          ],
+          "ingredient_information_complete": true,
+          "attributes": {
+            "staple": "none",
+            "spiciness": "none",
+            "oil": "none",
+            "fried": false,
+            "cuisine": "home",
+            "portion": "regular"
+          }
+        }
+      ],
+      "image": null
+    },
+    {
+      "id": "S05",
+      "merchant_id": "M03",
+      "name": "清蒸时蔬",
+      "kind": "addon",
+      "canonical_main_dish_ids": [],
+      "available": true,
+      "packaging_fee_fen_per_unit": 100,
+      "spec_groups": [],
+      "default_selections": {},
+      "configurations": [
+        {
+          "id": "fixed",
+          "option_values": {},
+          "price_fen": 600,
+          "ingredients": [
+            "cabbage",
+            "oil",
+            "salt"
+          ],
+          "ingredient_information_complete": true,
+          "attributes": {
+            "staple": "none",
+            "spiciness": "none",
+            "oil": "low",
+            "fried": false,
+            "cuisine": "home",
+            "portion": "regular"
+          }
+        }
+      ],
+      "image": null
+    },
+    {
+      "id": "S06",
+      "merchant_id": "M03",
+      "name": "拌豆腐",
+      "kind": "addon",
+      "canonical_main_dish_ids": [],
+      "available": true,
+      "packaging_fee_fen_per_unit": 100,
+      "spec_groups": [
+        {
+          "id": "cilantro",
+          "required": true,
+          "option_ids": [
+            "on",
+            "off"
+          ]
+        }
+      ],
+      "default_selections": {
+        "cilantro": "on"
+      },
+      "configurations": [
+        {
+          "id": "cilantro_on",
+          "option_values": {
+            "cilantro": "on"
+          },
+          "price_fen": 500,
+          "ingredients": [
+            "tofu",
+            "cilantro",
+            "garlic",
+            "oil",
+            "salt"
+          ],
+          "ingredient_information_complete": true,
+          "attributes": {
+            "staple": "none",
+            "spiciness": "none",
+            "oil": "low",
+            "fried": false,
+            "cuisine": "home",
+            "portion": "regular"
+          }
+        },
+        {
+          "id": "cilantro_off",
+          "option_values": {
+            "cilantro": "off"
+          },
+          "price_fen": 500,
+          "ingredients": [
+            "tofu",
+            "garlic",
+            "oil",
+            "salt"
+          ],
+          "ingredient_information_complete": true,
+          "attributes": {
+            "staple": "none",
+            "spiciness": "none",
+            "oil": "low",
+            "fried": false,
+            "cuisine": "home",
+            "portion": "regular"
+          }
+        }
+      ],
+      "image": null
+    },
+    {
+      "id": "S07",
+      "merchant_id": "M04",
+      "name": "海带汤",
+      "kind": "addon",
+      "canonical_main_dish_ids": [],
+      "available": true,
+      "packaging_fee_fen_per_unit": 100,
+      "spec_groups": [],
+      "default_selections": {},
+      "configurations": [
+        {
+          "id": "fixed",
+          "option_values": {},
+          "price_fen": 400,
+          "ingredients": [
+            "kelp",
+            "water",
+            "salt"
+          ],
+          "ingredient_information_complete": true,
+          "attributes": {
+            "staple": "none",
+            "spiciness": "none",
+            "oil": "low",
+            "fried": false,
+            "cuisine": "home",
+            "portion": "regular"
+          }
+        }
+      ],
+      "image": null
+    },
+    {
+      "id": "S08",
+      "merchant_id": "M04",
+      "name": "橙汁",
+      "kind": "addon",
+      "canonical_main_dish_ids": [],
+      "available": true,
+      "packaging_fee_fen_per_unit": 0,
+      "spec_groups": [],
+      "default_selections": {},
+      "configurations": [
+        {
+          "id": "fixed",
+          "option_values": {},
+          "price_fen": 500,
+          "ingredients": [
+            "orange",
+            "water"
+          ],
+          "ingredient_information_complete": true,
+          "attributes": {
+            "staple": "none",
+            "spiciness": "none",
+            "oil": "none",
+            "fried": false,
+            "cuisine": "home",
+            "portion": "regular"
+          }
+        }
+      ],
+      "image": null
+    }
+  ],
+  "users": [
+    {
+      "id": "U_A",
+      "name": "小A示例",
+      "demo_assumptions": true,
+      "long_term": {
+        "excluded_ingredients": [
+          "peanut"
+        ],
+        "hard_attributes": {},
+        "repeat_rule": "yesterday_same_meal",
+        "soft_preferences": {
+          "spiciness": [
+            "none"
+          ],
+          "oil": [
+            "low"
+          ],
+          "fried": [
+            false
+          ],
+          "staple": [
+            "any"
+          ]
+        }
+      },
+      "historical_soft_preferences": {
+        "staple": [
+          "rice"
+        ]
+      },
+      "history_record_ids": [
+        "H01",
+        "H02",
+        "H03",
+        "H04",
+        "H05",
+        "H06"
+      ]
+    },
+    {
+      "id": "U_B",
+      "name": "偏好微辣川味的示例用户",
+      "demo_assumptions": true,
+      "long_term": {
+        "excluded_ingredients": [
+          "cilantro"
+        ],
+        "hard_attributes": {},
+        "repeat_rule": "allow",
+        "soft_preferences": {
+          "spiciness": [
+            "mild"
+          ],
+          "cuisine": [
+            "sichuan"
+          ],
+          "staple": [
+            "rice"
+          ]
+        }
+      },
+      "historical_soft_preferences": {},
+      "history_record_ids": []
+    },
+    {
+      "id": "U_NEW",
+      "name": "新用户",
+      "demo_assumptions": true,
+      "long_term": {
+        "excluded_ingredients": [],
+        "hard_attributes": {},
+        "repeat_rule": "allow",
+        "soft_preferences": {}
+      },
+      "historical_soft_preferences": {},
+      "history_record_ids": []
+    }
+  ],
+  "history": [
+    {
+      "id": "H01",
+      "user_id": "U_A",
+      "day_offset": -1,
+      "meal": "lunch",
+      "order_status": "completed",
+      "belongs_to_user": true,
+      "consumed_confirmed": false,
+      "items": [
+        {
+          "product_id": "P02",
+          "configuration_id": "fixed",
+          "quantity": 1
+        }
+      ],
+      "note": "少油，谢谢"
+    },
+    {
+      "id": "H02",
+      "user_id": "U_A",
+      "day_offset": -1,
+      "meal": "dinner",
+      "order_status": "cancelled",
+      "belongs_to_user": true,
+      "consumed_confirmed": false,
+      "items": [
+        {
+          "product_id": "P03",
+          "configuration_id": "fixed",
+          "quantity": 1
+        }
+      ],
+      "note": "不要香菜"
+    },
+    {
+      "id": "H03",
+      "user_id": "U_A",
+      "day_offset": -2,
+      "meal": "lunch",
+      "order_status": "completed",
+      "belongs_to_user": false,
+      "consumed_confirmed": false,
+      "items": [
+        {
+          "product_id": "P01",
+          "configuration_id": "fixed",
+          "quantity": 1
+        }
+      ],
+      "note": "给同事点的，放门口"
+    },
+    {
+      "id": "H04",
+      "user_id": "U_A",
+      "day_offset": -2,
+      "meal": "dinner",
+      "order_status": "completed",
+      "belongs_to_user": true,
+      "consumed_confirmed": true,
+      "items": [
+        {
+          "product_id": "P08",
+          "configuration_id": "fixed",
+          "quantity": 1
+        }
+      ],
+      "note": "少油，放门口"
+    },
+    {
+      "id": "H05",
+      "user_id": "U_A",
+      "day_offset": -3,
+      "meal": "lunch",
+      "order_status": "completed",
+      "belongs_to_user": true,
+      "consumed_confirmed": false,
+      "items": [
+        {
+          "product_id": "P05",
+          "configuration_id": "none",
+          "quantity": 1
+        }
+      ],
+      "note": "今天不要辣"
+    },
+    {
+      "id": "H06",
+      "user_id": "U_A",
+      "day_offset": 0,
+      "meal": "lunch",
+      "order_status": "submitted",
+      "belongs_to_user": true,
+      "consumed_confirmed": false,
+      "items": [
+        {
+          "product_id": "P04",
+          "configuration_id": "fixed",
+          "quantity": 1
+        }
+      ],
+      "note": "到了打电话"
+    }
+  ]
+}

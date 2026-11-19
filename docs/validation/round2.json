@@ -1,0 +1,44 @@
+{
+  "generated_at": "2026-11-19T14:18:27.967Z",
+  "version": "0.2.0",
+  "node": "v24.15.0",
+  "command": "node --test --test-reporter=tap tests/*.test.js",
+  "source_sha256": "7ead1f5066a0044bd6600c98043cbd545232f9041de08aab687c715466cb6ea1",
+  "source_files": [
+    "package.json",
+    "public/app.js",
+    "public/index.html",
+    "public/status.js",
+    "public/styles.css",
+    "scripts/browser-check.mjs",
+    "scripts/build.mjs",
+    "scripts/check-inputs.mjs",
+    "scripts/test-report.mjs",
+    "server.js",
+    "src/domain/cart.js",
+    "src/domain/configurations.js",
+    "src/domain/context.js",
+    "src/domain/history.js",
+    "src/domain/recommend.js",
+    "src/domain/requirements.js",
+    "src/state/store.js",
+    "tests/domain-edges.test.js",
+    "tests/fixture-adapter.js",
+    "tests/fixtures.test.js",
+    "tests/server.test.js",
+    "tests/store.test.js"
+  ],
+  "tests": 67,
+  "passed": 67,
+  "failed": 0,
+  "exit_code": 0,
+  "status": "passed",
+  "separate_evidence": {
+    "browser_qa": "round2-browser.json"
+  },
+  "pending": {
+    "remaining_interaction_cases": 12,
+    "real_ai_cases": 24,
+    "github_deployment": "not_run"
+  }
+}

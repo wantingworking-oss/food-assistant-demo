@@ -1,0 +1,38 @@
+{
+  "generated_at": "2026-11-19T13:53:56.761Z",
+  "version": "0.1.0",
+  "node": "v24.15.0",
+  "command": "node --test --test-reporter=tap tests/*.test.js",
+  "source_sha256": "94b67096a0cb9534c54f55a3b71d681d5bf8bb70d1bd69cc629fff75380989eb",
+  "source_files": [
+    "package.json",
+    "public/index.html",
+    "public/status.js",
+    "public/styles.css",
+    "scripts/build.mjs",
+    "scripts/check-inputs.mjs",
+    "scripts/test-report.mjs",
+    "server.js",
+    "src/domain/cart.js",
+    "src/domain/configurations.js",
+    "src/domain/context.js",
+    "src/domain/history.js",
+    "src/domain/recommend.js",
+    "src/domain/requirements.js",
+    "tests/domain-edges.test.js",
+    "tests/fixture-adapter.js",
+    "tests/fixtures.test.js",
+    "tests/server.test.js"
+  ],
+  "tests": 59,
+  "passed": 59,
+  "failed": 0,
+  "exit_code": 0,
+  "status": "passed",
+  "pending": {
+    "interaction_cases": 15,
+    "real_ai_cases": 24,
+    "browser_qa": "not_run",
+    "github_deployment": "not_run"
+  }
+}

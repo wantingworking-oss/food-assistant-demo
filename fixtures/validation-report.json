@@ -1,0 +1,174 @@
+{
+  "scope": "数据结构、引用及人工预期值与独立参考计算的交叉核对；不代表产品测试或真实AI测试",
+  "data_validation": "passed",
+  "passed": 40,
+  "failed": 0,
+  "details": [
+    {
+      "id": "R01",
+      "status": "passed"
+    },
+    {
+      "id": "R02",
+      "status": "passed"
+    },
+    {
+      "id": "R03",
+      "status": "passed"
+    },
+    {
+      "id": "R04",
+      "status": "passed"
+    },
+    {
+      "id": "R05",
+      "status": "passed"
+    },
+    {
+      "id": "R06",
+      "status": "passed"
+    },
+    {
+      "id": "R07",
+      "status": "passed"
+    },
+    {
+      "id": "R08",
+      "status": "passed"
+    },
+    {
+      "id": "R09",
+      "status": "passed"
+    },
+    {
+      "id": "R10",
+      "status": "passed"
+    },
+    {
+      "id": "R11",
+      "status": "passed"
+    },
+    {
+      "id": "R12",
+      "status": "passed"
+    },
+    {
+      "id": "R13",
+      "status": "passed"
+    },
+    {
+      "id": "R14",
+      "status": "passed"
+    },
+    {
+      "id": "R15",
+      "status": "passed"
+    },
+    {
+      "id": "R16",
+      "status": "passed"
+    },
+    {
+      "id": "R17",
+      "status": "passed"
+    },
+    {
+      "id": "R18",
+      "status": "passed"
+    },
+    {
+      "id": "R19",
+      "status": "passed"
+    },
+    {
+      "id": "R20",
+      "status": "passed"
+    },
+    {
+      "id": "R21",
+      "status": "passed"
+    },
+    {
+      "id": "C01",
+      "status": "passed"
+    },
+    {
+      "id": "C02",
+      "status": "passed"
+    },
+    {
+      "id": "C03",
+      "status": "passed"
+    },
+    {
+      "id": "C04",
+      "status": "passed"
+    },
+    {
+      "id": "C05",
+      "status": "passed"
+    },
+    {
+      "id": "C06",
+      "status": "passed"
+    },
+    {
+      "id": "C07",
+      "status": "passed"
+    },
+    {
+      "id": "C08",
+      "status": "passed"
+    },
+    {
+      "id": "C09",
+      "status": "passed"
+    },
+    {
+      "id": "C10",
+      "status": "passed"
+    },
+    {
+      "id": "C11",
+      "status": "passed"
+    },
+    {
+      "id": "C12",
+      "status": "passed"
+    },
+    {
+      "id": "C13",
+      "status": "passed"
+    },
+    {
+      "id": "C14",
+      "status": "passed"
+    },
+    {
+      "id": "C15",
+      "status": "passed"
+    },
+    {
+      "id": "C16",
+      "status": "passed"
+    },
+    {
+      "id": "C17",
+      "status": "passed"
+    },
+    {
+      "id": "C18",
+      "status": "passed"
+    },
+    {
+      "id": "C19",
+      "status": "passed"
+    }
+  ],
+  "failures": [],
+  "pending": {
+    "interaction_cases": 15,
+    "real_model_semantic_cases": 24,
+    "ui_or_deployment_tests": "not_run"
+  }
+}

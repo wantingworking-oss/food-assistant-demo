@@ -1,0 +1,1484 @@
+{
+  "version": "1.0.0",
+  "oracle_origin": "人工预设排序、配置、计分与费用，独立校验程序读取后断言；未由校验程序回填",
+  "recommendation_cases": [
+    {
+      "id": "R01",
+      "title": "小A默认，昨天同餐避重",
+      "setup": {
+        "user_id": "U_A",
+        "address_id": "A01",
+        "scene": {}
+      },
+      "expected": {
+        "status": "ready",
+        "ranked_product_ids": [
+          "P01",
+          "P04",
+          "P09",
+          "P08",
+          "P05",
+          "P10",
+          "P06"
+        ],
+        "display_product_ids": [
+          "P01",
+          "P09",
+          "P08"
+        ],
+        "configuration_ids": {
+          "P09": "rice",
+          "P05": "mild"
+        },
+        "totals_fen": {
+          "P01": 2100,
+          "P04": 2100,
+          "P09": 2400,
+          "P08": 2900,
+          "P05": 2500,
+          "P10": 2700,
+          "P06": 2300
+        },
+        "scores": {
+          "P01": [
+            0,
+            4,
+            0
+          ],
+          "P04": [
+            0,
+            4,
+            0
+          ],
+          "P09": [
+            0,
+            4,
+            0
+          ],
+          "P08": [
+            0,
+            4,
+            0
+          ],
+          "P05": [
+            0,
+            3,
+            0
+          ],
+          "P10": [
+            0,
+            2,
+            0
+          ],
+          "P06": [
+            0,
+            1,
+            0
+          ]
+        },
+        "primary_exclusion_codes": {
+          "P02": "REPEAT",
+          "P03": "EXCLUDED_INGREDIENT",
+          "P07": "REPEAT",
+          "P11": "REPEAT",
+          "P12": "UNKNOWN_INGREDIENTS"
+        },
+        "flags": []
+      }
+    },
+    {
+      "id": "R02",
+      "title": "今天想吃面，不要鸡肉",
+      "setup": {
+        "user_id": "U_A",
+        "address_id": "A01",
+        "scene": {
+          "current_soft": {
+            "staple": [
+              "noodle"
+            ]
+          },
+          "current_excluded": [
+            "chicken"
+          ]
+        }
+      },
+      "expected": {
+        "status": "ready",
+        "ranked_product_ids": [
+          "P04",
+          "P09",
+          "P05",
+          "P01",
+          "P08",
+          "P10"
+        ],
+        "display_product_ids": [
+          "P04",
+          "P09",
+          "P05"
+        ],
+        "configuration_ids": {
+          "P09": "noodle"
+        },
+        "totals_fen": {
+          "P04": 2100,
+          "P09": 2800,
+          "P05": 2500
+        },
+        "scores": {
+          "P04": [
+            1,
+            3,
+            0
+          ],
+          "P09": [
+            1,
+            3,
+            0
+          ],
+          "P05": [
+            1,
+            2,
+            0
+          ],
+          "P01": [
+            0,
+            3,
+            0
+          ]
+        },
+        "primary_exclusion_codes": {},
+        "flags": []
+      }
+    },
+    {
+      "id": "R03",
+      "title": "不同口味用户",
+      "setup": {
+        "user_id": "U_B",
+        "address_id": "A01",
+        "scene": {}
+      },
+      "expected": {
+        "status": "ready",
+        "ranked_product_ids": [
+          "P03",
+          "P01",
+          "P02",
+          "P06",
+          "P09",
+          "P05",
+          "P07",
+          "P11",
+          "P10",
+          "P08",
+          "P04"
+        ],
+        "display_product_ids": [
+          "P03",
+          "P01",
+          "P02"
+        ],
+        "configuration_ids": {
+          "P09": "rice"
+        },
+        "totals_fen": {},
+        "scores": {
+          "P03": [
+            0,
+            3,
+            0
+          ],
+          "P01": [
+            0,
+            1,
+            0
+          ]
+        },
+        "primary_exclusion_codes": {},
+        "flags": []
+      }
+    },
+    {
+      "id": "R04",
+      "title": "新用户，无排除且允许重复",
+      "setup": {
+        "user_id": "U_NEW",
+        "address_id": "A01",
+        "scene": {}
+      },
+      "expected": {
+        "status": "ready",
+        "ranked_product_ids": [
+          "P01",
+          "P04",
+          "P09",
+          "P02",
+          "P06",
+          "P12",
+          "P03",
+          "P05",
+          "P07",
+          "P11",
+          "P10",
+          "P08"
+        ],
+        "display_product_ids": [
+          "P01",
+          "P09",
+          "P02"
+        ],
+        "configuration_ids": {
+          "P09": "none"
+        },
+        "totals_fen": {
+          "P09": 2200,
+          "P12": 2300
+        },
+        "scores": {
+          "P12": [
+            0,
+            0,
+            0
+          ]
+        },
+        "primary_exclusion_codes": {},
+        "flags": []
+      }
+    },
+    {
+      "id": "R05",
+      "title": "切换配送地址",
+      "setup": {
+        "user_id": "U_A",
+        "address_id": "A02",
+        "scene": {}
+      },
+      "expected": {
+        "status": "ready",
+        "ranked_product_ids": [
+          "P09",
+          "P01",
+          "P08",
+          "P10"
+        ],
+        "display_product_ids": [
+          "P09",
+          "P01",
+          "P08"
+        ],
+        "configuration_ids": {},
+        "totals_fen": {
+          "P09": 2300,
+          "P01": 2300,
+          "P08": 2800,
+          "P10": 2600
+        },
+        "scores": {},
+        "primary_exclusion_codes": {
+          "P04": "UNDELIVERABLE",
+          "P05": "UNDELIVERABLE",
+          "P06": "UNDELIVERABLE"
+        },
+        "flags": []
+      }
+    },
+    {
+      "id": "R06",
+      "title": "用户明确关闭重复限制",
+      "setup": {
+        "user_id": "U_A",
+        "address_id": "A01",
+        "scene": {
+          "repeat_rule": "allow"
+        }
+      },
+      "expected": {
+        "status": "ready",
+        "ranked_product_ids": [
+          "P01",
+          "P04",
+          "P02",
+          "P09",
+          "P07",
+          "P11",
+          "P08",
+          "P05",
+          "P10",
+          "P06"
+        ],
+        "display_product_ids": [
+          "P01",
+          "P02",
+          "P09"
+        ],
+        "configuration_ids": {},
+        "totals_fen": {},
+        "scores": {},
+        "primary_exclusion_codes": {},
+        "flags": []
+      }
+    },
+    {
+      "id": "R07",
+      "title": "默认主推售罄",
+      "setup": {
+        "user_id": "U_A",
+        "address_id": "A01",
+        "scene": {
+          "unavailable_products": [
+            "P01"
+          ]
+        }
+      },
+      "expected": {
+        "status": "ready",
+        "ranked_product_ids": [
+          "P04",
+          "P09",
+          "P08",
+          "P05",
+          "P10",
+          "P06"
+        ],
+        "display_product_ids": [
+          "P04",
+          "P09",
+          "P08"
+        ],
+        "configuration_ids": {},
+        "totals_fen": {},
+        "scores": {},
+        "primary_exclusion_codes": {
+          "P01": "UNAVAILABLE"
+        },
+        "flags": []
+      }
+    },
+    {
+      "id": "R08",
+      "title": "已选无主食规格不得自动改回米饭",
+      "setup": {
+        "user_id": "U_A",
+        "address_id": "A01",
+        "scene": {
+          "selected_options": {
+            "P09": {
+              "staple": "none"
+            }
+          }
+        }
+      },
+      "expected": {
+        "status": "ready",
+        "ranked_product_ids": [
+          "P01",
+          "P04",
+          "P08",
+          "P09",
+          "P05",
+          "P10",
+          "P06"
+        ],
+        "display_product_ids": [
+          "P01",
+          "P08",
+          "P09"
+        ],
+        "configuration_ids": {
+          "P09": "none"
+        },
+        "totals_fen": {
+          "P09": 2200
+        },
+        "scores": {
+          "P09": [
+            0,
+            3,
+            0
+          ]
+        },
+        "primary_exclusion_codes": {},
+        "flags": []
+      }
+    },
+    {
+      "id": "R09",
+      "title": "将牛肉面明确改为不辣",
+      "setup": {
+        "user_id": "U_A",
+        "address_id": "A01",
+        "scene": {
+          "selected_options": {
+            "P05": {
+              "spiciness": "none"
+            }
+          }
+        }
+      },
+      "expected": {
+        "status": "ready",
+        "ranked_product_ids": [
+          "P01",
+          "P04",
+          "P09",
+          "P05",
+          "P08",
+          "P10",
+          "P06"
+        ],
+        "display_product_ids": [
+          "P01",
+          "P09",
+          "P05"
+        ],
+        "configuration_ids": {
+          "P05": "none"
+        },
+        "totals_fen": {},
+        "scores": {
+          "P05": [
+            0,
+            4,
+            0
+          ]
+        },
+        "primary_exclusion_codes": {},
+        "flags": []
+      }
+    },
+    {
+      "id": "R10",
+      "title": "所有主餐均触发明确排除",
+      "setup": {
+        "user_id": "U_A",
+        "address_id": "A01",
+        "scene": {
+          "current_excluded": [
+            "egg",
+            "chicken",
+            "beef",
+            "fish",
+            "tofu",
+            "pork"
+          ]
+        }
+      },
+      "expected": {
+        "status": "no_match",
+        "ranked_product_ids": [],
+        "display_product_ids": [],
+        "configuration_ids": {},
+        "totals_fen": {},
+        "scores": {},
+        "primary_exclusion_codes": {},
+        "flags": []
+      }
+    },
+    {
+      "id": "R11",
+      "title": "增加长期鸡肉排除",
+      "setup": {
+        "user_id": "U_A",
+        "address_id": "A01",
+        "scene": {
+          "replace_long_excluded": [
+            "peanut",
+            "chicken"
+          ],
+          "repeat_rule": "allow"
+        }
+      },
+      "expected": {
+        "status": "ready",
+        "ranked_product_ids": [
+          "P01",
+          "P04",
+          "P09",
+          "P08",
+          "P05",
+          "P10"
+        ],
+        "display_product_ids": [
+          "P01",
+          "P09",
+          "P08"
+        ],
+        "configuration_ids": {},
+        "totals_fen": {},
+        "scores": {},
+        "primary_exclusion_codes": {},
+        "flags": []
+      }
+    },
+    {
+      "id": "R12",
+      "title": "已明确确认仅本餐允许鸡肉",
+      "setup": {
+        "user_id": "U_A",
+        "address_id": "A01",
+        "scene": {
+          "replace_long_excluded": [
+            "peanut",
+            "chicken"
+          ],
+          "confirmed_temporary_exceptions": [
+            "chicken"
+          ],
+          "repeat_rule": "allow"
+        }
+      },
+      "expected": {
+        "status": "ready",
+        "ranked_product_ids": [
+          "P01",
+          "P04",
+          "P02",
+          "P09",
+          "P07",
+          "P11",
+          "P08",
+          "P05",
+          "P10",
+          "P06"
+        ],
+        "display_product_ids": [
+          "P01",
+          "P02",
+          "P09"
+        ],
+        "configuration_ids": {},
+        "totals_fen": {},
+        "scores": {},
+        "primary_exclusion_codes": {},
+        "flags": []
+      }
+    },
+    {
+      "id": "R13",
+      "title": "油量未知不获得少油匹配分",
+      "setup": {
+        "user_id": "U_NEW",
+        "address_id": "A01",
+        "scene": {
+          "current_soft": {
+            "oil": [
+              "low"
+            ]
+          }
+        }
+      },
+      "expected": {
+        "status": "ready",
+        "ranked_product_ids": [
+          "P01",
+          "P04",
+          "P09",
+          "P02",
+          "P05",
+          "P07",
+          "P11",
+          "P08",
+          "P06",
+          "P12",
+          "P03",
+          "P10"
+        ],
+        "display_product_ids": [
+          "P01",
+          "P09",
+          "P02"
+        ],
+        "configuration_ids": {
+          "P09": "none"
+        },
+        "totals_fen": {},
+        "scores": {
+          "P12": [
+            0,
+            0,
+            0
+          ],
+          "P03": [
+            0,
+            0,
+            0
+          ],
+          "P09": [
+            1,
+            0,
+            0
+          ]
+        },
+        "primary_exclusion_codes": {},
+        "flags": []
+      }
+    },
+    {
+      "id": "R14",
+      "title": "开启避重但历史不足且未确认继续",
+      "setup": {
+        "user_id": "U_A",
+        "address_id": "A01",
+        "scene": {
+          "history_ids": []
+        }
+      },
+      "expected": {
+        "status": "needs_history_confirmation",
+        "ranked_product_ids": [],
+        "display_product_ids": [],
+        "configuration_ids": {},
+        "totals_fen": {},
+        "scores": {},
+        "primary_exclusion_codes": {},
+        "flags": []
+      }
+    },
+    {
+      "id": "R15",
+      "title": "明确同意仅按现有记录推荐",
+      "setup": {
+        "user_id": "U_A",
+        "address_id": "A01",
+        "scene": {
+          "history_ids": [],
+          "allow_incomplete_history": true
+        }
+      },
+      "expected": {
+        "status": "ready",
+        "ranked_product_ids": [
+          "P01",
+          "P04",
+          "P02",
+          "P09",
+          "P07",
+          "P11",
+          "P08",
+          "P05",
+          "P10",
+          "P06"
+        ],
+        "display_product_ids": [
+          "P01",
+          "P02",
+          "P09"
+        ],
+        "configuration_ids": {},
+        "totals_fen": {},
+        "scores": {},
+        "primary_exclusion_codes": {},
+        "flags": [
+          "HISTORY_INCOMPLETE"
+        ]
+      }
+    },
+    {
+      "id": "R16",
+      "title": "只改面食偏好，历史米饭不重复计分",
+      "setup": {
+        "user_id": "U_A",
+        "address_id": "A01",
+        "scene": {
+          "current_soft": {
+            "staple": [
+              "noodle"
+            ]
+          }
+        }
+      },
+      "expected": {
+        "status": "ready",
+        "ranked_product_ids": [
+          "P04",
+          "P09",
+          "P05",
+          "P06",
+          "P01",
+          "P08",
+          "P10"
+        ],
+        "display_product_ids": [
+          "P04",
+          "P09",
+          "P05"
+        ],
+        "configuration_ids": {
+          "P09": "noodle"
+        },
+        "totals_fen": {
+          "P09": 2800
+        },
+        "scores": {
+          "P09": [
+            1,
+            3,
+            0
+          ],
+          "P01": [
+            0,
+            3,
+            0
+          ],
+          "P06": [
+            1,
+            0,
+            0
+          ]
+        },
+        "primary_exclusion_codes": {},
+        "flags": []
+      }
+    },
+    {
+      "id": "R17",
+      "title": "上一餐忽略取消和未完成订单",
+      "setup": {
+        "user_id": "U_A",
+        "address_id": "A01",
+        "scene": {
+          "repeat_rule": "previous_meal"
+        }
+      },
+      "expected": {
+        "status": "ready",
+        "ranked_product_ids": [
+          "P01",
+          "P04",
+          "P09",
+          "P08",
+          "P05",
+          "P10",
+          "P06"
+        ],
+        "display_product_ids": [
+          "P01",
+          "P09",
+          "P08"
+        ],
+        "configuration_ids": {},
+        "totals_fen": {},
+        "scores": {},
+        "primary_exclusion_codes": {},
+        "flags": []
+      }
+    },
+    {
+      "id": "R18",
+      "title": "跳过当前主推不会自动跳过跨店同菜",
+      "setup": {
+        "user_id": "U_A",
+        "address_id": "A01",
+        "scene": {
+          "skipped_products": [
+            "P01"
+          ]
+        }
+      },
+      "expected": {
+        "status": "ready",
+        "ranked_product_ids": [
+          "P04",
+          "P09",
+          "P08",
+          "P05",
+          "P10",
+          "P06"
+        ],
+        "display_product_ids": [
+          "P04",
+          "P09",
+          "P08"
+        ],
+        "configuration_ids": {},
+        "totals_fen": {},
+        "scores": {},
+        "primary_exclusion_codes": {},
+        "flags": []
+      }
+    },
+    {
+      "id": "R19",
+      "title": "同等匹配按总价后按时间排序",
+      "setup": {
+        "user_id": "U_A",
+        "address_id": "A01",
+        "scene": {
+          "delivery_fee_overrides": {
+            "M03": 100
+          }
+        }
+      },
+      "expected": {
+        "status": "ready",
+        "ranked_product_ids": [
+          "P09",
+          "P01",
+          "P04",
+          "P08",
+          "P05",
+          "P10",
+          "P06"
+        ],
+        "display_product_ids": [
+          "P09",
+          "P01",
+          "P08"
+        ],
+        "configuration_ids": {},
+        "totals_fen": {
+          "P09": 2100,
+          "P08": 2600
+        },
+        "scores": {},
+        "primary_exclusion_codes": {},
+        "flags": []
+      }
+    },
+    {
+      "id": "R20",
+      "title": "不辣硬约束下，不预填不合格的微辣默认值",
+      "setup": {
+        "user_id": "U_A",
+        "address_id": "A01",
+        "scene": {
+          "current_hard": {
+            "spiciness": [
+              "none"
+            ]
+          }
+        }
+      },
+      "expected": {
+        "status": "ready",
+        "ranked_product_ids": [
+          "P01",
+          "P04",
+          "P09",
+          "P05",
+          "P08",
+          "P10"
+        ],
+        "display_product_ids": [
+          "P01",
+          "P09",
+          "P05"
+        ],
+        "configuration_ids": {
+          "P05": "none"
+        },
+        "totals_fen": {},
+        "scores": {
+          "P05": [
+            0,
+            3,
+            0
+          ]
+        },
+        "primary_exclusion_codes": {},
+        "flags": []
+      }
+    },
+    {
+      "id": "R21",
+      "title": "用户明确选择微辣后不得悄悄改成不辣",
+      "setup": {
+        "user_id": "U_A",
+        "address_id": "A01",
+        "scene": {
+          "current_hard": {
+            "spiciness": [
+              "none"
+            ]
+          },
+          "selected_options": {
+            "P05": {
+              "spiciness": "mild"
+            }
+          }
+        }
+      },
+      "expected": {
+        "status": "ready",
+        "ranked_product_ids": [
+          "P01",
+          "P04",
+          "P09",
+          "P08",
+          "P10"
+        ],
+        "display_product_ids": [
+          "P01",
+          "P09",
+          "P08"
+        ],
+        "configuration_ids": {},
+        "totals_fen": {},
+        "scores": {},
+        "primary_exclusion_codes": {
+          "P05": "HARD_ATTRIBUTE"
+        },
+        "flags": []
+      }
+    }
+  ],
+  "cart_cases": [
+    {
+      "id": "C01",
+      "title": "默认主推单餐",
+      "setup": {
+        "user_id": "U_A",
+        "address_id": "A01",
+        "scene": {},
+        "lines": [
+          {
+            "product_id": "P01",
+            "configuration_id": "fixed",
+            "quantity": 1,
+            "role": "main"
+          }
+        ]
+      },
+      "expected": {
+        "valid": true,
+        "error_code": null,
+        "amounts_fen": {
+          "goods": 1600,
+          "packaging": 200,
+          "delivery": 300,
+          "discount": 0,
+          "total": 2100
+        }
+      }
+    },
+    {
+      "id": "C02",
+      "title": "主餐加黄瓜",
+      "setup": {
+        "user_id": "U_A",
+        "address_id": "A01",
+        "scene": {},
+        "lines": [
+          {
+            "product_id": "P01",
+            "configuration_id": "fixed",
+            "quantity": 1,
+            "role": "main"
+          },
+          {
+            "product_id": "S01",
+            "configuration_id": "fixed",
+            "quantity": 1,
+            "role": "addon"
+          }
+        ]
+      },
+      "expected": {
+        "valid": true,
+        "error_code": null,
+        "amounts_fen": {
+          "goods": 2100,
+          "packaging": 300,
+          "delivery": 300,
+          "discount": 0,
+          "total": 2700
+        }
+      }
+    },
+    {
+      "id": "C03",
+      "title": "主餐两份，配送费每单一次",
+      "setup": {
+        "user_id": "U_A",
+        "address_id": "A01",
+        "scene": {},
+        "lines": [
+          {
+            "product_id": "P01",
+            "configuration_id": "fixed",
+            "quantity": 2,
+            "role": "main"
+          },
+          {
+            "product_id": "S01",
+            "configuration_id": "fixed",
+            "quantity": 1,
+            "role": "addon"
+          }
+        ]
+      },
+      "expected": {
+        "valid": true,
+        "error_code": null,
+        "amounts_fen": {
+          "goods": 3700,
+          "packaging": 500,
+          "delivery": 300,
+          "discount": 0,
+          "total": 4500
+        }
+      }
+    },
+    {
+      "id": "C04",
+      "title": "豆腐米饭加时蔬",
+      "setup": {
+        "user_id": "U_A",
+        "address_id": "A01",
+        "scene": {},
+        "lines": [
+          {
+            "product_id": "P09",
+            "configuration_id": "rice",
+            "quantity": 1,
+            "role": "main"
+          },
+          {
+            "product_id": "S05",
+            "configuration_id": "fixed",
+            "quantity": 1,
+            "role": "addon"
+          }
+        ]
+      },
+      "expected": {
+        "valid": true,
+        "error_code": null,
+        "amounts_fen": {
+          "goods": 2400,
+          "packaging": 300,
+          "delivery": 400,
+          "discount": 0,
+          "total": 3100
+        }
+      }
+    },
+    {
+      "id": "C05",
+      "title": "同一主餐改面食",
+      "setup": {
+        "user_id": "U_A",
+        "address_id": "A01",
+        "scene": {},
+        "lines": [
+          {
+            "product_id": "P09",
+            "configuration_id": "noodle",
+            "quantity": 1,
+            "role": "main"
+          },
+          {
+            "product_id": "S05",
+            "configuration_id": "fixed",
+            "quantity": 1,
+            "role": "addon"
+          }
+        ]
+      },
+      "expected": {
+        "valid": true,
+        "error_code": null,
+        "amounts_fen": {
+          "goods": 2800,
+          "packaging": 300,
+          "delivery": 400,
+          "discount": 0,
+          "total": 3500
+        }
+      }
+    },
+    {
+      "id": "C06",
+      "title": "已支持去香菜的实际配置",
+      "setup": {
+        "user_id": "U_B",
+        "address_id": "A01",
+        "scene": {},
+        "lines": [
+          {
+            "product_id": "P09",
+            "configuration_id": "rice",
+            "quantity": 1,
+            "role": "main"
+          },
+          {
+            "product_id": "S06",
+            "configuration_id": "cilantro_off",
+            "quantity": 1,
+            "role": "addon"
+          }
+        ]
+      },
+      "expected": {
+        "valid": true,
+        "error_code": null,
+        "amounts_fen": {
+          "goods": 2300,
+          "packaging": 300,
+          "delivery": 400,
+          "discount": 0,
+          "total": 3000
+        }
+      }
+    },
+    {
+      "id": "C07",
+      "title": "加花生小菜违反排除",
+      "setup": {
+        "user_id": "U_A",
+        "address_id": "A01",
+        "scene": {},
+        "lines": [
+          {
+            "product_id": "P01",
+            "configuration_id": "fixed",
+            "quantity": 1,
+            "role": "main"
+          },
+          {
+            "product_id": "S02",
+            "configuration_id": "fixed",
+            "quantity": 1,
+            "role": "addon"
+          }
+        ]
+      },
+      "expected": {
+        "valid": false,
+        "error_code": "EXCLUDED_INGREDIENT",
+        "amounts_fen": null
+      }
+    },
+    {
+      "id": "C08",
+      "title": "跨店商品不允许结算",
+      "setup": {
+        "user_id": "U_A",
+        "address_id": "A01",
+        "scene": {},
+        "lines": [
+          {
+            "product_id": "P01",
+            "configuration_id": "fixed",
+            "quantity": 1,
+            "role": "main"
+          },
+          {
+            "product_id": "S05",
+            "configuration_id": "fixed",
+            "quantity": 1,
+            "role": "addon"
+          }
+        ]
+      },
+      "expected": {
+        "valid": false,
+        "error_code": "CROSS_MERCHANT",
+        "amounts_fen": null
+      }
+    },
+    {
+      "id": "C09",
+      "title": "主食规格尚未确定",
+      "setup": {
+        "user_id": "U_A",
+        "address_id": "A01",
+        "scene": {},
+        "lines": [
+          {
+            "product_id": "P09",
+            "configuration_id": null,
+            "quantity": 1,
+            "role": "main"
+          }
+        ]
+      },
+      "expected": {
+        "valid": false,
+        "error_code": "MISSING_SPEC",
+        "amounts_fen": null
+      }
+    },
+    {
+      "id": "C10",
+      "title": "地址变化重新核算",
+      "setup": {
+        "user_id": "U_A",
+        "address_id": "A02",
+        "scene": {},
+        "lines": [
+          {
+            "product_id": "P01",
+            "configuration_id": "fixed",
+            "quantity": 1,
+            "role": "main"
+          }
+        ]
+      },
+      "expected": {
+        "valid": true,
+        "error_code": null,
+        "amounts_fen": {
+          "goods": 1600,
+          "packaging": 200,
+          "delivery": 500,
+          "discount": 0,
+          "total": 2300
+        }
+      }
+    },
+    {
+      "id": "C11",
+      "title": "新地址不配送",
+      "setup": {
+        "user_id": "U_A",
+        "address_id": "A02",
+        "scene": {},
+        "lines": [
+          {
+            "product_id": "P04",
+            "configuration_id": "fixed",
+            "quantity": 1,
+            "role": "main"
+          }
+        ]
+      },
+      "expected": {
+        "valid": false,
+        "error_code": "UNDELIVERABLE",
+        "amounts_fen": null
+      }
+    },
+    {
+      "id": "C12",
+      "title": "主餐与主动另加一份分角色",
+      "setup": {
+        "user_id": "U_A",
+        "address_id": "A01",
+        "scene": {},
+        "lines": [
+          {
+            "product_id": "P01",
+            "configuration_id": "fixed",
+            "quantity": 1,
+            "role": "main"
+          },
+          {
+            "product_id": "P01",
+            "configuration_id": "fixed",
+            "quantity": 1,
+            "role": "addon"
+          }
+        ]
+      },
+      "expected": {
+        "valid": true,
+        "error_code": null,
+        "amounts_fen": {
+          "goods": 3200,
+          "packaging": 400,
+          "delivery": 300,
+          "discount": 0,
+          "total": 3900
+        }
+      }
+    },
+    {
+      "id": "C13",
+      "title": "删除主餐后有效加菜仍可结算",
+      "setup": {
+        "user_id": "U_B",
+        "address_id": "A01",
+        "scene": {},
+        "lines": [
+          {
+            "product_id": "S06",
+            "configuration_id": "cilantro_off",
+            "quantity": 1,
+            "role": "addon"
+          }
+        ]
+      },
+      "expected": {
+        "valid": true,
+        "error_code": null,
+        "amounts_fen": {
+          "goods": 500,
+          "packaging": 100,
+          "delivery": 400,
+          "discount": 0,
+          "total": 1000
+        }
+      }
+    },
+    {
+      "id": "C14",
+      "title": "备注不要香菜不能替代规格",
+      "setup": {
+        "user_id": "U_B",
+        "address_id": "A01",
+        "scene": {
+          "order_note": "不要香菜"
+        },
+        "lines": [
+          {
+            "product_id": "S06",
+            "configuration_id": "cilantro_on",
+            "quantity": 1,
+            "role": "addon"
+          }
+        ]
+      },
+      "expected": {
+        "valid": false,
+        "error_code": "EXCLUDED_INGREDIENT",
+        "amounts_fen": null
+      }
+    },
+    {
+      "id": "C15",
+      "title": "未知食材不通过结算",
+      "setup": {
+        "user_id": "U_A",
+        "address_id": "A01",
+        "scene": {},
+        "lines": [
+          {
+            "product_id": "P12",
+            "configuration_id": "fixed",
+            "quantity": 1,
+            "role": "main"
+          }
+        ]
+      },
+      "expected": {
+        "valid": false,
+        "error_code": "UNKNOWN_INGREDIENTS",
+        "amounts_fen": null
+      }
+    },
+    {
+      "id": "C16",
+      "title": "购物车为空不能结算",
+      "setup": {
+        "user_id": "U_A",
+        "address_id": "A01",
+        "scene": {},
+        "lines": []
+      },
+      "expected": {
+        "valid": false,
+        "error_code": "EMPTY_CART",
+        "amounts_fen": null
+      }
+    },
+    {
+      "id": "C17",
+      "title": "同店更换主餐后保留加菜",
+      "setup": {
+        "user_id": "U_A",
+        "address_id": "A01",
+        "scene": {
+          "repeat_rule": "allow"
+        },
+        "lines": [
+          {
+            "product_id": "P02",
+            "configuration_id": "fixed",
+            "quantity": 1,
+            "role": "main"
+          },
+          {
+            "product_id": "S01",
+            "configuration_id": "fixed",
+            "quantity": 1,
+            "role": "addon"
+          }
+        ]
+      },
+      "expected": {
+        "valid": true,
+        "error_code": null,
+        "amounts_fen": {
+          "goods": 2300,
+          "packaging": 300,
+          "delivery": 300,
+          "discount": 0,
+          "total": 2900
+        }
+      }
+    },
+    {
+      "id": "C18",
+      "title": "同店换主餐保留另加的原商品",
+      "setup": {
+        "user_id": "U_A",
+        "address_id": "A01",
+        "scene": {
+          "repeat_rule": "allow"
+        },
+        "lines": [
+          {
+            "product_id": "P02",
+            "configuration_id": "fixed",
+            "quantity": 1,
+            "role": "main"
+          },
+          {
+            "product_id": "P01",
+            "configuration_id": "fixed",
+            "quantity": 1,
+            "role": "addon"
+          }
+        ]
+      },
+      "expected": {
+        "valid": true,
+        "error_code": null,
+        "amounts_fen": {
+          "goods": 3400,
+          "packaging": 400,
+          "delivery": 300,
+          "discount": 0,
+          "total": 4100
+        }
+      }
+    },
+    {
+      "id": "C19",
+      "title": "主餐改小份后加菜",
+      "setup": {
+        "user_id": "U_A",
+        "address_id": "A01",
+        "scene": {},
+        "lines": [
+          {
+            "product_id": "P01",
+            "configuration_id": "small",
+            "quantity": 1,
+            "role": "main"
+          },
+          {
+            "product_id": "S01",
+            "configuration_id": "fixed",
+            "quantity": 1,
+            "role": "addon"
+          }
+        ]
+      },
+      "expected": {
+        "valid": true,
+        "error_code": null,
+        "amounts_fen": {
+          "goods": 1900,
+          "packaging": 300,
+          "delivery": 300,
+          "discount": 0,
+          "total": 2500
+        }
+      }
+    }
+  ]
+}

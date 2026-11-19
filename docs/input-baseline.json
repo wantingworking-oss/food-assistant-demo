@@ -1,0 +1,17 @@
+{
+  "dataset_version": "1.0.0",
+  "product_plan_version": 6,
+  "archive": "今天吃什么助手_Codex开发交接材料.zip",
+  "sha256": {
+    "docs/今天吃什么助手_开发约定与分批实施计划.md": "6bc406be5353eaf12268c1047a754213083d00fd3ef9f1833b5d5d1b11778d5b",
+    "docs/今天吃什么助手_需求定义与产品定位方案.md": "85ca4e81e2f90263afd955d2ae1dfda41904837b7d7214d6e723f1370402f8c4",
+    "docs/数据字段与计算约定.md": "aafe3040302595d3c18cb5e3652146e260de2dbc35fd99a3d1067bbaadbdf94d",
+    "fixtures/ai-semantic-cases.json": "bf1eb1875de3c8a9497d5ea1a669bd57a3653a7160d1057393912b611f2224c0",
+    "fixtures/expected-results.json": "2fb7182343e505dba0881d3752ac68f98201d1d873cd95c0f638e16484c95b72",
+    "fixtures/interaction-cases.json": "7b614f2735bdb34fa42d49b7195a5b85059b35decf364222da9cb2b6cc245d9f",
+    "fixtures/mock-data.json": "db52c580a9951171b22ec7730c8bb806cd2e092a60a3119403018e9912e3cacc",
+    "fixtures/verify_fixtures.py": "9041d0236c8e23529ee46b76fea9642e9e755a7dbb6c7ed1da2538cb18fcd1b9",
+    "分批执行指令.md": "a22b443ac9a7e755015bcf878a9383a8b15f5c047a2d19e6b8b15aedbfccfea8",
+    "开始使用.md": "d5edcd7a1ad32e3a8e23f7bc8a96c9484fb265af2f2c93d4716adca581f06e30"
+  }
+}

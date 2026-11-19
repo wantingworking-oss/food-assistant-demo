@@ -1,0 +1,19 @@
+{
+  "checked_at": "2026-11-19T13:56:09.7726481Z",
+  "command": "npm start",
+  "address": "http://localhost:3000",
+  "page_status": 200,
+  "health": {
+    "status": "ok",
+    "version": "0.1.0",
+    "phase": "foundation",
+    "ai": {
+      "mode": "disabled",
+      "configured": false,
+      "available": false,
+      "status": "not_configured",
+      "reason": "ADAPTER_NOT_IMPLEMENTED"
+    }
+  },
+  "browser_qa": "not_run"
+}

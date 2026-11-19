@@ -1,0 +1,368 @@
+{
+  "version": "1.0.0",
+  "description": "期望语义，不限定模型返回字段命名或逐字文案；接入时映射为接口契约后实际调用验证",
+  "cases": [
+    {
+      "id": "A01",
+      "group": "当次新增",
+      "input": "今天不要鸡肉",
+      "context": {},
+      "expected_semantics": {
+        "action": "add_excluded",
+        "scope": "current",
+        "value": "chicken"
+      },
+      "verification_status": "not_run"
+    },
+    {
+      "id": "A02",
+      "group": "当次新增",
+      "input": "今天想吃面",
+      "context": {},
+      "expected_semantics": {
+        "action": "set_soft",
+        "scope": "current",
+        "dimension": "staple",
+        "values": [
+          "noodle"
+        ]
+      },
+      "verification_status": "not_run"
+    },
+    {
+      "id": "A03",
+      "group": "当次新增",
+      "input": "这顿少油少炸",
+      "context": {},
+      "expected_semantics": {
+        "scope": "current",
+        "soft": {
+          "oil": [
+            "low"
+          ],
+          "fried": [
+            false
+          ]
+        }
+      },
+      "verification_status": "not_run"
+    },
+    {
+      "id": "A04",
+      "group": "当次新增",
+      "input": "今晚想吃米饭，其他不变",
+      "context": {
+        "meal": "dinner"
+      },
+      "expected_semantics": {
+        "action": "set_soft",
+        "scope": "current",
+        "dimension": "staple",
+        "values": [
+          "rice"
+        ],
+        "preserve_other_conditions": true
+      },
+      "verification_status": "not_run"
+    },
+    {
+      "id": "A05",
+      "group": "长期设置",
+      "input": "以后都不要推荐香菜",
+      "context": {},
+      "expected_semantics": {
+        "action": "add_excluded",
+        "scope": "long_term",
+        "value": "cilantro"
+      },
+      "verification_status": "not_run"
+    },
+    {
+      "id": "A06",
+      "group": "长期设置",
+      "input": "以后按微辣口味给我推荐",
+      "context": {},
+      "expected_semantics": {
+        "action": "set_soft",
+        "scope": "long_term",
+        "dimension": "spiciness",
+        "values": [
+          "mild"
+        ]
+      },
+      "verification_status": "not_run"
+    },
+    {
+      "id": "A07",
+      "group": "长期设置",
+      "input": "我一直都完全不能吃辣",
+      "context": {},
+      "expected_semantics": {
+        "action": "set_hard",
+        "scope": "long_term",
+        "dimension": "spiciness",
+        "values": [
+          "none"
+        ]
+      },
+      "verification_status": "not_run"
+    },
+    {
+      "id": "A08",
+      "group": "长期设置",
+      "input": "以后默认避开昨天同一餐的主菜",
+      "context": {},
+      "expected_semantics": {
+        "action": "set_repeat",
+        "scope": "long_term",
+        "value": "yesterday_same_meal"
+      },
+      "verification_status": "not_run"
+    },
+    {
+      "id": "A09",
+      "group": "局部调整",
+      "input": "还是吃米饭，其他不变",
+      "context": {
+        "current_soft": {
+          "staple": [
+            "noodle"
+          ],
+          "oil": [
+            "low"
+          ]
+        }
+      },
+      "expected_semantics": {
+        "action": "set_soft",
+        "scope": "current",
+        "dimension": "staple",
+        "values": [
+          "rice"
+        ],
+        "preserve_other_conditions": true
+      },
+      "verification_status": "not_run"
+    },
+    {
+      "id": "A10",
+      "group": "局部调整",
+      "input": "今天米饭面条都行",
+      "context": {},
+      "expected_semantics": {
+        "action": "set_soft",
+        "scope": "current",
+        "dimension": "staple",
+        "values": [
+          "rice",
+          "noodle"
+        ],
+        "max_points": 1
+      },
+      "verification_status": "not_run"
+    },
+    {
+      "id": "A11",
+      "group": "局部调整",
+      "input": "这餐不用特别少油了",
+      "context": {
+        "current_soft": {
+          "oil": [
+            "low"
+          ]
+        }
+      },
+      "expected_semantics": {
+        "action": "remove_current_soft",
+        "dimension": "oil",
+        "fallback": "long_term_then_history"
+      },
+      "verification_status": "not_run"
+    },
+    {
+      "id": "A12",
+      "group": "局部调整",
+      "input": "今天不要牛肉，之前不吃的也别加回来",
+      "context": {},
+      "expected_semantics": {
+        "action": "add_excluded",
+        "scope": "current",
+        "value": "beef",
+        "preserve_other_exclusions": true
+      },
+      "verification_status": "not_run"
+    },
+    {
+      "id": "A13",
+      "group": "否定与撤销",
+      "input": "撤销刚才的修改",
+      "context": {
+        "undo_available": true
+      },
+      "expected_semantics": {
+        "action": "undo_last_requirements_change"
+      },
+      "verification_status": "not_run"
+    },
+    {
+      "id": "A14",
+      "group": "否定与撤销",
+      "input": "清除这餐的临时要求",
+      "context": {},
+      "expected_semantics": {
+        "action": "clear_current_requirements_and_exceptions"
+      },
+      "verification_status": "not_run"
+    },
+    {
+      "id": "A15",
+      "group": "否定与撤销",
+      "input": "刚才说不要鸡肉，现在可以了",
+      "context": {
+        "current_excluded": [
+          "chicken"
+        ],
+        "long_term_excluded": [
+          "peanut"
+        ]
+      },
+      "expected_semantics": {
+        "action": "remove_current_excluded",
+        "value": "chicken",
+        "long_term_unchanged": true
+      },
+      "verification_status": "not_run"
+    },
+    {
+      "id": "A16",
+      "group": "否定与撤销",
+      "input": "今天可以吃鸡肉",
+      "context": {
+        "long_term_excluded": [
+          "chicken",
+          "peanut"
+        ]
+      },
+      "expected_semantics": {
+        "action": "propose_temporary_exception",
+        "value": "chicken",
+        "requires_confirmation": true,
+        "apply_before_confirmation": false
+      },
+      "verification_status": "not_run"
+    },
+    {
+      "id": "A17",
+      "group": "模糊表达",
+      "input": "清淡一点",
+      "context": {
+        "personal_interpretation": null
+      },
+      "expected_semantics": {
+        "requires_clarification": true,
+        "no_silent_hard_spiciness_none": true,
+        "preserve_existing_conditions": true
+      },
+      "verification_status": "not_run"
+    },
+    {
+      "id": "A18",
+      "group": "模糊表达",
+      "input": "清淡点，但不是完全不辣",
+      "context": {
+        "personal_interpretation": null
+      },
+      "expected_semantics": {
+        "requires_clarification": true,
+        "no_silent_hard_spiciness_none": true,
+        "preserve_existing_conditions": true
+      },
+      "verification_status": "not_run"
+    },
+    {
+      "id": "A19",
+      "group": "模糊表达",
+      "input": "别太重口",
+      "context": {
+        "personal_interpretation": null
+      },
+      "expected_semantics": {
+        "requires_clarification": true,
+        "no_silent_hard_spiciness_none": true,
+        "preserve_existing_conditions": true
+      },
+      "verification_status": "not_run"
+    },
+    {
+      "id": "A20",
+      "group": "模糊表达",
+      "input": "今天吃得清爽一些",
+      "context": {
+        "personal_interpretation": null
+      },
+      "expected_semantics": {
+        "requires_clarification": true,
+        "no_silent_hard_spiciness_none": true,
+        "preserve_existing_conditions": true
+      },
+      "verification_status": "not_run"
+    },
+    {
+      "id": "A21",
+      "group": "历史归属与备注",
+      "input": "今天不要辣",
+      "context": {
+        "source_record": "H05"
+      },
+      "expected_semantics": {
+        "source": "historical_note",
+        "scope": "that_historical_meal",
+        "do_not_apply_to_current_or_long_term": true
+      },
+      "verification_status": "not_run"
+    },
+    {
+      "id": "A22",
+      "group": "历史归属与备注",
+      "input": "不要香菜",
+      "context": {
+        "source_record": "H02",
+        "order_status": "cancelled"
+      },
+      "expected_semantics": {
+        "source": "historical_note",
+        "candidate_excluded": "cilantro",
+        "requires_confirmation": true,
+        "do_not_auto_activate": true
+      },
+      "verification_status": "not_run"
+    },
+    {
+      "id": "A23",
+      "group": "历史归属与备注",
+      "input": "给同事点的，放门口",
+      "context": {
+        "source_record": "H03"
+      },
+      "expected_semantics": {
+        "belongs_to_user": false,
+        "no_personal_preference_inference": true,
+        "fulfillment_note": "放门口"
+      },
+      "verification_status": "not_run"
+    },
+    {
+      "id": "A24",
+      "group": "历史归属与备注",
+      "input": "到了打电话",
+      "context": {
+        "source_record": "H06"
+      },
+      "expected_semantics": {
+        "fulfillment_only": true,
+        "no_dietary_patch": true
+      },
+      "verification_status": "not_run"
+    }
+  ]
+}

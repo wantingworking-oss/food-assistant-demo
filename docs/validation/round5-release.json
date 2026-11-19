@@ -1,0 +1,30 @@
+{
+  "version": "0.5.0",
+  "checked_at": "2026-11-19T18:46:21.726Z",
+  "source_sha256": "935b7809abf5c3653f56a2934b8d99022581049b80bb8f47bccc4765841cc84c",
+  "cases": [
+    {
+      "id": "F15",
+      "status": "passed"
+    },
+    {
+      "id": "empty-result-recovery",
+      "status": "passed"
+    },
+    {
+      "id": "address-unavailable-recovery",
+      "status": "passed"
+    },
+    {
+      "id": "exceptions-mobile",
+      "status": "passed"
+    },
+    {
+      "id": "two-origin-api-authentication",
+      "status": "passed",
+      "transport": "actual_http_cors_injected_provider_not_real_model"
+    }
+  ],
+  "errors": [],
+  "real_ai_verified": false
+}

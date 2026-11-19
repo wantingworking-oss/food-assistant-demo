@@ -1,0 +1,364 @@
+TAP version 13
+# Subtest: D01 临时例外不豁免独立本餐排除，也不改长期资料
+ok 1 - D01 临时例外不豁免独立本餐排除，也不改长期资料
+  ---
+  duration_ms: 3.9967
+  type: 'test'
+  ...
+# Subtest: D02 本餐硬约束不能静默覆盖长期硬约束
+ok 2 - D02 本餐硬约束不能静默覆盖长期硬约束
+  ---
+  duration_ms: 8.215
+  type: 'test'
+  ...
+# Subtest: D03 同维多值只得一分，未匹配不回退到历史来源
+ok 3 - D03 同维多值只得一分，未匹配不回退到历史来源
+  ---
+  duration_ms: 2.0883
+  type: 'test'
+  ...
+# Subtest: D04 比较配置不写入选择；金额和理由来自同一配置
+ok 4 - D04 比较配置不写入选择；金额和理由来自同一配置
+  ---
+  duration_ms: 0.8951
+  type: 'test'
+  ...
+# Subtest: D05 整车错误优先级不随行顺序变化
+ok 5 - D05 整车错误优先级不随行顺序变化
+  ---
+  duration_ms: 1.8374
+  type: 'test'
+  ...
+# Subtest: D06 必选规格缺失优先于另一行的食材冲突
+ok 6 - D06 必选规格缺失优先于另一行的食材冲突
+  ---
+  duration_ms: 0.655
+  type: 'test'
+  ...
+# Subtest: D07 加菜角色的主餐商品仍执行主菜避重
+ok 7 - D07 加菜角色的主餐商品仍执行主菜避重
+  ---
+  duration_ms: 0.5664
+  type: 'test'
+  ...
+# Subtest: D08 缺失价格不是免费商品
+ok 8 - D08 缺失价格不是免费商品
+  ---
+  duration_ms: 1.3149
+  type: 'test'
+  ...
+# Subtest: D09 拒绝非法数量、商品与规格，金额不溢出
+ok 9 - D09 拒绝非法数量、商品与规格，金额不溢出
+  ---
+  duration_ms: 1.1578
+  type: 'test'
+  ...
+# Subtest: D10 日期锚点跨年可复现，任务刷新不使用系统日期
+ok 10 - D10 日期锚点跨年可复现，任务刷新不使用系统日期
+  ---
+  duration_ms: 30.6526
+  type: 'test'
+  ...
+# Subtest: D11 改变餐次、归属及历史重复ID按实际上下文处理
+ok 11 - D11 改变餐次、归属及历史重复ID按实际上下文处理
+  ---
+  duration_ms: 1.1838
+  type: 'test'
+  ...
+# Subtest: D12 未吃过的submitted记录不参与避重，确认吃过后可参与
+ok 12 - D12 未吃过的submitted记录不参与避重，确认吃过后可参与
+  ---
+  duration_ms: 0.7153
+  type: 'test'
+  ...
+# Subtest: D13 仅明确同意后允许历史不足，并保留提示
+ok 13 - D13 仅明确同意后允许历史不足，并保留提示
+  ---
+  duration_ms: 0.9516
+  type: 'test'
+  ...
+# Subtest: D14 数据输入排列不影响稳定推荐排序
+ok 14 - D14 数据输入排列不影响稳定推荐排序
+  ---
+  duration_ms: 2.3563
+  type: 'test'
+  ...
+# Subtest: R01 小A默认，昨天同餐避重
+ok 15 - R01 小A默认，昨天同餐避重
+  ---
+  duration_ms: 11.34
+  type: 'test'
+  ...
+# Subtest: R02 今天想吃面，不要鸡肉
+ok 16 - R02 今天想吃面，不要鸡肉
+  ---
+  duration_ms: 1.2401
+  type: 'test'
+  ...
+# Subtest: R03 不同口味用户
+ok 17 - R03 不同口味用户
+  ---
+  duration_ms: 0.9775
+  type: 'test'
+  ...
+# Subtest: R04 新用户，无排除且允许重复
+ok 18 - R04 新用户，无排除且允许重复
+  ---
+  duration_ms: 1.2621
+  type: 'test'
+  ...
+# Subtest: R05 切换配送地址
+ok 19 - R05 切换配送地址
+  ---
+  duration_ms: 1.5541
+  type: 'test'
+  ...
+# Subtest: R06 用户明确关闭重复限制
+ok 20 - R06 用户明确关闭重复限制
+  ---
+  duration_ms: 1.7129
+  type: 'test'
+  ...
+# Subtest: R07 默认主推售罄
+ok 21 - R07 默认主推售罄
+  ---
+  duration_ms: 1.8323
+  type: 'test'
+  ...
+# Subtest: R08 已选无主食规格不得自动改回米饭
+ok 22 - R08 已选无主食规格不得自动改回米饭
+  ---
+  duration_ms: 0.8847
+  type: 'test'
+  ...
+# Subtest: R09 将牛肉面明确改为不辣
+ok 23 - R09 将牛肉面明确改为不辣
+  ---
+  duration_ms: 0.9321
+  type: 'test'
+  ...
+# Subtest: R10 所有主餐均触发明确排除
+ok 24 - R10 所有主餐均触发明确排除
+  ---
+  duration_ms: 1.1518
+  type: 'test'
+  ...
+# Subtest: R11 增加长期鸡肉排除
+ok 25 - R11 增加长期鸡肉排除
+  ---
+  duration_ms: 0.9925
+  type: 'test'
+  ...
+# Subtest: R12 已明确确认仅本餐允许鸡肉
+ok 26 - R12 已明确确认仅本餐允许鸡肉
+  ---
+  duration_ms: 0.8729
+  type: 'test'
+  ...
+# Subtest: R13 油量未知不获得少油匹配分
+ok 27 - R13 油量未知不获得少油匹配分
+  ---
+  duration_ms: 0.8399
+  type: 'test'
+  ...
+# Subtest: R14 开启避重但历史不足且未确认继续
+ok 28 - R14 开启避重但历史不足且未确认继续
+  ---
+  duration_ms: 0.6204
+  type: 'test'
+  ...
+# Subtest: R15 明确同意仅按现有记录推荐
+ok 29 - R15 明确同意仅按现有记录推荐
+  ---
+  duration_ms: 0.793
+  type: 'test'
+  ...
+# Subtest: R16 只改面食偏好，历史米饭不重复计分
+ok 30 - R16 只改面食偏好，历史米饭不重复计分
+  ---
+  duration_ms: 1.2724
+  type: 'test'
+  ...
+# Subtest: R17 上一餐忽略取消和未完成订单
+ok 31 - R17 上一餐忽略取消和未完成订单
+  ---
+  duration_ms: 14.0073
+  type: 'test'
+  ...
+# Subtest: R18 跳过当前主推不会自动跳过跨店同菜
+ok 32 - R18 跳过当前主推不会自动跳过跨店同菜
+  ---
+  duration_ms: 1.3917
+  type: 'test'
+  ...
+# Subtest: R19 同等匹配按总价后按时间排序
+ok 33 - R19 同等匹配按总价后按时间排序
+  ---
+  duration_ms: 1.2325
+  type: 'test'
+  ...
+# Subtest: R20 不辣硬约束下，不预填不合格的微辣默认值
+ok 34 - R20 不辣硬约束下，不预填不合格的微辣默认值
+  ---
+  duration_ms: 1.2698
+  type: 'test'
+  ...
+# Subtest: R21 用户明确选择微辣后不得悄悄改成不辣
+ok 35 - R21 用户明确选择微辣后不得悄悄改成不辣
+  ---
+  duration_ms: 1.1347
+  type: 'test'
+  ...
+# Subtest: C01 默认主推单餐
+ok 36 - C01 默认主推单餐
+  ---
+  duration_ms: 1.124
+  type: 'test'
+  ...
+# Subtest: C02 主餐加黄瓜
+ok 37 - C02 主餐加黄瓜
+  ---
+  duration_ms: 0.685
+  type: 'test'
+  ...
+# Subtest: C03 主餐两份，配送费每单一次
+ok 38 - C03 主餐两份，配送费每单一次
+  ---
+  duration_ms: 1.4092
+  type: 'test'
+  ...
+# Subtest: C04 豆腐米饭加时蔬
+ok 39 - C04 豆腐米饭加时蔬
+  ---
+  duration_ms: 0.6872
+  type: 'test'
+  ...
+# Subtest: C05 同一主餐改面食
+ok 40 - C05 同一主餐改面食
+  ---
+  duration_ms: 0.6917
+  type: 'test'
+  ...
+# Subtest: C06 已支持去香菜的实际配置
+ok 41 - C06 已支持去香菜的实际配置
+  ---
+  duration_ms: 0.5937
+  type: 'test'
+  ...
+# Subtest: C07 加花生小菜违反排除
+ok 42 - C07 加花生小菜违反排除
+  ---
+  duration_ms: 0.6856
+  type: 'test'
+  ...
+# Subtest: C08 跨店商品不允许结算
+ok 43 - C08 跨店商品不允许结算
+  ---
+  duration_ms: 0.5823
+  type: 'test'
+  ...
+# Subtest: C09 主食规格尚未确定
+ok 44 - C09 主食规格尚未确定
+  ---
+  duration_ms: 0.5862
+  type: 'test'
+  ...
+# Subtest: C10 地址变化重新核算
+ok 45 - C10 地址变化重新核算
+  ---
+  duration_ms: 0.7367
+  type: 'test'
+  ...
+# Subtest: C11 新地址不配送
+ok 46 - C11 新地址不配送
+  ---
+  duration_ms: 1.0096
+  type: 'test'
+  ...
+# Subtest: C12 主餐与主动另加一份分角色
+ok 47 - C12 主餐与主动另加一份分角色
+  ---
+  duration_ms: 0.742
+  type: 'test'
+  ...
+# Subtest: C13 删除主餐后有效加菜仍可结算
+ok 48 - C13 删除主餐后有效加菜仍可结算
+  ---
+  duration_ms: 0.673
+  type: 'test'
+  ...
+# Subtest: C14 备注不要香菜不能替代规格
+ok 49 - C14 备注不要香菜不能替代规格
+  ---
+  duration_ms: 0.5825
+  type: 'test'
+  ...
+# Subtest: C15 未知食材不通过结算
+ok 50 - C15 未知食材不通过结算
+  ---
+  duration_ms: 1.0352
+  type: 'test'
+  ...
+# Subtest: C16 购物车为空不能结算
+ok 51 - C16 购物车为空不能结算
+  ---
+  duration_ms: 0.6554
+  type: 'test'
+  ...
+# Subtest: C17 同店更换主餐后保留加菜
+ok 52 - C17 同店更换主餐后保留加菜
+  ---
+  duration_ms: 0.58
+  type: 'test'
+  ...
+# Subtest: C18 同店换主餐保留另加的原商品
+ok 53 - C18 同店换主餐保留另加的原商品
+  ---
+  duration_ms: 0.5364
+  type: 'test'
+  ...
+# Subtest: C19 主餐改小份后加菜
+ok 54 - C19 主餐改小份后加菜
+  ---
+  duration_ms: 0.6382
+  type: 'test'
+  ...
+# Subtest: S01 HTTP健康检查区分未配置和未验证，不暴露凭证
+ok 55 - S01 HTTP健康检查区分未配置和未验证，不暴露凭证
+  ---
+  duration_ms: 40.8203
+  type: 'test'
+  ...
+# Subtest: S02 仅公开启动页、浏览器领域模块及示例数据
+ok 56 - S02 仅公开启动页、浏览器领域模块及示例数据
+  ---
+  duration_ms: 30.7567
+  type: 'test'
+  ...
+# Subtest: S03 服务端文件、测试答案与环境配置无法经静态路由读取
+ok 57 - S03 服务端文件、测试答案与环境配置无法经静态路由读取
+  ---
+  duration_ms: 16.5577
+  type: 'test'
+  ...
+# Subtest: S04 编码及未规范化路径不能穿越公开目录
+ok 58 - S04 编码及未规范化路径不能穿越公开目录
+  ---
+  duration_ms: 9.8724
+  type: 'test'
+  ...
+# Subtest: S05 尚未实现的AI接口返回不可用，不伪造解析成功
+ok 59 - S05 尚未实现的AI接口返回不可用，不伪造解析成功
+  ---
+  duration_ms: 5.3571
+  type: 'test'
+  ...
+1..59
+# tests 59
+# suites 0
+# pass 59
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 515.1953

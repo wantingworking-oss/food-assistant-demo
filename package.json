@@ -1,0 +1,17 @@
+{
+  "name": "today-food-assistant",
+  "version": "0.5.0",
+  "private": true,
+  "type": "module",
+  "description": "今天吃什么：个人外卖决策助手 Demo",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "start": "node --env-file-if-exists=.env server.js",
+    "test": "node --test tests/*.test.js",
+    "test:report": "node scripts/test-report.mjs",
+    "test:ai": "node --env-file-if-exists=.env scripts/verify-ai.mjs",
+    "verify:fixtures": "python -X utf8 fixtures/verify_fixtures.py",
+    "build": "node scripts/build.mjs",
+    "check:inputs": "node scripts/check-inputs.mjs"
+  }
+}

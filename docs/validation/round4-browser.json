@@ -1,0 +1,44 @@
+{
+  "version": "0.4.0",
+  "checked_at": "2026-11-19T18:15:11.569Z",
+  "source_sha256": "2a1ed194d1b2346ea00f6659a4d6d0dd4fdc6e15b9cb9c14346bfa09cc0bce7d",
+  "real_ai_verified": false,
+  "cases": [
+    {
+      "id": "F10",
+      "status": "passed",
+      "transport": "browser_response_fixture_not_real_model"
+    },
+    {
+      "id": "F11",
+      "status": "passed",
+      "transport": "browser_response_fixture_not_real_model"
+    },
+    {
+      "id": "AI-confirm-cancel-undo",
+      "status": "passed",
+      "transport": "browser_response_fixture_not_real_model"
+    },
+    {
+      "id": "history-cache-confirm",
+      "status": "passed",
+      "transport": "browser_response_fixture_not_real_model"
+    },
+    {
+      "id": "clarification-followup",
+      "status": "passed",
+      "transport": "browser_response_fixture_not_real_model"
+    },
+    {
+      "id": "ai-mobile",
+      "status": "passed",
+      "transport": "browser_response_fixture_not_real_model"
+    },
+    {
+      "id": "unconfigured-real-local-endpoint",
+      "status": "passed",
+      "transport": "actual_local_http_no_model_call"
+    }
+  ],
+  "errors": []
+}
