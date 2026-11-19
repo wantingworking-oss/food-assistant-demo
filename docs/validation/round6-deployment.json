@@ -1,0 +1,18 @@
+{
+  "version": "0.6.0",
+  "checked_at": "2026-11-19T19:44:53.207491+00:00",
+  "url": "https://wantingworking-oss.github.io/food-assistant-demo/",
+  "application_commit": "02fddfc3bc09c228ef37db6bb18b63e2f4e821c0",
+  "source_sha256": "f8a95d100a591d2ca69a5bc286784a3b489ad9c8db43cede651720a128baee5e",
+  "workflow_run": "https://github.com/wantingworking-oss/food-assistant-demo/actions/runs/44600811390",
+  "build": "success",
+  "deploy": "success",
+  "tests_passed": 114,
+  "tests_failed": 0,
+  "source_audit_files": 102,
+  "online_qa": "passed",
+  "online_mode": "static_manual",
+  "selected_provider": "deepseek",
+  "real_deepseek": "not_run_missing_local_key_and_deployed_backend",
+  "pricing": "usage_billed_not_guaranteed_free"
+}
