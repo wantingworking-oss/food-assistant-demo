@@ -28,7 +28,7 @@ jobs:
       - run: npm run check:inputs
       - run: npm run build
         env:
-          PUBLIC_API_BASE: ${{ vars.PUBLIC_API_BASE }}
+          PUBLIC_API_BASE: ${{ vars.PUBLIC_API_BASE || 'https://food-assistant-deepseek.onrender.com' }}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
