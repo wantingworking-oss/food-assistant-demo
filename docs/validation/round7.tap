@@ -2,733 +2,733 @@ TAP version 13
 # Subtest: AI01 真实适配器请求格式、服务端凭证、禁用存储、响应身份回填
 ok 1 - AI01 真实适配器请求格式、服务端凭证、禁用存储、响应身份回填
   ---
-  duration_ms: 44.5302
+  duration_ms: 50.2199
   type: 'test'
   ...
 # Subtest: AI02 未配置时不调用上游、不生成成功结果
 ok 2 - AI02 未配置时不调用上游、不生成成功结果
   ---
-  duration_ms: 2.2629
+  duration_ms: 2.5074
   type: 'test'
   ...
 # Subtest: AI03 超时停止等待且不自动重试
 ok 3 - AI03 超时停止等待且不自动重试
   ---
-  duration_ms: 25.6807
+  duration_ms: 20.0338
   type: 'test'
   ...
 # Subtest: AI04 上游拒绝、不完整、鉴权、无效JSON分别报告
 ok 4 - AI04 上游拒绝、不完整、鉴权、无效JSON分别报告
   ---
-  duration_ms: 4.296
+  duration_ms: 4.3087
   type: 'test'
   ...
 # Subtest: AI05 输入长度、餐次、历史来源与多余隐私字段
 ok 5 - AI05 输入长度、餐次、历史来源与多余隐私字段
   ---
-  duration_ms: 5.6693
+  duration_ms: 5.2182
   type: 'test'
   ...
 # Subtest: AI06 未知食材、伪造依据、越权字段和历史错范围拒绝
 ok 6 - AI06 未知食材、伪造依据、越权字段和历史错范围拒绝
   ---
-  duration_ms: 4.8799
+  duration_ms: 4.1103
   type: 'test'
   ...
 # Subtest: AI07 F10需求变更及切用户后过期响应不应用
 ok 7 - AI07 F10需求变更及切用户后过期响应不应用
   ---
-  duration_ms: 7.2723
+  duration_ms: 7.4319
   type: 'test'
   ...
 # Subtest: AI08 多项明确条件作为一次撤销，不动其他长期要求
 ok 8 - AI08 多项明确条件作为一次撤销，不动其他长期要求
   ---
-  duration_ms: 2.6608
+  duration_ms: 3.9364
   type: 'test'
   ...
 # Subtest: AI09 模型不能绕过已有排除的取消确认
 ok 9 - AI09 模型不能绕过已有排除的取消确认
   ---
-  duration_ms: 2.2452
+  duration_ms: 3.1375
   type: 'test'
   ...
 # Subtest: AI10 独立明确条件先应用，临时例外等待确认
 ok 10 - AI10 独立明确条件先应用，临时例外等待确认
   ---
-  duration_ms: 2.7172
+  duration_ms: 3.7362
   type: 'test'
   ...
 # Subtest: AI11 历史结果不自动生效、待确认和来源变更缓存失效
 ok 11 - AI11 历史结果不自动生效、待确认和来源变更缓存失效
   ---
-  duration_ms: 4.1999
+  duration_ms: 3.8088
   type: 'test'
   ...
 # Subtest: AI12 历史临时表达不得当前应用，履约信息不写要求
 ok 12 - AI12 历史临时表达不得当前应用，履约信息不写要求
   ---
-  duration_ms: 2.3829
+  duration_ms: 2.4677
   type: 'test'
   ...
 # Subtest: AI13 失败或模糊请求保持原条件，未处理信息单独返回
 ok 13 - AI13 失败或模糊请求保持原条件，未处理信息单独返回
   ---
-  duration_ms: 2.3096
+  duration_ms: 2.183
   type: 'test'
   ...
 # Subtest: AI14 HTTP真实路由处理JSON、来源、配置失败与完整信封
 ok 14 - AI14 HTTP真实路由处理JSON、来源、配置失败与完整信封
   ---
-  duration_ms: 119.6005
+  duration_ms: 130.4635
   type: 'test'
   ...
 # Subtest: AI15 HTTP成功后健康状态才标记verified（注入仅测试进程）
 ok 15 - AI15 HTTP成功后健康状态才标记verified（注入仅测试进程）
   ---
-  duration_ms: 29.6973
+  duration_ms: 32.4525
   type: 'test'
   ...
 # Subtest: AI16 大请求、null JSON有界失败，服务端适配器不公开
 ok 16 - AI16 大请求、null JSON有界失败，服务端适配器不公开
   ---
-  duration_ms: 24.6909
+  duration_ms: 24.1493
   type: 'test'
   ...
 # Subtest: AI17 澄清依据不得同时执行，非本人历史不得推断个人偏好
 ok 17 - AI17 澄清依据不得同时执行，非本人历史不得推断个人偏好
   ---
-  duration_ms: 4.4508
+  duration_ms: 4.6664
   type: 'test'
   ...
 # Subtest: AI18 历史缓存跨新餐复用，按用户隔离，解析版本不符即失效
 ok 18 - AI18 历史缓存跨新餐复用，按用户隔离，解析版本不符即失效
   ---
-  duration_ms: 5.4693
+  duration_ms: 5.6181
   type: 'test'
   ...
 # Subtest: DS01 DeepSeek使用独立凭证、官方端点、JSON模式及本地Schema校验
 ok 19 - DS01 DeepSeek使用独立凭证、官方端点、JSON模式及本地Schema校验
   ---
-  duration_ms: 6.813
+  duration_ms: 10.8094
   type: 'test'
   ...
 # Subtest: DS02 缺DeepSeek密钥不能复用OpenAI密钥或回退调用
 ok 20 - DS02 缺DeepSeek密钥不能复用OpenAI密钥或回退调用
   ---
-  duration_ms: 1.4778
+  duration_ms: 1.0756
   type: 'test'
   ...
 # Subtest: DS03 空JSON、截断、拒绝和词表外值均不可应用
 ok 21 - DS03 空JSON、截断、拒绝和词表外值均不可应用
   ---
-  duration_ms: 3.0974
+  duration_ms: 7.6135
   type: 'test'
   ...
 # Subtest: DS04 余额不足和速率限制区分，不自动重试
 ok 22 - DS04 余额不足和速率限制区分，不自动重试
   ---
-  duration_ms: 2.0225
+  duration_ms: 4.4121
   type: 'test'
   ...
 # Subtest: DS05 健康及诊断按供应商判断配置，不泄露凭证或宣称已验证
 ok 23 - DS05 健康及诊断按供应商判断配置，不泄露凭证或宣称已验证
   ---
-  duration_ms: 0.6165
+  duration_ms: 0.8713
   type: 'test'
   ...
 # Subtest: DS06 连接失败单独报告且不自动回退到其他供应商
 ok 24 - DS06 连接失败单独报告且不自动回退到其他供应商
   ---
-  duration_ms: 0.8181
+  duration_ms: 1.0001
   type: 'test'
   ...
 # Subtest: DS07 HTTP接入使用DeepSeek适配器，错误提示可手动恢复
 ok 25 - DS07 HTTP接入使用DeepSeek适配器，错误提示可手动恢复
   ---
-  duration_ms: 110.8874
+  duration_ms: 126.7535
   type: 'test'
   ...
 # Subtest: DS08 曾成功后余额耗尽，健康状态不能继续标记AI可用
 ok 26 - DS08 曾成功后余额耗尽，健康状态不能继续标记AI可用
   ---
-  duration_ms: 35.6202
+  duration_ms: 39.5308
   type: 'test'
   ...
 # Subtest: D01 临时例外不豁免独立本餐排除，也不改长期资料
 ok 27 - D01 临时例外不豁免独立本餐排除，也不改长期资料
   ---
-  duration_ms: 3.6357
+  duration_ms: 3.8619
   type: 'test'
   ...
 # Subtest: D02 本餐硬约束不能静默覆盖长期硬约束
 ok 28 - D02 本餐硬约束不能静默覆盖长期硬约束
   ---
-  duration_ms: 8.5821
+  duration_ms: 8.9541
   type: 'test'
   ...
 # Subtest: D03 同维多值只得一分，未匹配不回退到历史来源
 ok 29 - D03 同维多值只得一分，未匹配不回退到历史来源
   ---
-  duration_ms: 2.6056
+  duration_ms: 2.5512
   type: 'test'
   ...
 # Subtest: D04 比较配置不写入选择；金额和理由来自同一配置
 ok 30 - D04 比较配置不写入选择；金额和理由来自同一配置
   ---
-  duration_ms: 1.3061
+  duration_ms: 1.3765
   type: 'test'
   ...
 # Subtest: D05 整车错误优先级不随行顺序变化
 ok 31 - D05 整车错误优先级不随行顺序变化
   ---
-  duration_ms: 1.4578
+  duration_ms: 1.7697
   type: 'test'
   ...
 # Subtest: D06 必选规格缺失优先于另一行的食材冲突
 ok 32 - D06 必选规格缺失优先于另一行的食材冲突
   ---
-  duration_ms: 0.648
+  duration_ms: 1.0134
   type: 'test'
   ...
 # Subtest: D07 加菜角色的主餐商品仍执行主菜避重
 ok 33 - D07 加菜角色的主餐商品仍执行主菜避重
   ---
-  duration_ms: 0.6015
+  duration_ms: 0.9771
   type: 'test'
   ...
 # Subtest: D08 缺失价格不是免费商品
 ok 34 - D08 缺失价格不是免费商品
   ---
-  duration_ms: 1.2818
+  duration_ms: 2.0335
   type: 'test'
   ...
 # Subtest: D09 拒绝非法数量、商品与规格，金额不溢出
 ok 35 - D09 拒绝非法数量、商品与规格，金额不溢出
   ---
-  duration_ms: 1.8728
+  duration_ms: 2.1397
   type: 'test'
   ...
 # Subtest: D10 日期锚点跨年可复现，任务刷新不使用系统日期
 ok 36 - D10 日期锚点跨年可复现，任务刷新不使用系统日期
   ---
-  duration_ms: 34.3772
+  duration_ms: 34.1156
   type: 'test'
   ...
 # Subtest: D11 改变餐次、归属及历史重复ID按实际上下文处理
 ok 37 - D11 改变餐次、归属及历史重复ID按实际上下文处理
   ---
-  duration_ms: 1.4552
+  duration_ms: 1.464
   type: 'test'
   ...
 # Subtest: D12 未吃过的submitted记录不参与避重，确认吃过后可参与
 ok 38 - D12 未吃过的submitted记录不参与避重，确认吃过后可参与
   ---
-  duration_ms: 1.0764
+  duration_ms: 0.9632
   type: 'test'
   ...
 # Subtest: D13 仅明确同意后允许历史不足，并保留提示
 ok 39 - D13 仅明确同意后允许历史不足，并保留提示
   ---
-  duration_ms: 1.1227
+  duration_ms: 1.1856
   type: 'test'
   ...
 # Subtest: D14 数据输入排列不影响稳定推荐排序
 ok 40 - D14 数据输入排列不影响稳定推荐排序
   ---
-  duration_ms: 2.467
+  duration_ms: 2.2777
   type: 'test'
   ...
 # Subtest: E01 editor combines changes in isolation and applies them as one undoable change
 ok 41 - E01 editor combines changes in isolation and applies them as one undoable change
   ---
-  duration_ms: 50.6246
+  duration_ms: 52.2915
   type: 'test'
   ...
 # Subtest: E02 previewed exception requires confirmation again on the live store
 ok 42 - E02 previewed exception requires confirmation again on the live store
   ---
-  duration_ms: 3.4623
+  duration_ms: 3.4781
   type: 'test'
   ...
 # Subtest: E03 stale editor cannot replace newer requirements
 ok 43 - E03 stale editor cannot replace newer requirements
   ---
-  duration_ms: 2.6988
+  duration_ms: 2.3802
   type: 'test'
   ...
 # Subtest: E04 combined scopes validate the final draft and confirm restriction removal
 ok 44 - E04 combined scopes validate the final draft and confirm restriction removal
   ---
-  duration_ms: 2.5462
+  duration_ms: 2.8038
   type: 'test'
   ...
 # Subtest: E05 conflicting final draft and unknown exception are rejected atomically
 ok 45 - E05 conflicting final draft and unknown exception are rejected atomically
   ---
-  duration_ms: 1.8436
+  duration_ms: 2.1357
   type: 'test'
   ...
 # Subtest: E06 deleting a live exclusion in a draft cannot bypass confirmation
 ok 46 - E06 deleting a live exclusion in a draft cannot bypass confirmation
   ---
-  duration_ms: 2.0583
+  duration_ms: 2.1822
   type: 'test'
   ...
 # Subtest: R01 小A默认，昨天同餐避重
 ok 47 - R01 小A默认，昨天同餐避重
   ---
-  duration_ms: 8.109
+  duration_ms: 11.1366
   type: 'test'
   ...
 # Subtest: R02 今天想吃面，不要鸡肉
 ok 48 - R02 今天想吃面，不要鸡肉
   ---
-  duration_ms: 1.0615
+  duration_ms: 1.7995
   type: 'test'
   ...
 # Subtest: R03 不同口味用户
 ok 49 - R03 不同口味用户
   ---
-  duration_ms: 0.9472
+  duration_ms: 1.5785
   type: 'test'
   ...
 # Subtest: R04 新用户，无排除且允许重复
 ok 50 - R04 新用户，无排除且允许重复
   ---
-  duration_ms: 1.134
+  duration_ms: 1.783
   type: 'test'
   ...
 # Subtest: R05 切换配送地址
 ok 51 - R05 切换配送地址
   ---
-  duration_ms: 1.3434
+  duration_ms: 1.6072
   type: 'test'
   ...
 # Subtest: R06 用户明确关闭重复限制
 ok 52 - R06 用户明确关闭重复限制
   ---
-  duration_ms: 2.0935
+  duration_ms: 1.557
   type: 'test'
   ...
 # Subtest: R07 默认主推售罄
 ok 53 - R07 默认主推售罄
   ---
-  duration_ms: 2.7008
+  duration_ms: 3.0092
   type: 'test'
   ...
 # Subtest: R08 已选无主食规格不得自动改回米饭
 ok 54 - R08 已选无主食规格不得自动改回米饭
   ---
-  duration_ms: 1.5535
+  duration_ms: 1.4573
   type: 'test'
   ...
 # Subtest: R09 将牛肉面明确改为不辣
 ok 55 - R09 将牛肉面明确改为不辣
   ---
-  duration_ms: 1.3912
+  duration_ms: 1.7295
   type: 'test'
   ...
 # Subtest: R10 所有主餐均触发明确排除
 ok 56 - R10 所有主餐均触发明确排除
   ---
-  duration_ms: 1.2224
+  duration_ms: 1.748
   type: 'test'
   ...
 # Subtest: R11 增加长期鸡肉排除
 ok 57 - R11 增加长期鸡肉排除
   ---
-  duration_ms: 1.4675
+  duration_ms: 1.2452
   type: 'test'
   ...
 # Subtest: R12 已明确确认仅本餐允许鸡肉
 ok 58 - R12 已明确确认仅本餐允许鸡肉
   ---
-  duration_ms: 1.4953
+  duration_ms: 1.4631
   type: 'test'
   ...
 # Subtest: R13 油量未知不获得少油匹配分
 ok 59 - R13 油量未知不获得少油匹配分
   ---
-  duration_ms: 1.3418
+  duration_ms: 1.0944
   type: 'test'
   ...
 # Subtest: R14 开启避重但历史不足且未确认继续
 ok 60 - R14 开启避重但历史不足且未确认继续
   ---
-  duration_ms: 1.0288
+  duration_ms: 0.819
   type: 'test'
   ...
 # Subtest: R15 明确同意仅按现有记录推荐
 ok 61 - R15 明确同意仅按现有记录推荐
   ---
-  duration_ms: 1.7148
+  duration_ms: 1.6368
   type: 'test'
   ...
 # Subtest: R16 只改面食偏好，历史米饭不重复计分
 ok 62 - R16 只改面食偏好，历史米饭不重复计分
   ---
-  duration_ms: 1.2111
+  duration_ms: 1.4667
   type: 'test'
   ...
 # Subtest: R17 上一餐忽略取消和未完成订单
 ok 63 - R17 上一餐忽略取消和未完成订单
   ---
-  duration_ms: 15.9874
+  duration_ms: 20.2847
   type: 'test'
   ...
 # Subtest: R18 跳过当前主推不会自动跳过跨店同菜
 ok 64 - R18 跳过当前主推不会自动跳过跨店同菜
   ---
-  duration_ms: 1.6024
+  duration_ms: 1.6681
   type: 'test'
   ...
 # Subtest: R19 同等匹配按总价后按时间排序
 ok 65 - R19 同等匹配按总价后按时间排序
   ---
-  duration_ms: 1.4994
+  duration_ms: 1.633
   type: 'test'
   ...
 # Subtest: R20 不辣硬约束下，不预填不合格的微辣默认值
 ok 66 - R20 不辣硬约束下，不预填不合格的微辣默认值
   ---
-  duration_ms: 1.1755
+  duration_ms: 1.4872
   type: 'test'
   ...
 # Subtest: R21 用户明确选择微辣后不得悄悄改成不辣
 ok 67 - R21 用户明确选择微辣后不得悄悄改成不辣
   ---
-  duration_ms: 1.1237
+  duration_ms: 2.5021
   type: 'test'
   ...
 # Subtest: C01 默认主推单餐
 ok 68 - C01 默认主推单餐
   ---
-  duration_ms: 1.6629
+  duration_ms: 2.6289
   type: 'test'
   ...
 # Subtest: C02 主餐加黄瓜
 ok 69 - C02 主餐加黄瓜
   ---
-  duration_ms: 0.8883
+  duration_ms: 2.105
   type: 'test'
   ...
 # Subtest: C03 主餐两份，配送费每单一次
 ok 70 - C03 主餐两份，配送费每单一次
   ---
-  duration_ms: 1.6059
+  duration_ms: 2.2798
   type: 'test'
   ...
 # Subtest: C04 豆腐米饭加时蔬
 ok 71 - C04 豆腐米饭加时蔬
   ---
-  duration_ms: 1.0979
+  duration_ms: 2.2075
   type: 'test'
   ...
 # Subtest: C05 同一主餐改面食
 ok 72 - C05 同一主餐改面食
   ---
-  duration_ms: 0.9726
+  duration_ms: 2.0686
   type: 'test'
   ...
 # Subtest: C06 已支持去香菜的实际配置
 ok 73 - C06 已支持去香菜的实际配置
   ---
-  duration_ms: 0.7799
+  duration_ms: 1.5376
   type: 'test'
   ...
 # Subtest: C07 加花生小菜违反排除
 ok 74 - C07 加花生小菜违反排除
   ---
-  duration_ms: 0.9338
+  duration_ms: 1.7664
   type: 'test'
   ...
 # Subtest: C08 跨店商品不允许结算
 ok 75 - C08 跨店商品不允许结算
   ---
-  duration_ms: 0.8319
+  duration_ms: 1.3455
   type: 'test'
   ...
 # Subtest: C09 主食规格尚未确定
 ok 76 - C09 主食规格尚未确定
   ---
-  duration_ms: 1.1831
+  duration_ms: 1.1367
   type: 'test'
   ...
 # Subtest: C10 地址变化重新核算
 ok 77 - C10 地址变化重新核算
   ---
-  duration_ms: 1.3031
+  duration_ms: 1.7623
   type: 'test'
   ...
 # Subtest: C11 新地址不配送
 ok 78 - C11 新地址不配送
   ---
-  duration_ms: 1.1023
+  duration_ms: 1.4144
   type: 'test'
   ...
 # Subtest: C12 主餐与主动另加一份分角色
 ok 79 - C12 主餐与主动另加一份分角色
   ---
-  duration_ms: 0.9851
+  duration_ms: 1.1822
   type: 'test'
   ...
 # Subtest: C13 删除主餐后有效加菜仍可结算
 ok 80 - C13 删除主餐后有效加菜仍可结算
   ---
-  duration_ms: 0.9656
+  duration_ms: 0.9595
   type: 'test'
   ...
 # Subtest: C14 备注不要香菜不能替代规格
 ok 81 - C14 备注不要香菜不能替代规格
   ---
-  duration_ms: 0.8961
+  duration_ms: 1.0787
   type: 'test'
   ...
 # Subtest: C15 未知食材不通过结算
 ok 82 - C15 未知食材不通过结算
   ---
-  duration_ms: 1.8108
+  duration_ms: 2.1444
   type: 'test'
   ...
 # Subtest: C16 购物车为空不能结算
 ok 83 - C16 购物车为空不能结算
   ---
-  duration_ms: 1.2719
+  duration_ms: 3.2807
   type: 'test'
   ...
 # Subtest: C17 同店更换主餐后保留加菜
 ok 84 - C17 同店更换主餐后保留加菜
   ---
-  duration_ms: 1.106
+  duration_ms: 1.3732
   type: 'test'
   ...
 # Subtest: C18 同店换主餐保留另加的原商品
 ok 85 - C18 同店换主餐保留另加的原商品
   ---
-  duration_ms: 1.0349
+  duration_ms: 0.9586
   type: 'test'
   ...
 # Subtest: C19 主餐改小份后加菜
 ok 86 - C19 主餐改小份后加菜
   ---
-  duration_ms: 1.2108
+  duration_ms: 1.0804
   type: 'test'
   ...
 # Subtest: M01 验收证据只保留模型输出和用量，不记录供应商错误或凭证字段
 ok 87 - M01 验收证据只保留模型输出和用量，不记录供应商错误或凭证字段
   ---
-  duration_ms: 2.1147
+  duration_ms: 2.9542
   type: 'test'
   ...
 # Subtest: M02 不静默修复错误食材字段名或删除操作的旧值
 ok 88 - M02 不静默修复错误食材字段名或删除操作的旧值
   ---
-  duration_ms: 91.5619
+  duration_ms: 121.5044
   type: 'test'
   ...
 # Subtest: E01 F15售罄保留草稿，配送费变化必须重新核对，刷新不能绕过
 ok 89 - E01 F15售罄保留草稿，配送费变化必须重新核对，刷新不能绕过
   ---
-  duration_ms: 42.0781
+  duration_ms: 56.3724
   type: 'test'
   ...
 # Subtest: E02 模拟供给按用户隔离，新餐与恢复示例清除供给变更
 ok 90 - E02 模拟供给按用户隔离，新餐与恢复示例清除供给变更
   ---
-  duration_ms: 6.3342
+  duration_ms: 6.6845
   type: 'test'
   ...
 # Subtest: E03 非法模拟商品与金额不改变状态；无结果可恢复
 ok 91 - E03 非法模拟商品与金额不改变状态；无结果可恢复
   ---
-  duration_ms: 3.9142
+  duration_ms: 3.9091
   type: 'test'
   ...
 # Subtest: E04 远程API仅回显允许来源，预检允许JSON与访问码，拒绝其他来源
 ok 92 - E04 远程API仅回显允许来源，预检允许JSON与访问码，拒绝其他来源
   ---
-  duration_ms: 93.1542
+  duration_ms: 98.4975
   type: 'test'
   ...
 # Subtest: E05 访问码在服务端验证，健康检查与公开文件不包含访问码
 ok 93 - E05 访问码在服务端验证，健康检查与公开文件不包含访问码
   ---
-  duration_ms: 44.2926
+  duration_ms: 42.4836
   type: 'test'
   ...
 # Subtest: E06 对外真实AI须有访问码，来源必须为精确origin
 ok 94 - E06 对外真实AI须有访问码，来源必须为精确origin
   ---
-  duration_ms: 1.1736
+  duration_ms: 0.8411
   type: 'test'
   ...
 # Subtest: 第三轮：撤销保留早先本餐修改；清除也可撤销
 ok 95 - 第三轮：撤销保留早先本餐修改；清除也可撤销
   ---
-  duration_ms: 37.5748
+  duration_ms: 48.716
   type: 'test'
   ...
 # Subtest: 第三轮：确认token过期及跨用户均不生效
 ok 96 - 第三轮：确认token过期及跨用户均不生效
   ---
-  duration_ms: 3.4464
+  duration_ms: 2.2788
   type: 'test'
   ...
 # Subtest: 第三轮：长期解除食材排除必须确认；单步撤销恢复
 ok 97 - 第三轮：长期解除食材排除必须确认；单步撤销恢复
   ---
-  duration_ms: 2.5375
+  duration_ms: 2.0607
   type: 'test'
   ...
 # Subtest: 第三轮：本餐独立排除不受长期例外影响
 ok 98 - 第三轮：本餐独立排除不受长期例外影响
   ---
-  duration_ms: 2.633
+  duration_ms: 2.2308
   type: 'test'
   ...
 # Subtest: 第三轮：同商品主餐/加菜角色保留，换主餐正确核算
 ok 99 - 第三轮：同商品主餐/加菜角色保留，换主餐正确核算
   ---
-  duration_ms: 8.2649
+  duration_ms: 7.0454
   type: 'test'
   ...
 # Subtest: 第三轮：缺规格主餐可进店，结算被阻止，补齐可继续
 ok 100 - 第三轮：缺规格主餐可进店，结算被阻止，补齐可继续
   ---
-  duration_ms: 2.8295
+  duration_ms: 3.1535
   type: 'test'
   ...
 # Subtest: 第三轮：需求变化不替换购物车，明确阻断
 ok 101 - 第三轮：需求变化不替换购物车，明确阻断
   ---
-  duration_ms: 3.3351
+  duration_ms: 4.0713
   type: 'test'
   ...
 # Subtest: 第三轮：历史补充与归属纠正即时影响避重
 ok 102 - 第三轮：历史补充与归属纠正即时影响避重
   ---
-  duration_ms: 2.6296
+  duration_ms: 2.8991
   type: 'test'
   ...
 # Subtest: 第三轮：三用户独立持久化，恢复清除全部应用示例改动
 ok 103 - 第三轮：三用户独立持久化，恢复清除全部应用示例改动
   ---
-  duration_ms: 3.1166
+  duration_ms: 3.9768
   type: 'test'
   ...
 # Subtest: 第三轮：损坏版本不覆盖旧存储；提示显式重置
 ok 104 - 第三轮：损坏版本不覆盖旧存储；提示显式重置
   ---
-  duration_ms: 2.2357
+  duration_ms: 3.0192
   type: 'test'
   ...
 # Subtest: S01 HTTP健康检查区分未配置和未验证，不暴露凭证
 ok 105 - S01 HTTP健康检查区分未配置和未验证，不暴露凭证
   ---
-  duration_ms: 46.897
+  duration_ms: 53.8859
   type: 'test'
   ...
 # Subtest: S02 仅公开启动页、浏览器领域模块及示例数据
 ok 106 - S02 仅公开启动页、浏览器领域模块及示例数据
   ---
-  duration_ms: 35.9441
+  duration_ms: 35.9045
   type: 'test'
   ...
 # Subtest: S03 服务端文件、测试答案与环境配置无法经静态路由读取
 ok 107 - S03 服务端文件、测试答案与环境配置无法经静态路由读取
   ---
-  duration_ms: 12.8737
+  duration_ms: 15.3048
   type: 'test'
   ...
 # Subtest: S04 编码及未规范化路径不能穿越公开目录
 ok 108 - S04 编码及未规范化路径不能穿越公开目录
   ---
-  duration_ms: 12.7803
+  duration_ms: 10.0624
   type: 'test'
   ...
 # Subtest: S05 尚未实现的AI接口返回不可用，不伪造解析成功
 ok 109 - S05 尚未实现的AI接口返回不可用，不伪造解析成功
   ---
-  duration_ms: 8.3336
+  duration_ms: 7.5219
   type: 'test'
   ...
 # Subtest: T01 默认P01直接确认，金额2100，提交不产生已吃记录
 ok 110 - T01 默认P01直接确认，金额2100，提交不产生已吃记录
   ---
-  duration_ms: 40.2192
+  duration_ms: 38.4196
   type: 'test'
   ...
 # Subtest: T02 P09参考配置不入车，补面食后为2800
 ok 111 - T02 P09参考配置不入车，补面食后为2800
   ---
-  duration_ms: 4.7895
+  duration_ms: 4.4662
   type: 'test'
   ...
 # Subtest: T03 同一任务连续提交及重建状态后重试均复用同一订单
 ok 112 - T03 同一任务连续提交及重建状态后重试均复用同一订单
   ---
-  duration_ms: 2.7283
+  duration_ms: 4.7708
   type: 'test'
   ...
 # Subtest: T04 费用变化要求重新核对，快照不随后续价格改变
 ok 113 - T04 费用变化要求重新核对，快照不随后续价格改变
   ---
-  duration_ms: 3.143
+  duration_ms: 3.3649
   type: 'test'
   ...
 # Subtest: T05 导航与重复选餐不叠加数量，预览和取消不修改已选规格
 ok 114 - T05 导航与重复选餐不叠加数量，预览和取消不修改已选规格
   ---
-  duration_ms: 4.7851
+  duration_ms: 5.1724
   type: 'test'
   ...
 # Subtest: T06 换店需要确认，取消保持旧车；确认后替换
 ok 115 - T06 换店需要确认，取消保持旧车；确认后替换
   ---
-  duration_ms: 3.6399
+  duration_ms: 2.513
   type: 'test'
   ...
 # Subtest: T07 新餐与恢复示例分开，恢复只影响应用键
 ok 116 - T07 新餐与恢复示例分开，恢复只影响应用键
   ---
-  duration_ms: 4.5192
+  duration_ms: 2.9799
   type: 'test'
   ...
 # Subtest: T08 存储不可用仍可完成当前会话，但明确提示无法保存
 ok 117 - T08 存储不可用仍可完成当前会话，但明确提示无法保存
   ---
-  duration_ms: 8.5365
+  duration_ms: 5.7394
   type: 'test'
   ...
 # Subtest: V01 诊断只报告配置存在性，不输出凭证且不调用模型
 ok 118 - V01 诊断只报告配置存在性，不输出凭证且不调用模型
   ---
-  duration_ms: 1.3734
+  duration_ms: 1.326
   type: 'test'
   ...
 # Subtest: V02 线上健康诊断不发送访问码或模型密钥，且不冒充模型验证
 ok 119 - V02 线上健康诊断不发送访问码或模型密钥，且不冒充模型验证
   ---
-  duration_ms: 37.7005
+  duration_ms: 36.0848
   type: 'test'
   ...
 # Subtest: V03 线上调用只向指定HTTPS后端发送体验访问码，不发送供应商密钥
 ok 120 - V03 线上调用只向指定HTTPS后端发送体验访问码，不发送供应商密钥
   ---
-  duration_ms: 1.278
+  duration_ms: 0.9654
   type: 'test'
   ...
 # Subtest: V04 无效URL、HTML响应、未配置后端和缺访问码均不可放行
 ok 121 - V04 无效URL、HTML响应、未配置后端和缺访问码均不可放行
   ---
-  duration_ms: 2.5296
+  duration_ms: 2.2658
   type: 'test'
   ...
 # Subtest: V05 线上错误只报告错误码，不泄露后端原始信息或自动重试
 ok 122 - V05 线上错误只报告错误码，不泄露后端原始信息或自动重试
   ---
-  duration_ms: 1.158
+  duration_ms: 1.695
   type: 'test'
   ...
 1..122
@@ -739,4 +739,4 @@ ok 122 - V05 线上错误只报告错误码，不泄露后端原始信息或自�
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 934.1193
+# duration_ms 978.4324

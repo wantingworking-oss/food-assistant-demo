@@ -45,7 +45,7 @@ export function createAI({data,store,escape:e,render,perform,toast,container=()=
    last={...result,message:result.history?'历史备注已整理，请逐项确认。':result.applied?.length||result.deferred?.length?'已整理到草稿，请核对后应用。':result.clarifications?.length?'请先确认下方含义。':'没有可直接调整的内容，请查看说明。'};
    clarification=result.clarifications?.length?{original:text,items:result.clarifications,version:store.state.versions.requirements}:null;
    if(result.needs_confirmation&&!previewOnly)perform(result);
-   health={ai:{...health?.ai,configured:true,available:true}};
+   health={ai:{...health?.ai,configured:true,available:true,status:'verified'}};
   }catch(error){const s=store.state;if(!destroyed&&controller===activeController&&s.user_id===boundUser&&s.task.task_id===req.task_id){if(health?.ai?.configured)health={ai:{...health.ai,available:false,status:'unavailable'}};last={message:error.name==='AbortError'?'请求超时，草稿和原要求均已保留。请重试或手动调整。':error.message};store.dispatch({type:'AI_END',request_id:req.request_id});}}
   finally{clearTimeout(timer);if(controller===activeController){busy=false;controller=null;}paint();}
  }

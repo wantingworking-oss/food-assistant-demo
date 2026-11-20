@@ -1,0 +1,52 @@
+{
+  "version": "0.7.0",
+  "checked_at": "2026-11-20T06:42:05.681Z",
+  "url": "https://wantingworking-oss.github.io/food-assistant-demo/",
+  "backend": "https://food-assistant-deepseek.onrender.com",
+  "paid_model_calls": 0,
+  "new_real_semantic_validation": false,
+  "cases": [
+    {
+      "id": "online-assets-match-0.7.0",
+      "status": "passed",
+      "transport": "actual_published_page"
+    },
+    {
+      "id": "online-entry-below-existing-requirements",
+      "status": "passed",
+      "transport": "actual_published_page"
+    },
+    {
+      "id": "online-real-backend-access-code-guard",
+      "status": "passed",
+      "transport": "actual_cross_origin_HTTP_no_provider_call"
+    },
+    {
+      "id": "online-shared-AI-manual-preview-and-apply",
+      "status": "passed",
+      "transport": "actual_page_with_controlled_model_response"
+    },
+    {
+      "id": "online-mock-order-and-refresh",
+      "status": "passed",
+      "transport": "actual_published_page"
+    },
+    {
+      "id": "online-escape-and-cancel-discard",
+      "status": "passed",
+      "transport": "actual_published_page"
+    },
+    {
+      "id": "online-exception-final-confirmation",
+      "status": "passed",
+      "transport": "actual_published_page"
+    },
+    {
+      "id": "online-mobile-390",
+      "status": "passed",
+      "transport": "actual_published_page"
+    }
+  ],
+  "errors": [],
+  "status": "passed"
+}

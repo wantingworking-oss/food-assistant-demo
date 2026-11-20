@@ -1,6 +1,6 @@
 {
   "version": "0.7.0",
-  "checked_at": "2026-11-19T21:46:15.173Z",
+  "checked_at": "2026-11-20T06:46:41.549Z",
   "browser": "157.0.8103.79",
   "cases": [
     {
@@ -67,6 +67,6 @@
     "round7-core-mobile.png"
   ],
   "errors": [],
-  "source_sha256": "f664f7e261fd63e48fd03e28d67ee2916c10cb3ea9f78b3386a9f3ad9d6efb89",
+  "source_sha256": "7fa0fc73eecb46c8e0e2e6e550dc3ba8b4236fb3bceecd5919d4bab372e6bb58",
   "status": "passed"
 }
