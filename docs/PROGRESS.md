@@ -6,7 +6,7 @@
 
 新增6项草稿状态测试，全量122项通过；本轮浏览器证据见validation/round7-editor-browser.json，核心、加菜/编辑及异常回归见round7-regression.json、round7-editing.json、round7-release.json。没有修改10份原始材料、模型提示、词表或排序规则，本轮没有新付费模型调用。
 
-旧版真实模型证据仍属于0.6.1，不冒充0.7.0重新语义验收。发布状态以validation/round7-deployment.json为准；GitHub账号连接恢复前不能将本地修改视为已在线发布。
+旧版真实模型证据仍属于0.6.1，不冒充0.7.0重新语义验收。0.7.0前端与后端已发布，公开页面8项检查通过，核对前端7份关键资源和后端3份资源与本地一致。线上证据为validation/round7-online.json；发布提交、Actions及Render部署记录见round7-deployment.json。修复了请求失败后重试成功仍显示不可用的旧提示。
 
 ---
 

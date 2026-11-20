@@ -1,5 +1,7 @@
 # 部署与体验
 
+当前0.7.0前端和Render后端均已更新，公开页面与健康检查通过。[本版构建发布](https://github.com/wantingworking-oss/food-assistant-demo/actions/runs/44690477783)成功，线上8项检查通过。完整证据见validation/round7-deployment.json、round7-online.json。
+
 已发布：[今天吃什么 · 在线体验](https://wantingworking-oss.github.io/food-assistant-demo/)。源码：[food-assistant-demo](https://github.com/wantingworking-oss/food-assistant-demo)。
 
 前端通过GitHub Pages部署，真实DeepSeek请求由[Render后端](https://food-assistant-deepseek.onrender.com/api/health)处理。当前为用户确认工作区中的新加坡免费实例；没有创建付费实例或数据库。DeepSeek按请求消耗账号余额。
@@ -34,3 +36,5 @@ Render使用Node 24.22.1，构建命令npm test && npm run check:inputs，启动
 双击start-local.cmd，或项目目录执行npm start，再访问http://localhost:3000。本地运行依赖本机进程保持启动；当前本地真实AI服务继续保留供体验。
 
 0.7.0发布状态独立记录在validation/round7-deployment.json；未验证的新发布不能复用上轮成功记录。
+
+现有Render服务通过公开Git仓库URL创建，需要手动部署新提交；仅设置autoDeploy标志不能替代Git提供商连接。本次通过现有服务部署f2185f4c41f1e1b168d1e363bac8752df17b1f8f，已到达live并核对0.7.0健康状态及资源。
