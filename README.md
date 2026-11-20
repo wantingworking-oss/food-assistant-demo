@@ -1,6 +1,8 @@
 # 今天吃什么 · 个人外卖决策助手
 
-当前版本0.6.1。本地DeepSeek真实接入已验证：A01—A24全部通过，浏览器真实请求完成选餐、模拟下单和本次破例确认。手动选餐、编辑、加菜、刷新恢复及模拟提交可独立体验。GitHub Pages已连接Render真实DeepSeek后端，使用AI需填写体验访问码。
+当前版本0.7.0。自然语言调整已移入“小A已有要求”下的“调整本餐要求”弹窗，与手动编辑共用草稿。理解后先核对“本次将修改”，点击“应用修改”后才更新摘要和推荐；取消、关闭或Esc丢弃草稿。解除限制和临时例外仍须确认。支持口味、主食、份量和忌口调整，暂不支持按菜名搜套餐。
+
+本版新增6项草稿状态测试，完整程序测试122项通过。DeepSeek适配器与原始数据不变；此前真实24条语义验收是0.6.1的独立记录，本轮交互测试使用受控响应及注入后端，不新增付费模型请求。
 
 在线体验：[打开今天吃什么](https://wantingworking-oss.github.io/food-assistant-demo/)（GitHub Pages前端 + Render后端，已实测真实AI）。
 
@@ -43,21 +45,21 @@ npm run doctor
 npm run test:ai
 ```
 
-- 应用测试116项通过，含原40项推荐/购物车预期，另有8项DeepSeek、5项配置/线上验收客户端及2项模型证据测试。`test:report`写入`docs/validation/round6.json`、`round6.tap`及源码指纹。
-- F10、F11及确认/取消/撤销、历史缓存确认、澄清追问已通过Chrome受控响应测试，证据在`round6-browser.json`。这验证交互与恢复，不代表真实模型理解通过。另有独立未配置服务的实际HTTP检查，不读取本机真实凭证。
-- 本版核心回归记录为`round6-regression.json`，编辑与加菜回归为`round6-editing.json`。包括360/390/768/1440宽度，以及`/food-demo/`仓库子路径的静态选餐提交。
+- 应用测试122项通过，含原40项推荐/购物车预期，另有8项DeepSeek、5项配置/线上验收客户端、2项模型证据测试及6项草稿测试。`test:report`写入`docs/validation/round7.json`、`round7.tap`及源码指纹。本版记录使用round7前缀。
+- F10、F11及确认/取消/撤销、历史缓存确认、澄清追问已通过Chrome受控响应测试，本版证据在`round7-editor-browser.json`（旧版记录为round6-browser.json）。这验证交互与恢复，不代表真实模型理解通过。另有独立未配置服务的实际HTTP检查，不读取本机真实凭证。
+- 本版核心回归记录为`round7-regression.json`，编辑与加菜回归为`round7-editing.json`。包括360/390/768/1440宽度，以及`/food-demo/`仓库子路径的静态选餐提交。
 - `check:inputs`核对10份原始材料SHA-256；`build`生成公开资源白名单内的`dist/`，不包含服务器适配器、凭证或测试答案。
 - `test:ai`在配置齐全时逐条实际调用模型（最多24次），记录请求、响应、模型、耗时、用量及程序应用前后状态。支持使用`AI_TEST_BASE_URL`验收实际托管后端；认证、额度或连接故障后停止后续调用。未配置时24项均为`not_run`，报告`blocked`并以非零状态退出；有调用成本。当前真实DeepSeek用例24通过、0失败、0未执行。首次运行18通过、6失败；修复通用操作契约和历史提取提示后，完整重跑通过。原验收预期未修改。
 
 浏览器测试需要本机Chrome和单独安装的`playwright-core`，运行产品不需要它。设置`PLAYWRIGHT_MODULE`为其包目录，保持服务运行，执行：
 
 ```sh
-node scripts/browser-check.mjs round6
-node scripts/round3-browser.mjs round6
-node scripts/round4-browser.mjs round6
+node scripts/browser-check.mjs round7
+node scripts/round3-browser.mjs round7
+node scripts/editor-browser.mjs
 ```
 
-`APP_URL`可设置核心/AI脚本的服务地址，默认`http://localhost:3000`。编辑回归脚本使用默认3000端口。受控响应截图上标注测试性质；`round6-manual-*.png`为独立未配置服务截图。`round6-live-browser.json`及`round6-live-*.png`记录实际DeepSeek浏览器调用。`node scripts/live-ai-browser.mjs`会额外发出两次真实请求，有调用成本，不包含在npm test或发布工作流内。
+`APP_URL`可设置核心/AI脚本的服务地址，默认`http://localhost:3000`。编辑回归脚本也支持APP_URL。受控响应截图上标注测试性质；`round6-manual-*.png`为独立未配置服务截图。`round6-live-browser.json`及`round6-live-*.png`记录实际DeepSeek浏览器调用。`node scripts/live-ai-browser.mjs`会额外发出两次真实请求，有调用成本，不包含在npm test或发布工作流内。
 
 原始Python参考核对脚本只验证数据和参考计算，不代替应用验收。使用`python -X utf8 fixtures/verify_fixtures.py`可单独执行。
 
@@ -81,4 +83,6 @@ node scripts/round4-browser.mjs round6
 
 F01—F15已在本版执行，F10/F11涉及AI的返回采用受控测试响应，不计真实AI语义通过。异常和跨来源接口记录见`docs/validation/round6-release.json`。A01—A24已在本地真实DeepSeek通过；公开GitHub页面到Render及DeepSeek的真实选餐、模拟下单和本次例外确认也已验证。详见[开发进度](docs/PROGRESS.md)。
 
-逐条真实模型原文、饮食上下文与请求标识仅保留本地验收文件；GitHub公开汇总见`docs/validation/round6-ai-public.json`。确认、取消及Esc关闭弹窗后，AI面板同步显示结果，避免继续提示等待确认。
+逐条真实模型原文、饮食上下文与请求标识仅保留本地验收文件；GitHub公开汇总见`docs/validation/round6-ai-public.json`。确认后摘要与推荐同步更新，取消或Esc关闭编辑弹窗会丢弃未应用草稿。
+
+0.7.0变更和本轮验收见[弹窗调整说明](docs/ROUND7_EDITOR.md)。历史备注整理移入“核对历史”面板。按菜名检索和推荐匹配语义的改造不属于本次位置调整，现有推荐规则保持原有行为。

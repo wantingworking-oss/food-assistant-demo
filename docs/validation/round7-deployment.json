@@ -1,0 +1,15 @@
+{
+  "version": "0.7.0",
+  "checked_at": "2026-11-19T21:50:19.980301+00:00",
+  "status": "local_verified_waiting_github_connection",
+  "local_url": "http://localhost:3007",
+  "public_url": "https://wantingworking-oss.github.io/food-assistant-demo/",
+  "public_version": "0.6.1",
+  "github_connection": "not_available",
+  "publication": "not_run",
+  "program_tests": 122,
+  "editor_browser_cases": 16,
+  "source_sha256": "f664f7e261fd63e48fd03e28d67ee2916c10cb3ea9f78b3386a9f3ad9d6efb89",
+  "paid_model_calls_this_round": 0,
+  "original_inputs_unchanged": 10
+}

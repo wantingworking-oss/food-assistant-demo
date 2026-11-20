@@ -91,3 +91,30 @@ export function planRequirements(data, state, event) {
 export function dimensionLabel(dimension) {
   return ({ spiciness: '辣度', oil: '油量', fried: '油炸方式', staple: '主食', cuisine: '菜系', portion: '份量' })[dimension] ?? dimension;
 }
+
+// Validate a combined editor draft and recompute confirmations against live
+// requirements. Confirming a preview in an isolated draft never exempts this check.
+export function planRequirementsDraft(data,state,value){
+  if(!value||!Array.isArray(value.exceptions?.ingredients)||!value.exceptions.hard_attributes)throw new Error('要求草稿无效。');
+  const next={long_term:normalizeRequirements(data,value.long_term),current:normalizeRequirements(data,value.current),
+    historical:normalizeRequirements(data,value.historical,true),exceptions:{ingredients:[],hard_attributes:{}}};
+  for(const id of value.exceptions.ingredients){
+    if(!data.dictionaries.ingredients.includes(id))throw new Error('临时例外食材无效。');
+    if(next.long_term.excluded_ingredients.includes(id)&&!next.exceptions.ingredients.includes(id))next.exceptions.ingredients.push(id);
+  }
+  const hard=normalizeRequirements(data,{hard_attributes:value.exceptions.hard_attributes}).hard_attributes;
+  for(const [field,values]of Object.entries(hard)){
+    const baseline=next.long_term.hard_attributes[field];
+    if(baseline&&baseline.every(v=>values.includes(v))&&values.every(v=>baseline.includes(v)))next.exceptions.hard_attributes[field]=values;
+  }
+  const finalState=structuredClone(state);restoreRequirements(finalState,next);
+  const messages=[];
+  for(const scope of ['long_term','current']){
+    const check=structuredClone(finalState);
+    if(scope==='long_term')check.profile.long_term=structuredClone(state.profile.long_term);else check.current=structuredClone(state.current);
+    messages.push(...planRequirements(data,check,{type:'APPLY_REQUIREMENTS',scope,value:next[scope]}).messages);
+  }
+  for(const id of next.exceptions.ingredients)if(!state.confirmed_exceptions.ingredients.includes(id))messages.push(`仅本餐允许${data.dictionaries.ingredient_labels[id]}；长期排除保留。`);
+  for(const [field,values]of Object.entries(next.exceptions.hard_attributes))if(JSON.stringify(values)!==JSON.stringify(state.confirmed_exceptions.hard_attributes[field]))messages.push(`仅本餐豁免长期${dimensionLabel(field)}硬约束。`);
+  return {next,messages:[...new Set(messages)]};
+}

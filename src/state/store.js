@@ -6,7 +6,7 @@ import { validateCart } from '../domain/cart.js';
 import { createContext } from '../domain/context.js';
 import { selectableConfigurations } from '../domain/configurations.js';
 import { mergeRequirements } from '../domain/requirements.js';
-import { emptyRequirements, normalizeRequirements, planRequirements, requirementsSnapshot, restoreRequirements } from './requirements.js';
+import { emptyRequirements, normalizeRequirements, planRequirements, planRequirementsDraft, requirementsSnapshot, restoreRequirements } from './requirements.js';
 
 const PREFIX = 'food-assistant:1.0.0:';
 export const STORAGE_KEY = `${PREFIX}U_A:task`;
@@ -179,6 +179,12 @@ export function createStore(data, { storage, id = () => crypto.randomUUID(), now
           case 'ENTER_ASSISTANT': state.page = existingOrder() ? 'confirm' : 'assistant'; break;
           case 'HOME': state.page = 'home'; break;
           case 'RETURN_TO_ASSISTANT': state.page = 'assistant'; break;
+          case 'APPLY_REQUIREMENTS_DRAFT': {
+            if(event.base_version!==state.versions.requirements)return failure('要求已变化，请关闭面板后重新调整。');
+            const plan=planRequirementsDraft(data,state,event.value);
+            if(plan.messages.length){state.pending_change={token:id(),version:state.versions.requirements,...plan};save();return {ok:false,needs_confirmation:true,token:state.pending_change.token,messages:plan.messages};}
+            applyRequirements(plan.next);break;
+          }
           case 'APPLY_REQUIREMENTS': case 'CLEAR_CURRENT_REQUIREMENTS': case 'PROPOSE_EXCEPTION': {
             const plan = planRequirements(data, state, event);
             if (plan.messages.length) {
@@ -319,4 +325,11 @@ export function createStore(data, { storage, id = () => crypto.randomUUID(), now
       } catch (error) { return failure(error.message); }
     },
   };
+}
+
+// The editor reuses the production planner in memory. Its requests and changes
+// cannot mutate the live store or browser storage before Apply.
+export function createRequirementsDraft(data,state){
+  const memory=new Map([[userStorageKey(state.user_id),JSON.stringify(state)],[ACTIVE_KEY,state.user_id]]);
+  return createStore(data,{storage:{getItem:key=>memory.get(key)??null,setItem:(key,value)=>memory.set(key,value)}});
 }

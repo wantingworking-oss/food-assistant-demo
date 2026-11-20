@@ -1,4 +1,3 @@
-import {createAI} from './ai-ui.js';
 import { createPanels, valueLabel, DIMENSION_LABELS, MEAL_LABELS, REPEAT_LABELS, ERROR_LABELS } from './panels.js';
 import { createStore, STORAGE_KEY } from './src/state/store.js';
 
@@ -15,7 +14,7 @@ function illustration(tone = 'tomato') {
   return `<div class="food-art ${tone}" aria-label="餐食示意插画，非实拍"><svg viewBox="0 0 400 300" aria-hidden="true"><ellipse cx="205" cy="254" rx="124" ry="17" fill="#123f34" opacity=".1"/><path d="M76 143h248c-7 87-44 113-124 113S83 230 76 143" fill="#f7faf9"/><path d="M88 175c31 24 192 26 224-2" stroke="#dce7e1" stroke-width="5" fill="none"/><ellipse cx="200" cy="143" rx="125" ry="72" fill="#fff"/><ellipse cx="200" cy="143" rx="111" ry="60" fill="#edf0dc"/><path d="M97 147c17-67 169-82 207-14-28 53-161 57-207 14" fill="#fffaf0"/><g class="veg"><ellipse cx="242" cy="119" rx="28" ry="15" transform="rotate(-35 242 119)"/><ellipse cx="266" cy="143" rx="28" ry="16" transform="rotate(26 266 143)"/><ellipse cx="226" cy="153" rx="31" ry="16" transform="rotate(-26 226 153)"/></g><g class="main-food"><path d="M124 108q23-20 46 3l-8 30-37-6Z"/><path d="m164 128 27-16 25 28-22 23-30-8Z"/><path d="m116 151 26-11 25 22-20 21-33-8Z"/></g><g fill="#f1c34b"><path d="m169 99 27-3 15 20-22 11-24-11Z"/><path d="m153 157 21 6 10 24-33-3-9-13Z"/></g><g fill="#497c44"><ellipse cx="183" cy="134" rx="4" ry="8" transform="rotate(40 183 134)"/><ellipse cx="145" cy="122" rx="4" ry="9" transform="rotate(-40 145 122)"/><ellipse cx="207" cy="176" rx="4" ry="8" transform="rotate(20 207 176)"/></g><path d="m294 76 59-56m-48 68 59-55" stroke="#987055" stroke-width="7" stroke-linecap="round"/></svg><span class="art-caption">餐食示意</span></div>`;
 }
 let data, store, expanded = false, busy = false, specTarget = null, action = null, focusBeforeDialog = null;
-let toastTimer, panels, ai;
+let toastTimer, panels;
 function toast(text) {
   const element = document.querySelector('#toast'); element.textContent = text; element.classList.add('visible');
   clearTimeout(toastTimer); toastTimer = setTimeout(() => element.classList.remove('visible'), 4200);
@@ -38,12 +37,12 @@ function home() {
   const hasOrder = Boolean(store.state.orders[store.state.task.task_id]);
   return `<main id="main"><section class="home-hero"><div class="hero-copy"><p class="eyebrow">给忙碌的日常，留一点轻松</p><h1 tabindex="-1">今天这一餐，<br>帮你选好了。</h1><p class="hero-description">记住你的口味，避开不吃的食材。<br>从一份合适的推荐开始，少翻一会儿，多歇一会儿。</p><button class="primary large" data-action="enter">${hasOrder ? '查看本次模拟订单' : '进入今天吃什么'}</button><p class="hero-hint">${icon('check')} 沿用小A示例要求，无需先聊天</p></div><div class="hero-visual">${illustration()}<span class="floating-label">这一餐，照顾你的口味</span></div></section>
     <section class="home-details"><div><p class="eyebrow">从要求到选定，简单三步</p><h2>把挑选的功夫，省下来。</h2></div><div class="benefit"><span>${icon('leaf')}</span><h3>记住你的要求</h3><p>口味、食材排除与近期主菜，<br>一起考虑。</p></div><div class="benefit"><span>${icon('bowl')}</span><h3>给你具体的一餐</h3><p>一项主推，少量备选，<br>说明为什么适合你。</p></div><div class="benefit"><span>${icon('bag')}</span><h3>选好就去确认</h3><p>规格、包装和配送费用，<br>提交前看清楚。</p></div></section>
-    <div class="home-note">${icon('info')} 当前可体验沿用要求选餐、补规格和模拟提交；自然语言功能需配置模型服务。</div></main>`;
+    <div class="home-note">${icon('info')} 可从已有要求下方调整口味与忌口，再查看推荐；当前为模拟选餐体验。</div></main>`;
 }
 function requirements() {
  const st=store.state, effective=store.effectiveRequirements();
  const list = (obj) => Object.entries(obj).map(([key, values]) => `${DIMENSION_LABELS[key]}：${values.map(value=>valueLabel(key,value)).join(' / ')}`).join('；') || '未设置';
- return `<aside class="requirements panel"><h2>${escape(st.profile.name)}</h2><div class="requirement-group"><h3>有效食材排除</h3><p>${effective.excluded.map(id=>escape(data.dictionaries.ingredient_labels[id])).join('、') || '未设置'}</p></div><div class="requirement-group"><h3>长期要求</h3><p>${escape(list(st.profile.long_term.soft_preferences))}</p><p>硬约束：${escape(list(st.profile.long_term.hard_attributes))}</p></div><div class="requirement-group"><h3>仅这餐</h3><p>${escape(list(st.current.soft_preferences))}</p><p>本餐排除：${st.current.excluded_ingredients.map(id=>escape(data.dictionaries.ingredient_labels[id])).join('、') || '无'}</p><p>硬约束：${escape(list(st.current.hard_attributes))}</p><p>临时例外：${[...st.confirmed_exceptions.ingredients.map(id=>data.dictionaries.ingredient_labels[id]),...Object.keys(st.confirmed_exceptions.hard_attributes).map(key=>DIMENSION_LABELS[key])].join('、') || '无'}</p></div><div class="requirement-group"><h3>重复规则</h3><p>${REPEAT_LABELS[effective.repeat_rule]}</p></div><p class="history-hint">示例历史倾向：${escape(list(st.profile.historical_soft_preferences))}，不是本次AI分析。</p><div class="toolbar"><button class="secondary" data-action="preferences">编辑要求</button><button class="text-button" data-action="history">核对历史</button><button class="text-button" data-action="undo" ${st.undo ? '' : 'disabled'}>撤销上次修改</button><button class="text-button" data-action="clear">清除本餐调整</button></div></aside>`;
+ return `<aside class="requirements panel"><h2>${escape(st.profile.name)}</h2><div class="requirement-group"><h3>有效食材排除</h3><p>${effective.excluded.map(id=>escape(data.dictionaries.ingredient_labels[id])).join('、') || '未设置'}</p></div><div class="requirement-group"><h3>长期要求</h3><p>${escape(list(st.profile.long_term.soft_preferences))}</p><p>硬约束：${escape(list(st.profile.long_term.hard_attributes))}</p></div><div class="requirement-group"><h3>仅这餐</h3><p>${escape(list(st.current.soft_preferences))}</p><p>本餐排除：${st.current.excluded_ingredients.map(id=>escape(data.dictionaries.ingredient_labels[id])).join('、') || '无'}</p><p>硬约束：${escape(list(st.current.hard_attributes))}</p><p>临时例外：${[...st.confirmed_exceptions.ingredients.map(id=>data.dictionaries.ingredient_labels[id]),...Object.keys(st.confirmed_exceptions.hard_attributes).map(key=>DIMENSION_LABELS[key])].join('、') || '无'}</p></div><div class="requirement-group"><h3>重复规则</h3><p>${REPEAT_LABELS[effective.repeat_rule]}</p></div><p class="history-hint">示例历史倾向：${escape(list(st.profile.historical_soft_preferences))}，不是本次AI分析。</p><div class="toolbar"><button class="primary" data-action="preferences">调整本餐要求</button><button class="text-button" data-action="history">核对历史</button><button class="text-button" data-action="undo" ${st.undo ? '' : 'disabled'}>撤销上次修改</button><button class="text-button" data-action="clear">清除本餐调整</button></div></aside>`;
 }
 const reasonFor = entry => ({ oil: '商品标记为少油', fried: '非油炸', staple: `包含${optionLabel('staple', entry.actual)}`, spiciness: optionLabel('spiciness', entry.actual), portion: optionLabel('portion', entry.actual) })[entry.dimension] ?? '符合菜系偏好';
 function card(id, primary = false) {
@@ -61,7 +60,6 @@ function card(id, primary = false) {
 function assistant() {
   const result = store.recommendations(), ids = result.display_product_ids;
   return `<main id="main"><div class="page-title"><div><p class="eyebrow">${escape(store.state.profile.name)}，你好</p><h1 tabindex="-1">这一餐，试试这个？</h1><p class="muted">先看一份合适的，也给你留了其他选择。</p></div><span class="meal-label">${icon('clock')} ${MEAL_LABELS[store.state.task.meal]}</span></div><div class="assistant-layout">${requirements()}<section class="recommendations" aria-label="本餐推荐">
-    ${ai?.markup() ?? ''}
     ${store.state.cart.length ? '<div class="draft-bar">已保留你选的餐食。<button class="text-button" data-action="shop">查看购物车 / 加菜</button><button class="text-button" data-action="continue">继续核对订单</button></div>' : ''}
     ${ids.length ? card(ids[0], true) : `<div class="panel"><h2>暂时没有合适餐食</h2><p>当前没有符合要求的可售餐食，可以编辑要求、核对历史或查看已跳过的餐食。</p><button class="secondary" data-action="preferences">编辑要求</button><button class="text-button" data-action="reset-skipped">查看已跳过餐食</button>${result.status === 'needs_history_confirmation' ? '<button class="secondary" data-action="allow-history">仅按现有记录推荐</button>' : ''}</div>`}
     ${ids.length > 1 ? `<button class="alternatives-toggle" data-action="alternatives" aria-expanded="${expanded}" aria-controls="alternatives"><span>${expanded ? '收起' : '看看'}另外 ${ids.length - 1} 个选择</span><span class="chevron ${expanded ? 'up' : ''}" aria-hidden="true"></span></button><div id="alternatives" class="alternatives" ${expanded ? '' : 'hidden'}>${expanded ? ids.slice(1).map(id => card(id)).join('') : ''}</div>` : ''}
@@ -173,7 +171,7 @@ app.addEventListener('submit',event=>{
 specDialog.addEventListener('change', event => { if (event.target.matches('input[type="radio"]')) { specTarget.options[event.target.name] = event.target.value; updateSpecPreview(); } });
 specDialog.addEventListener('submit', event => { event.preventDefault(); const target = specTarget; closeDialog(specDialog); if(target.mode==='select') select(target.id, target.options); else perform(store.dispatch(target.mode==='add' ? {type:'ADD_ITEM',product_id:target.id,options:target.options} : {type:'EDIT_SPEC',index:target.index,options:target.options})); });
 specDialog.addEventListener('click', event => { if (event.target.closest('[data-spec="cancel"]')) closeDialog(specDialog); });
-function cancelPendingChange(){const token=store?.state.pending_change?.token;store?.dispatch({type:'CANCEL_CHANGE'});ai?.resolveConfirmation(token,'cancelled');render();}
+function cancelPendingChange(){const token=store?.state.pending_change?.token;store?.dispatch({type:'CANCEL_CHANGE'});panels?.resolveConfirmation(token,'cancelled');render();}
 actionDialog.addEventListener('click', event => { const button = event.target.closest('[data-dialog]'); if (!button) return; closeDialog(actionDialog); if (button.dataset.dialog === 'confirm') action?.(); else cancelPendingChange(); });
 actionDialog.addEventListener('cancel',()=>{cancelPendingChange();focusBeforeDialog?.focus?.();});
 specDialog.addEventListener('cancel',()=>{focusBeforeDialog?.focus?.();});
@@ -183,14 +181,14 @@ try {
   if (!response.ok) throw new Error('Dataset unavailable');
   data = await response.json();
   let storage; try { storage = localStorage; } catch { /* Store exposes a session-only warning. */ }
-  store = createStore(data, { storage }); panels = createPanels({data,store,escape,perform,render,toast}); ai=createAI({data,store,escape,render,perform,toast}); render();
+  store = createStore(data, { storage }); panels = createPanels({data,store,escape,perform,render,toast}); render();
 } catch {
   app.innerHTML = '<main id="main" class="loading"><h1>暂时无法准备餐食</h1><p>示例数据没有成功加载，请刷新重试。</p><button class="primary" id="retry">重新加载</button></main>';
   document.querySelector('#retry').addEventListener('click', () => location.reload());
 }
 
 function perform(result) {
- if(result.needs_confirmation) actionPrompt('确认要求变更',result.messages.join(' '),'确认变更',()=>{const resolved=store.dispatch({type:'CONFIRM_CHANGE',token:result.token});ai?.resolveConfirmation(result.token,resolved.ok?'confirmed':'invalid');perform(resolved);});
+ if(result.needs_confirmation) actionPrompt('确认要求变更',result.messages.join(' '),'确认变更',()=>{const resolved=store.dispatch({type:'CONFIRM_CHANGE',token:result.token});panels?.resolveConfirmation(result.token,resolved.ok?'confirmed':'invalid');perform(resolved);});
  else if(!result.ok) toast(ERROR_LABELS[result.reason] ?? result.reason);
  render();
 }
