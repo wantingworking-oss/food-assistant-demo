@@ -4,7 +4,7 @@ import {readFile,writeFile} from 'node:fs/promises';
 import assert from 'node:assert/strict';
 import {createServer} from '../server.js';
 const require=createRequire(import.meta.url),{chromium}=require(process.env.PLAYWRIGHT_MODULE??'playwright-core');
-const round='round7',pkg=JSON.parse(await readFile('package.json','utf8')),cases=[],errors=[];
+const round=process.argv[2]??'round8',pkg=JSON.parse(await readFile('package.json','utf8')),cases=[],errors=[];
 let server;
 const url=process.env.APP_URL??await new Promise(resolve=>{server=createServer({env:{}});server.listen(0,'127.0.0.1',()=>resolve(`http://127.0.0.1:${server.address().port}`));});
 const browser=await chromium.launch({channel:'chrome',headless:true}),context=await browser.newContext({viewport:{width:1440,height:1000}}),p=await context.newPage();
@@ -25,7 +25,7 @@ try{
  assert.deepEqual((await state()).current.soft_preferences,{});assert.deepEqual((await state()).current.excluded_ingredients,[]);
  assert.ok(await dialog.getByLabel('偏好主食：面食',{exact:true}).isChecked());assert.ok(await dialog.getByLabel('排除鸡肉',{exact:true}).isChecked());
  await dialog.getByLabel('排除香菜',{exact:true}).check();assert.match(await dialog.locator('#draft-summary').innerText(),/香菜/);assert.match(await dialog.locator('#draft-summary').innerText(),/面食/);
- await dialog.screenshot({path:'docs/validation/round7-editor-desktop.png'});await dialog.getByRole('button',{name:'应用修改',exact:true}).click();await dialog.waitFor({state:'hidden'});
+ await dialog.screenshot({path:`docs/validation/${round}-editor-desktop.png`});await dialog.getByRole('button',{name:'应用修改',exact:true}).click();await dialog.waitFor({state:'hidden'});
  assert.deepEqual((await state()).current.soft_preferences.staple,['noodle']);assert.deepEqual((await state()).current.excluded_ingredients,['chicken','cilantro']);assert.match(await p.locator('.requirements').innerText(),/面食/);assert.equal(await p.locator('.meal-card.featured').getAttribute('data-product'),'P04');passed('AI-and-manual-shared-draft-review-apply');
  await click('撤销上次修改');assert.deepEqual((await state()).current.excluded_ingredients,[]);assert.deepEqual((await state()).current.soft_preferences,{});passed('combined-edit-single-undo');
  await open();await fill('今天想吃面，不吃鸡肉');await ready();await dialog.getByRole('button',{name:'取消',exact:true}).click();await open();assert.deepEqual((await state()).current.soft_preferences,{});assert.equal(await dialog.getByLabel('排除鸡肉',{exact:true}).isChecked(),false);
@@ -49,9 +49,9 @@ try{
  await click('核对历史');await dialog.getByRole('button',{name:'整理历史备注',exact:true}).click();await dialog.getByRole('button',{name:'仅本餐使用',exact:true}).click();assert.deepEqual((await state()).current.excluded_ingredients,['cilantro']);await dialog.getByRole('button',{name:'关闭编辑面板',exact:true}).click();passed('history-AI-remains-in-history-editor');
  for(const width of [360,390,768,1440]){
   await p.setViewportSize({width,height:900});await open();await dialog.getByLabel('排除鸡肉',{exact:true}).check();assert.ok(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));assert.ok(await dialog.evaluate(d=>d.scrollWidth<=d.clientWidth));
-  await dialog.getByRole('button',{name:'应用修改',exact:true}).scrollIntoViewIfNeeded();if(width===390)await dialog.screenshot({path:'docs/validation/round7-editor-mobile.png'});
+  await dialog.getByRole('button',{name:'应用修改',exact:true}).scrollIntoViewIfNeeded();if(width===390)await dialog.screenshot({path:`docs/validation/${round}-editor-mobile.png`});
   await dialog.getByRole('button',{name:'取消',exact:true}).click();passed(`editor-width-${width}`);
  }
- await p.setViewportSize({width:1440,height:1000});await p.screenshot({path:'docs/validation/round7-home-desktop.png',fullPage:true});assert.deepEqual(errors,[]);
+ await p.setViewportSize({width:1440,height:1000});await p.screenshot({path:`docs/validation/${round}-home-desktop.png`,fullPage:true});assert.deepEqual(errors,[]);
 }catch(error){cases.push({id:'failure',status:'failed',error:error.stack});console.error(error);process.exitCode=1;}
-finally{await browser.close();if(server){server.closeAllConnections();await new Promise(r=>server.close(r));}await writeFile('docs/validation/round7-editor-browser.json',JSON.stringify({version:pkg.version,checked_at:new Date().toISOString(),transport:'controlled_responses_and_actual_unconfigured_HTTP',paid_model_calls:0,cases,errors,status:cases.some(c=>c.status==='failed')?'failed':'passed'},null,2)+'\n');console.log(JSON.stringify(cases));}
+finally{await browser.close();if(server){server.closeAllConnections();await new Promise(r=>server.close(r));}await writeFile(`docs/validation/${round}-editor-browser.json`,JSON.stringify({version:pkg.version,checked_at:new Date().toISOString(),transport:'controlled_responses_and_actual_unconfigured_HTTP',paid_model_calls:0,cases,errors,status:cases.some(c=>c.status==='failed')?'failed':'passed'},null,2)+'\n');console.log(JSON.stringify(cases));}

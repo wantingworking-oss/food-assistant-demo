@@ -1,4 +1,5 @@
 :root { color-scheme: light; font: 16px/1.65 "Segoe UI", "Microsoft YaHei", system-ui, sans-serif; color: #243b36; background: #f6f8f7; --green: #124b43; --muted: #66756f; --line: #dfe7e3; }
+.meal-type{display:inline-block;font-size:13px;background:#eaf2e6;border-radius:6px;padding:4px 9px;margin:8px 0}.meal-type.reference{background:#fbf0da;color:#79531e}.noodle-alternative-notice{background:#fff5e5;border:1px solid #e4cfaa;border-radius:12px;padding:18px;margin-bottom:20px;font-size:14px}.noodle-empty p{margin-top:12px;line-height:1.7}.noodle-empty h2{font-size:1.25rem}
 * { box-sizing: border-box; }
 body { margin: 0; }
 button, input, textarea { font: inherit; }

@@ -15,7 +15,7 @@ const MIME = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; cha
 
 export function health(env = process.env) {
   const {configured,provider} = aiConfiguration(env);
-  return { status: 'ok', version: '0.7.0', phase: 'provider-configuration',
+  return { status: 'ok', version: '0.8.0', phase: 'provider-configuration',
     ai: { provider, mode: env.AI_MODE === 'real' ? 'real' : 'disabled', configured,
       available: false, auth_required:Boolean(env.AI_ACCESS_TOKEN), status: configured ? 'configured_unverified' : 'not_configured',
       reason: configured ? 'NOT_VERIFIED' : 'AI_NOT_CONFIGURED' } };

@@ -1,0 +1,38 @@
+// Exact user wording with controlled AI responses; recommendation/state/UI are real.
+import {createRequire} from 'node:module';
+import {readFile,writeFile} from 'node:fs/promises';
+import assert from 'node:assert/strict';
+import {createServer} from '../server.js';
+const require=createRequire(import.meta.url),{chromium}=require(process.env.PLAYWRIGHT_MODULE??'playwright-core');
+const pkg=JSON.parse(await readFile('package.json','utf8')),cases=[],errors=[];
+let server;const url=process.env.APP_URL??await new Promise(r=>{server=createServer({env:{}});server.listen(0,'127.0.0.1',()=>r(`http://127.0.0.1:${server.address().port}`));});
+const browser=await chromium.launch({channel:'chrome',headless:true}),ctx=await browser.newContext({viewport:{width:1440,height:1000}}),p=await ctx.newPage();p.on('pageerror',e=>errors.push(e.stack));
+const d=p.locator('#preferences-dialog'),click=name=>p.getByRole('button',{name,exact:true}).click();
+const state=()=>p.evaluate(()=>JSON.parse(localStorage.getItem('food-assistant:1.0.0:U_A:task')));
+const open=()=>p.locator('.requirements').getByRole('button',{name:'调整本餐要求',exact:true}).click();
+const reset=async()=>{await click('恢复示例');await p.locator('#action-dialog').getByRole('button',{name:'恢复示例',exact:true}).click();await click('进入今天吃什么');};
+const applyWords=async text=>{await open();await d.locator('#ai-text').fill(text);await d.getByRole('button',{name:'理解并填入草稿',exact:true}).click();await d.locator('#ai-result').getByText('已整理到草稿，请核对后应用。',{exact:true}).waitFor();await d.getByRole('button',{name:'应用修改',exact:true}).click();};
+const featured=()=>p.locator('.meal-card.featured'),skip=()=>featured().getByRole('button',{name:'换一个',exact:true}).click();
+const pass=id=>cases.push({id,status:'passed'});
+try{
+ await p.goto(url);await click('进入今天吃什么');
+ await p.route('**/api/interpret',route=>{const req=route.request().postDataJSON(),operations=[{op:'set_soft',scope:'current',field:'staple',values:['noodle'],evidence:'面条',source_record_id:null}];if(req.text.includes('不吃鸡肉'))operations.push({op:'add_excluded',scope:'current',field:'ingredients',values:['chicken'],evidence:'不吃鸡肉',source_record_id:null});return route.fulfill({contentType:'application/json',body:JSON.stringify({request_id:req.request_id,task_id:req.task_id,requirements_version:req.requirements_version,mode:req.mode,status:'parsed',operations,clarifications:[],unsupported_parts:[],record_annotations:[],error:null})});});
+ await applyWords('想吃面条');assert.equal(await featured().getAttribute('data-product'),'P04');assert.match(await featured().innerText(),/面条主餐/);assert.match(await featured().locator('.ingredients').innerText(),/面条/);pass('exact-want-noodles-prefers-noodle-main');
+ await reset();await applyWords('今天想吃面条不吃鸡肉');assert.equal(await featured().getAttribute('data-product'),'P04');assert.deepEqual((await state()).current.excluded_ingredients,['chicken']);pass('exact-no-punctuation-noodles-no-chicken');
+ await reset();await applyWords('想吃面条，不吃鸡肉');assert.equal(await featured().getAttribute('data-product'),'P04');assert.deepEqual((await state()).current.excluded_ingredients,['chicken']);
+ await click('看看另外 2 个选择');const tofu=p.locator('article[data-product="P09"]');assert.match(await tofu.locator('h3').innerText(),/可配面条/);assert.match(await tofu.innerText(),/配面套餐 · 主食待选/);assert.match(await tofu.locator('.ingredients').innerText(),/可配面条（未选）/);assert.match(await tofu.locator('.spec-note').innerText(),/主食尚未选择/);assert.deepEqual((await state()).selections,{});assert.equal((await state()).cart.length,0);pass('optional-noodle-side-labeled-and-not-auto-selected');
+ await p.screenshot({path:'docs/validation/round8-noodle-options.png',fullPage:true});
+ await skip();assert.equal(await featured().getAttribute('data-product'),'P05');assert.match(await featured().innerText(),/牛肉汤面/);pass('skipped-first-noodle-still-prioritizes-real-noodle');
+ await skip();await p.getByRole('heading',{name:'当前没有符合要求的面条主餐',exact:true}).waitFor();assert.equal(await p.locator('.meal-card').count(),0);assert.deepEqual((await state()).current.excluded_ingredients,['chicken']);await p.screenshot({path:'docs/validation/round8-no-noodle-main.png',fullPage:true});pass('no-main-no-automatic-tofu-or-rice-substitution');
+ await click('查看配面套餐和其他餐食');assert.equal(await featured().getAttribute('data-product'),'P09');assert.match(await p.locator('.noodle-alternative-notice').innerText(),/原有忌口保持生效/);assert.equal(await featured().locator('.recommend-label').innerText(),'其他餐食');assert.match(await featured().locator('h2').innerText(),/可配面条/);pass('alternatives-require-explicit-choice-and-warning');
+ await featured().getByRole('button',{name:'选这餐',exact:true}).click();const spec=p.locator('#spec-dialog');assert.equal(await spec.locator('input:checked').count(),0);assert.ok(await spec.getByRole('button',{name:'确认规格并继续',exact:true}).isDisabled());await spec.getByRole('radio',{name:'面食',exact:true}).check();await spec.getByRole('button',{name:'确认规格并继续',exact:true}).click();assert.equal(await p.getByTestId('total').innerText(),'¥28.00');assert.equal((await state()).cart[0].configuration_id,'noodle');pass('side-noodles-need-real-selection-and-correct-quote');
+ await click('返回推荐');assert.match(await featured().locator('h2').innerText(),/时蔬豆腐餐 · 配面条/);assert.match(await featured().locator('.meal-type').innerText(),/已选面条/);assert.match(await featured().locator('.ingredients').innerText(),/面条（小麦制品）/);assert.doesNotMatch(await featured().innerText(),/主食待选/);pass('selected-noodle-side-name-ingredients-and-badge-agree');
+ await click('只看面条主餐');assert.equal(await p.locator('.meal-card').count(),0);await click('查看已跳过餐食');assert.equal(await featured().getAttribute('data-product'),'P04');pass('restore-skipped-noodle-mains-without-changing-exclusions');
+ await reset();await applyWords('想吃面条，不吃鸡肉');await click('配送与餐次');await d.getByLabel('配送地址',{exact:true}).selectOption('A02');await d.getByRole('button',{name:'保存配送与餐次',exact:true}).click();await p.getByRole('heading',{name:'当前没有符合要求的面条主餐',exact:true}).waitFor();assert.equal(await p.locator('.meal-card').count(),0);assert.deepEqual((await state()).current.excluded_ingredients,['chicken']);pass('undeliverable-noodle-mains-show-honest-empty-state');
+ await click('查看配面套餐和其他餐食');await open();await d.getByLabel('偏好油量：少油',{exact:true}).check();await d.getByRole('button',{name:'应用修改',exact:true}).click();assert.equal((await state()).task.allow_noodle_alternatives,false);assert.equal(await p.locator('.meal-card').count(),0);pass('changed-requirements-reset-alternative-consent');
+ for(const width of [360,390,768,1440]){
+  await p.setViewportSize({width,height:900});assert.ok(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));await click('查看配面套餐和其他餐食');assert.ok(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));if(width===390)await p.screenshot({path:'docs/validation/round8-noodle-mobile.png',fullPage:true});await click('只看面条主餐');pass(`noodle-layout-${width}`);
+ }
+ assert.deepEqual(errors,[]);
+}catch(error){cases.push({id:'failure',status:'failed',error:error.stack});console.error(error);process.exitCode=1;}
+finally{await browser.close();if(server){server.closeAllConnections();await new Promise(r=>server.close(r));}await writeFile('docs/validation/round8-noodle-browser.json',JSON.stringify({version:pkg.version,checked_at:new Date().toISOString(),transport:'controlled_AI_response_real_recommendation_and_browser',paid_model_calls:0,cases,errors,status:cases.some(c=>c.status==='failed')?'failed':'passed'},null,2)+'\n');console.log(JSON.stringify(cases));}

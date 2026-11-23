@@ -20,7 +20,7 @@ export function createStore(data, { storage, id = () => crypto.randomUUID(), now
   const knownUser = userId => data.users.some(user => user.id === userId);
   const fresh = (userId = 'U_A', previous = null) => ({ schema: 3, dataset_version: data.dataset_version, user_id: userId,
     profile: copy(previous?.profile ?? data.users.find(user => user.id === userId)),
-    task: { task_id: id(), address_id: previous?.task.address_id ?? 'A01', anchor_date: previous?.task.anchor_date ?? demoDate(now()), date: demoDate(now()), meal: 'lunch', allow_incomplete_history: false },
+    task: { task_id: id(), address_id: previous?.task.address_id ?? 'A01', anchor_date: previous?.task.anchor_date ?? demoDate(now()), date: demoDate(now()), meal: 'lunch', allow_incomplete_history: false, allow_noodle_alternatives: false },
     current: emptyRequirements(), confirmed_exceptions: { ingredients: [], hard_attributes: {} },
     history_corrections: copy(previous?.history_corrections ?? {}), extra_history: copy(previous?.extra_history ?? []),
     page: 'home', selections: {}, skipped_product_ids: [], cart: [], note: '', orders: copy(previous?.orders ?? {}),
@@ -75,7 +75,7 @@ export function createStore(data, { storage, id = () => crypto.randomUUID(), now
   const refreshQuote = () => { const result = cartResult(); state.quote = result.valid ? quote(result) : null; return result; };
   const invalidate = (kind = 'requirements') => {
     state.versions[kind]=(state.versions[kind]??0)+1; state.pending_change = null; state.ai_request = null; state.quote = null;
-    if (kind === 'requirements') state.task.allow_incomplete_history = false;
+    if (kind === 'requirements') { state.task.allow_incomplete_history = false; state.task.allow_noodle_alternatives = false; }
   };
   const applyRequirements = next => {
     const before = requirementsSnapshot(state);
@@ -228,6 +228,11 @@ export function createStore(data, { storage, id = () => crypto.randomUUID(), now
             state.extra_history.push(record); state.profile.history_record_ids.push(record.id); invalidate(); break;
           }
           case 'ALLOW_INCOMPLETE_HISTORY': invalidate(); state.task.allow_incomplete_history = true; break;
+          case 'ALLOW_NOODLE_ALTERNATIVES': {
+            const result=this.recommendations();
+            if(!result.noodle_intent||result.noodle_intent.found)return failure('当前无需查看面条替代餐。');
+            state.task.allow_noodle_alternatives=event.allow===true;break;
+          }
           case 'CHANGE_CONTEXT': {
             if (!data.addresses.some(address => address.id === event.address_id) || !MEALS.includes(event.meal)) return failure('地址或餐次无效。');
             shiftDate(event.date, 0);

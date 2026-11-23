@@ -9,7 +9,7 @@ import {modelEvidence} from '../src/ai/model-evidence.js';
 const data=JSON.parse(await readFile(new URL('../fixtures/mock-data.json',import.meta.url),'utf8'));
 const fixture=JSON.parse(await readFile(new URL('../fixtures/ai-semantic-cases.json',import.meta.url),'utf8'));
 const pkg=JSON.parse(await readFile(new URL('../package.json',import.meta.url),'utf8'));
-const round=process.argv[2]??'round6';if(!/^round\d+$/.test(round))throw new Error('Expected roundN');
+const round=process.argv[2]??'round8';if(!/^round\d+$/.test(round))throw new Error('Expected roundN');
 let currentRow=null;
 const client=createValidationClient({fetchImpl:async(url,options)=>{const response=await fetch(url,options);if(currentRow&&response.ok&&!process.env.AI_TEST_BASE_URL){const body=await response.clone().json().catch(()=>null);if(body)Object.assign(currentRow,modelEvidence(body));}return response;}}),diagnostics=await client.readiness(),configured=diagnostics.ready;
 const report={version:pkg.version,dataset_version:data.dataset_version,checked_at:new Date().toISOString(),model:diagnostics.model??null,transport:client.transport,diagnostics,status:configured?'running':'blocked',reason:diagnostics.reason,cases:[]};

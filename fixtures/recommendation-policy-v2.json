@@ -1,0 +1,14 @@
+{
+  "version": "0.8.0",
+  "reason": "User-requested correction: an explicit current noodle preference prioritizes noodle mains ahead of meals with an optional noodle side. Original expected-results.json is retained as the historical 1.0.0 oracle.",
+  "recommendation_cases": {
+    "R02": {
+      "ranked_product_ids": ["P04", "P05", "P09", "P01", "P08", "P10"],
+      "display_product_ids": ["P04", "P05", "P09"]
+    },
+    "R16": {
+      "ranked_product_ids": ["P04", "P05", "P06", "P09", "P01", "P08", "P10"],
+      "display_product_ids": ["P04", "P05", "P06"]
+    }
+  }
+}

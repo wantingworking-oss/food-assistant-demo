@@ -1,8 +1,8 @@
 # 今天吃什么 · 个人外卖决策助手
 
-当前版本0.7.0。自然语言调整已移入“小A已有要求”下的“调整本餐要求”弹窗，与手动编辑共用草稿。理解后先核对“本次将修改”，点击“应用修改”后才更新摘要和推荐；取消、关闭或Esc丢弃草稿。解除限制和临时例外仍须确认。支持口味、主食、份量和忌口调整，暂不支持按菜名搜套餐。
+当前版本0.8.0，修复“想吃面条却主推时蔬豆腐餐”的问题。面条主餐优先于可配面套餐；没有合适面条主餐会明确提示，用户选择后才展示其他餐食。配面套餐的名称、配料和示意图标明主食待选，实际选择后才显示已选面条，不自动补选规格。
 
-本版新增6项草稿状态测试，完整程序测试122项通过。DeepSeek适配器与原始数据不变；此前真实24条语义验收是0.6.1的独立记录，本轮交互测试使用受控响应及注入后端，不新增付费模型请求。
+新增11项规则测试，全量133项通过，原始10份材料不变。R02/R16排序按新产品要求独立修订，原价格、评分和其他预期保留。模型提示与契约不变；本轮浏览器使用受控AI响应，不新增付费模型调用。
 
 在线体验：[打开今天吃什么](https://wantingworking-oss.github.io/food-assistant-demo/)（GitHub Pages前端 + Render后端，已实测真实AI）。
 
@@ -45,17 +45,17 @@ npm run doctor
 npm run test:ai
 ```
 
-- 应用测试122项通过，含原40项推荐/购物车预期，另有8项DeepSeek、5项配置/线上验收客户端、2项模型证据测试及6项草稿测试。`test:report`写入`docs/validation/round7.json`、`round7.tap`及源码指纹。本版记录使用round7前缀。
-- F10、F11及确认/取消/撤销、历史缓存确认、澄清追问已通过Chrome受控响应测试，本版证据在`round7-editor-browser.json`（旧版记录为round6-browser.json）。这验证交互与恢复，不代表真实模型理解通过。另有独立未配置服务的实际HTTP检查，不读取本机真实凭证。
-- 本版核心回归记录为`round7-regression.json`，编辑与加菜回归为`round7-editing.json`。包括360/390/768/1440宽度，以及`/food-demo/`仓库子路径的静态选餐提交。
+- 应用测试133项通过，含原40项推荐/购物车预期，另有8项DeepSeek、5项配置/线上验收客户端、2项模型证据测试、6项草稿测试及11项面条规则测试。`test:report`写入`docs/validation/round8.json`、`round8.tap`及源码指纹。本版记录使用round8前缀。
+- F10、F11及确认/取消/撤销、历史缓存确认、澄清追问已通过Chrome受控响应测试，本版证据在`round8-editor-browser.json`（旧版记录为round6-browser.json）。这验证交互与恢复，不代表真实模型理解通过。另有独立未配置服务的实际HTTP检查，不读取本机真实凭证。
+- 本版核心回归记录为`round8-regression.json`，编辑与加菜回归为`round8-editing.json`。包括360/390/768/1440宽度，以及`/food-demo/`仓库子路径的静态选餐提交。
 - `check:inputs`核对10份原始材料SHA-256；`build`生成公开资源白名单内的`dist/`，不包含服务器适配器、凭证或测试答案。
 - `test:ai`在配置齐全时逐条实际调用模型（最多24次），记录请求、响应、模型、耗时、用量及程序应用前后状态。支持使用`AI_TEST_BASE_URL`验收实际托管后端；认证、额度或连接故障后停止后续调用。未配置时24项均为`not_run`，报告`blocked`并以非零状态退出；有调用成本。当前真实DeepSeek用例24通过、0失败、0未执行。首次运行18通过、6失败；修复通用操作契约和历史提取提示后，完整重跑通过。原验收预期未修改。
 
 浏览器测试需要本机Chrome和单独安装的`playwright-core`，运行产品不需要它。设置`PLAYWRIGHT_MODULE`为其包目录，保持服务运行，执行：
 
 ```sh
-node scripts/browser-check.mjs round7
-node scripts/round3-browser.mjs round7
+node scripts/browser-check.mjs round8
+node scripts/round3-browser.mjs round8
 node scripts/editor-browser.mjs
 ```
 
@@ -86,3 +86,5 @@ F01—F15已在本版执行，F10/F11涉及AI的返回采用受控测试响应�
 逐条真实模型原文、饮食上下文与请求标识仅保留本地验收文件；GitHub公开汇总见`docs/validation/round6-ai-public.json`。确认后摘要与推荐同步更新，取消或Esc关闭编辑弹窗会丢弃未应用草稿。
 
 0.7.0变更和本轮验收见[弹窗调整说明](docs/ROUND7_EDITOR.md)。历史备注整理移入“核对历史”面板。按菜名检索和推荐匹配语义的改造不属于本次位置调整，现有推荐规则保持原有行为。
+
+面条分类、未匹配反馈及预期修订详见[0.8.0修复说明](docs/ROUND8_NOODLES.md)。本次未扩展任意菜名检索。

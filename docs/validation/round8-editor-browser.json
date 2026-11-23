@@ -1,0 +1,74 @@
+{
+  "version": "0.8.0",
+  "checked_at": "2026-11-23T07:18:42.330Z",
+  "transport": "controlled_responses_and_actual_unconfigured_HTTP",
+  "paid_model_calls": 0,
+  "cases": [
+    {
+      "id": "entry-in-existing-requirements",
+      "status": "passed"
+    },
+    {
+      "id": "AI-and-manual-shared-draft-review-apply",
+      "status": "passed"
+    },
+    {
+      "id": "combined-edit-single-undo",
+      "status": "passed"
+    },
+    {
+      "id": "cancel-escape-close-discard-draft",
+      "status": "passed"
+    },
+    {
+      "id": "exception-confirmed-only-on-final-apply",
+      "status": "passed"
+    },
+    {
+      "id": "AI-exception-preview-does-not-bypass-confirmation",
+      "status": "passed"
+    },
+    {
+      "id": "clarification-stays-in-draft",
+      "status": "passed"
+    },
+    {
+      "id": "manual-change-discards-late-AI-response",
+      "status": "passed"
+    },
+    {
+      "id": "actual-unconfigured-HTTP-manual-recovery",
+      "status": "passed"
+    },
+    {
+      "id": "scopes-share-one-review-and-apply",
+      "status": "passed"
+    },
+    {
+      "id": "manual-exclusion-removal-still-confirms",
+      "status": "passed"
+    },
+    {
+      "id": "history-AI-remains-in-history-editor",
+      "status": "passed"
+    },
+    {
+      "id": "editor-width-360",
+      "status": "passed"
+    },
+    {
+      "id": "editor-width-390",
+      "status": "passed"
+    },
+    {
+      "id": "editor-width-768",
+      "status": "passed"
+    },
+    {
+      "id": "editor-width-1440",
+      "status": "passed"
+    }
+  ],
+  "errors": [],
+  "status": "passed"
+}

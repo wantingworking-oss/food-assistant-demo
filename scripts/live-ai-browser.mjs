@@ -9,7 +9,7 @@ p.on('response',async response=>{if(new URL(response.url()).pathname==='/api/int
 const click=name=>p.getByRole('button',{name,exact:true}).click();
 const state=async()=>{await p.locator('#user-picker').waitFor();return p.evaluate(()=>JSON.parse(localStorage.getItem('food-assistant:1.0.0:U_A:task')));};
 const url=process.env.APP_URL??'http://localhost:3000';
-const round=process.env.AI_EVIDENCE_PREFIX??'round7';if(!/^round\d+$/.test(round))throw new Error('Expected roundN evidence prefix');
+const round=process.env.AI_EVIDENCE_PREFIX??'round8';if(!/^round\d+$/.test(round))throw new Error('Expected roundN evidence prefix');
 const openEditor=()=>p.locator('.requirements').getByRole('button',{name:'调整本餐要求',exact:true}).click();
 try{
  const h=await(await p.request.get((process.env.AI_TEST_BASE_URL??url)+'/api/health')).json();assert.equal(h.ai.mode,'real');assert.equal(h.ai.provider,'deepseek');assert.equal(h.ai.configured,true);

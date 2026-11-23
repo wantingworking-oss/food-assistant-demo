@@ -1,0 +1,70 @@
+{
+  "version": "0.8.0",
+  "checked_at": "2026-11-23T07:18:40.580Z",
+  "transport": "controlled_AI_response_real_recommendation_and_browser",
+  "paid_model_calls": 0,
+  "cases": [
+    {
+      "id": "exact-want-noodles-prefers-noodle-main",
+      "status": "passed"
+    },
+    {
+      "id": "exact-no-punctuation-noodles-no-chicken",
+      "status": "passed"
+    },
+    {
+      "id": "optional-noodle-side-labeled-and-not-auto-selected",
+      "status": "passed"
+    },
+    {
+      "id": "skipped-first-noodle-still-prioritizes-real-noodle",
+      "status": "passed"
+    },
+    {
+      "id": "no-main-no-automatic-tofu-or-rice-substitution",
+      "status": "passed"
+    },
+    {
+      "id": "alternatives-require-explicit-choice-and-warning",
+      "status": "passed"
+    },
+    {
+      "id": "side-noodles-need-real-selection-and-correct-quote",
+      "status": "passed"
+    },
+    {
+      "id": "selected-noodle-side-name-ingredients-and-badge-agree",
+      "status": "passed"
+    },
+    {
+      "id": "restore-skipped-noodle-mains-without-changing-exclusions",
+      "status": "passed"
+    },
+    {
+      "id": "undeliverable-noodle-mains-show-honest-empty-state",
+      "status": "passed"
+    },
+    {
+      "id": "changed-requirements-reset-alternative-consent",
+      "status": "passed"
+    },
+    {
+      "id": "noodle-layout-360",
+      "status": "passed"
+    },
+    {
+      "id": "noodle-layout-390",
+      "status": "passed"
+    },
+    {
+      "id": "noodle-layout-768",
+      "status": "passed"
+    },
+    {
+      "id": "noodle-layout-1440",
+      "status": "passed"
+    }
+  ],
+  "errors": [],
+  "status": "passed"
+}

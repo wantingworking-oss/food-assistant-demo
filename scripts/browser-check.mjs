@@ -81,7 +81,7 @@ try {
   await screenshot(page, 'round2-noodle-confirm.png');
   await page.getByRole('button', { name: '返回推荐' }).click();
   await page.getByRole('button', { name: '看看另外 2 个选择' }).click();
-  assert.match(await page.locator('article[data-product="P09"]').innerText(), /包含面食/);
+  assert.match(await page.locator('article[data-product="P09"]').innerText(), /已选配面条/);
   assert.match(await page.locator('article[data-product="P09"]').innerText(), /28\.00/);
   await page.getByRole('button', { name: '继续核对订单' }).click();
   await page.getByRole('button', { name: '确认并模拟提交' }).click();
