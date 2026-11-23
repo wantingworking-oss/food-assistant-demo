@@ -1,0 +1,40 @@
+{
+  "version": "0.8.0",
+  "checked_at": "2026-11-23T07:31:28.537570+00:00",
+  "status": "published_verified",
+  "public_url": "https://wantingworking-oss.github.io/food-assistant-demo/",
+  "public_version": "0.8.0",
+  "github_connection": "wantingworking-oss",
+  "publication": "success",
+  "build": "success",
+  "deploy": "success",
+  "application_commit": "2571d3eaeda94bf90725f9aa18ee4f33280c3d71",
+  "workflow_run": "https://github.com/wantingworking-oss/food-assistant-demo/actions/runs/45130742248",
+  "backend_service": "srv-dbvln060tbcc738tcjmg",
+  "backend_deploy": "dep-dc1ukh4s728c73dgksq0",
+  "backend_commit": "2571d3eaeda94bf90725f9aa18ee4f33280c3d71",
+  "backend_status": "live",
+  "backend_health": {
+    "checked_at": "2026-11-23T07:26:52.527Z",
+    "version": "0.8.0",
+    "status": "ok",
+    "ai_configured": true,
+    "auth_required": true,
+    "assets_match": 3,
+    "provider_calls": 0
+  },
+  "recent_backend_error_logs": 0,
+  "program_tests": 133,
+  "editor_browser_cases": 16,
+  "noodle_browser_cases": 15,
+  "online_browser_cases": 17,
+  "source_sha256": "e870bd4bafc05ed7a59bd4dd74340577d9f89deb7cee104483ddc9bf427621af",
+  "original_inputs_unchanged": 10,
+  "recommendation_policy_changes": [
+    "R02 ordering",
+    "R16 ordering"
+  ],
+  "recommendation_policy_file": "fixtures/recommendation-policy-v2.json",
+  "paid_model_calls_this_round": 0,
+  "AI_interaction_validation": "Controlled AI responses exercise actual recommendation and UI; actual unauthorized backend request verifies access-code guard. Historical real semantic evidence remains round6-ai-public.json."
+}
